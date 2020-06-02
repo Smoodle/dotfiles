@@ -14,24 +14,23 @@ Plug 'mxw/vim-jsx' " Better jsx syntax
 Plug 'ctrlpvim/ctrlp.vim' " File searching
 Plug 'tpope/vim-fugitive' " Git
 Plug 'tpope/vim-surround' " Better brackets
-Plug 'rakr/vim-one' " One dark theme
 Plug 'xolox/vim-misc' " Misc plugins ( to be used by other plugins )
 Plug 'w0rp/ale' " Linter and fixer
 Plug 'mhinz/vim-startify' " Custom start page
 Plug 'mrk21/yaml-vim' " Better yaml support
 Plug 'vim-airline/vim-airline' " Status line plugin
-Plug 'vim-airline/vim-airline-themes' " Status line plugin theme
+Plug 'vim-airline/vim-airline-themes' " Status line themes
 Plug 'edkolev/tmuxline.vim' " Auto change tmux line to match status line
 Plug 'mileszs/ack.vim' " Ack searching
 Plug 'xolox/vim-notes' " Note taking
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " Set leader key
 let mapleader = " "
 
 " Open vim config
-nnoremap <leader>ev :vsplit ~/dotfiles/vim/vimrc<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " Source vim config
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -136,7 +135,7 @@ iabbrev adn and
 
 set number relativenumber
 
-colorscheme dracula
+colorscheme gruvbox
 
 set t_Co=256
 set notermguicolors
@@ -356,4 +355,5 @@ nnoremap <Leader>a :Ack!<Space>
 
 " let g:airline
 let g:airline_powerline_fonts = 1
+let g:airline_theme='gruvbox'
 
