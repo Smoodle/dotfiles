@@ -31,7 +31,7 @@ theme.border_normal = "#88c0d0"
 theme.border_focus = "#a3be8c"
 theme.border_marked = "#bf616a"
 
-theme.wibar_height = dpi(14)
+theme.wibar_height = dpi(16)
 
 theme.bar_right_spacing = dpi(5)
 theme.systray_icon_spacing = dpi(5)
