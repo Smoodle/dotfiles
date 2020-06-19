@@ -16,14 +16,23 @@ Plug 'tpope/vim-fugitive' " Git
 Plug 'tpope/vim-surround' " Better brackets
 Plug 'xolox/vim-misc' " Misc plugins ( to be used by other plugins )
 Plug 'w0rp/ale' " Linter and fixer
-Plug 'mhinz/vim-startify' " Custom start page
+
+Plug 'vimwiki/vimwiki'
+
+"Plug 'mhinz/vim-startify' " Custom start page
+Plug 'hardcoreplayers/dashboard-nvim'
+Plug 'liuchengxu/vim-clap'
+
 Plug 'mrk21/yaml-vim' " Better yaml support
+
 Plug 'vim-airline/vim-airline' " Status line plugin
 Plug 'vim-airline/vim-airline-themes' " Status line themes
+
 Plug 'edkolev/tmuxline.vim' " Auto change tmux line to match status line
+
 Plug 'mileszs/ack.vim' " Ack searching
 Plug 'xolox/vim-notes' " Note taking
-Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox' " Theme
 call plug#end()
 
 " Set leader key
@@ -301,6 +310,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+nmap <leader>rn <Plug>(coc-rename)
+
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -357,3 +368,4 @@ nnoremap <Leader>a :Ack!<Space>
 let g:airline_powerline_fonts = 1
 let g:airline_theme='gruvbox'
 
+let g:OmniSharp_server_use_mono = 1
