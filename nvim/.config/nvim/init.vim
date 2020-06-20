@@ -130,7 +130,8 @@ map <leader>o :e ~/.buffer<cr>
 "Git diff remaps
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gp :Gpush<CR>
+"nnoremap <leader>gp :Gpush<CR>
+nnoremap <leader>gp :terminal git push<CR>
 
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gdh :diffget //2<CR>
