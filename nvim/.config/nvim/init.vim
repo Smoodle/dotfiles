@@ -370,3 +370,17 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='gruvbox'
 
 let g:OmniSharp_server_use_mono = 1
+
+augroup terminal_settings
+	autocmd!
+
+	autocmd BufWinEnter,WinEnter term://* startinsert
+	autocmd BufLeave term://* stopinsert
+
+	" Ignore various filetypes as those will close terminal automatically
+	" Ignore fzf, ranger, coc
+	autocmd TermClose term://*
+				\ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
+				\   call nvim_input('<CR>')  |
+				\ endif
+augroup END
