@@ -66,7 +66,7 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.tile,
-	awful.layout.suit.floating,
+    awful.layout.suit.floating,
 	awful.layout.suit.max
 }
 -- }}}
@@ -104,11 +104,16 @@ mytextclock = wibox.widget.textclock()
 
 -- load the widget code
 local calendar = require("widgets.calendar")
-local cw = calendar({placement = "top_right"})
+local cw = calendar({
+    placement = 'center'
+})
 
 -- attach it as popup to your text clock widget:
-mytextclock:connect_signal("button::press", function(_, _, _, button)
-    if button == 1 then cw.toggle() end
+mytextclock:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then
+            cw.toggle()
+        end
 end)
 
 -- Create a wibox for each screen and add it
@@ -185,20 +190,21 @@ awful.screen.connect_for_each_screen(function(s)
     -- Add widgets to the wibox
     s.mywibox:setup{
         layout = wibox.layout.align.horizontal,
+        expand = 'none',
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             -- mylauncher,
             s.mytaglist,
-            s.mylayoutbox,
-            s.mypromptbox
+            s.mypromptbox,
         },
-        s.mytasklist, -- Middle widget
+        mytextclock,
+        --s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             spacing = beautiful.bar_right_spacing,
-            mytextclock,
             -- mykeyboardlayout,
-            wibox.widget.systray()
+            wibox.widget.systray(),
+            s.mylayoutbox,
         }
     }
 end)
@@ -285,6 +291,11 @@ end)
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function(c)
+	-- Rounded corner
+    c.shape = function(cr,w,h)
+        gears.shape.rounded_rect(cr,w,h,12)
+    end
+
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
     -- if not awesome.startup then awful.client.setslave(c) end

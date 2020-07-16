@@ -3,7 +3,9 @@
 ---------------------------
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
+local gears = require("gears")
 local dpi = xresources.apply_dpi
+local shape = gears.shape
 
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
@@ -31,10 +33,10 @@ theme.border_normal = "#88c0d0"
 theme.border_focus = "#a3be8c"
 theme.border_marked = "#bf616a"
 
-theme.wibar_height = dpi(16)
+theme.wibar_height = dpi(30)
 
 theme.bar_right_spacing = dpi(5)
-theme.systray_icon_spacing = dpi(5)
+theme.systray_icon_spacing = dpi(7)
 
 -- There are other variable sets
 -- overriding the default one when
@@ -52,19 +54,25 @@ theme.systray_icon_spacing = dpi(5)
 theme.tasklist_disable_icon = true
 
 -- Generate taglist squares:
-local taglist_square_size = dpi(0)
+local taglist_square_size = dpi(5)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
                                 taglist_square_size, theme.fg_normal)
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
                                   taglist_square_size, theme.fg_normal)
 
-theme.taglist_spacing = dpi(4)
+theme.taglist_spacing = dpi(6)
 
 -- Variables set for theming notifications:
 -- notification_font
 -- notification_[bg|fg]
 -- notification_[width|height|margin]
 -- notification_[border_color|border_width|shape|opacity]
+
+theme.notification_max_width = dpi(400)
+theme.notification_icon_size = dpi(100)
+theme.notification_shape = shape.rounded_rect
+theme.notification_opacity = 0.90
+theme.notification_margin = dpi(50)
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]

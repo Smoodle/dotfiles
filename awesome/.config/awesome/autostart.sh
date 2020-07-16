@@ -1,7 +1,6 @@
 #!/bin/sh
 
 #Keyboard settings
-setxkbmap pt -option "ctrl:nocaps" &
 xset r rate 280 40 &
 xset -dpms
 xset s off
