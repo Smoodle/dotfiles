@@ -102,7 +102,8 @@ source $ZSH/oh-my-zsh.sh
 
 export BROWSER=firefox
 export EDITOR=nvim
+export PATH=$HOME/.scripts:$PATH
 
+alias sudo="sudo "
 alias v=nvim
 alias vim=nvim
-
