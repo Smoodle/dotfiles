@@ -1,362 +1,147 @@
-" Auto install vim plug
-if empty(glob('~/.vim/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+syntax on
+
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set nu
+set nowrap
+set smartcase
+set noswapfile
+set nobackup
+set nowritebackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
+set hidden
+set splitbelow
+set splitright
+set virtualedit=all
+set lazyredraw
+set autoread
+set so=15
+set cmdheight=2
+set updatetime=50
+set shortmess+=c
+set colorcolumn=80
+
+highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'} " Autocomplete plugin
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " Sidebar
-Plug 'ryanoasis/vim-devicons' " Add icons to nerdtree
-Plug 'pangloss/vim-javascript' " Better js syntax
-Plug 'mxw/vim-jsx' " Better jsx syntax
-Plug 'ctrlpvim/ctrlp.vim' " File searching
-Plug 'tpope/vim-fugitive' " Git
-Plug 'tpope/vim-surround' " Better brackets
-Plug 'xolox/vim-misc' " Misc plugins ( to be used by other plugins )
-Plug 'w0rp/ale' " Linter and fixer
 
-Plug 'vimwiki/vimwiki'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-fugitive'
+Plug 'vim-utils/vim-man'
+Plug 'sheerun/vim-polyglot'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
+Plug 'preservim/nerdtree'
+Plug 'ryanoasis/vim-devicons'
 
-"Plug 'mhinz/vim-startify' " Custom start page
-Plug 'hardcoreplayers/dashboard-nvim'
-Plug 'liuchengxu/vim-clap'
+Plug 'gruvbox-community/gruvbox'
 
-Plug 'mrk21/yaml-vim' " Better yaml support
-
-Plug 'vim-airline/vim-airline' " Status line plugin
-Plug 'vim-airline/vim-airline-themes' " Status line themes
-
-Plug 'edkolev/tmuxline.vim' " Auto change tmux line to match status line
-
-Plug 'mileszs/ack.vim' " Ack searching
-Plug 'xolox/vim-notes' " Note taking
-Plug 'morhetz/gruvbox' " Theme
 call plug#end()
 
-" Set leader key
+let g:gruvbox_contrast_dark = 'hard'
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+let g:gruvbox_invert_selection='0'
+
+colorscheme gruvbox
+set background=dark
+
+if executable('rg')
+    let g:rg_derive_root='true'
+endif
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+autocmd BufWritePre * :call TrimWhitespace()
+
 let mapleader = " "
 
-" Open vim config
+nnoremap <leader>hw :h <C-R>=expand("<cword>")<CR><CR>
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
+nnoremap <leader>n :NERDTreeToggle<Cr>
+nnoremap <Leader>ps :Rg<SPACE>
+nnoremap <C-p> :GFiles<CR>
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>b :Buffers<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-
-" Source vim config
 nnoremap <leader>sv :source $MYVIMRC<cr>
-
-"Identation --------------------------------------------------
-
-" turn on autoident
-set autoindent
-
-" Make so cursor can be in empty spaces
-set virtualedit=all
-
-" Be smart when using tabs ;)
-set smarttab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-" Linebreak on 500 characters
-set linebreak
-set textwidth=500
-
-" Smart indent
-set si    
-
-" Wrap lines
-set wrap 
-
-" Set tabs as |
-set listchars=tab:\|\ 
-set list
-
-"Maps
-
-" Open CtrlP                                              
-let g:ctrlp_map = '<leader>p'
-let g:ctrlp_cmd = 'CtrlP'
-
-" Tab functionality
-nnoremap <leader>T :tabnew<Enter>
-
-" Navigation tab
-nnoremap <leader>1 1gt
-nnoremap <leader>2 2gt
-nnoremap <leader>3 3gt
-nnoremap <leader>4 4gt
-nnoremap <leader>5 5gt
-nnoremap <leader>6 6gt
-nnoremap <leader>7 7gt
-nnoremap <leader>8 8gt
-nnoremap <leader>9 9gt
-
-" Remove highlights
+nnoremap <Leader>+ :vertical resize +5<CR>
+nnoremap <Leader>- :vertical resize -5<CR>
+nnoremap <Leader>rp :resize 100<CR>
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+nnoremap <leader>w :w!<CR>
+nnoremap <leader>q :q<CR>
 nnoremap <silent> <leader>, :noh<cr>
-
-" Map nerd tree to Ctrl n
-map <leader>n :NERDTreeToggle<CR>
-
-nmap <leader>p :CtrlP<cr>
-nmap <leader>b :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
-
-" copy and paste
 vmap <C-c> "+yi<ESC>
 vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p
 imap <C-v> <ESC>"+pa
 
-" Better split navigation
-" navigate split screens easily
-nmap <silent> <c-k> :wincmd k<CR>
-nmap <silent> <c-j> :wincmd j<CR>
-nmap <silent> <c-h> :wincmd h<CR>
-nmap <silent> <c-l> :wincmd l<CR>
+"Fugitive
 
-" Fast saving
-nnoremap <leader>w :w!<cr>
-nnoremap <leader>q :q<cr>
-
-" Pressing <space>ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
-
-" Quickly open a buffer for scribble
-map <leader>o :e ~/.buffer<cr>
-
-"Git diff remaps
-nnoremap <leader>gs :Gstatus<CR>
+nmap <leader>gh :diffget //3<CR>
+nmap <leader>gu :diffget //2<CR>
+nmap <leader>gs :G<CR>
 nnoremap <leader>gc :Gcommit<CR>
-"nnoremap <leader>gp :Gpush<CR>
 nnoremap <leader>gp :terminal git push<CR>
 
-nnoremap <leader>gd :Gvdiff<CR>
-nnoremap gdh :diffget //2<CR>
-nnoremap gdl :diffget //3<CR>
+" Coc configureation
 
-" Common typos
-iabbrev lenght length
-iabbrev nounce nonce
-iabbrev nouce nonce
-iabbrev adn and
-
-set number relativenumber
-
-colorscheme gruvbox
-
-set t_Co=256
-set notermguicolors
-syntax enable
-set background=dark " for the dark version
-
-" Style
-
-augroup numbertoggle
-	autocmd!
-	autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-	autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
-
-" Show location of cursor using a horizontal line.
-set cursorline
-
-" Show bearkline icon
-set showbreak="蝹"
-
-" Stausline
-
-set statusline=%f         " Path to the file
-set statusline+=\ -\     " Switch to the right side
-set statusline+=%m         " Switch to the right side
-set statusline+=%=        " Switch to the right side
-set statusline+=%l        " Current line
-set statusline+=/         " Separator
-set statusline+=%L        " Total lines
-
-"Startify
-let g:startify_custom_header = map(split(system('fortune | cowsay -f tux' ), '\n'), '"   ". v:val')
-
-" Misc
-
-set nopaste
-
-set encoding=utf-8
-
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-nmap <Leader><Leader>w <Plug>(easymotion-bd-w)
-
-" Remove autocomment
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-" keep cursor in the middle of the screen while scrolling up and down.
-set scrolloff=999
-
-" show auto complete menus.
-set wildmenu
-
-" Make wildmenu behave like bash completion. Finding commands are so easy now.
-set wildmode=list:longest,full
-
-" Better Search
-set gdefault
-set ignorecase
-set smartcase
-set hlsearch
-
-" Limit column
-set colorcolumn=180
-
-"Make backspace act like backspace
-set backspace=indent,eol,start
-
-"Splits
-set splitbelow
-set splitright
-
-" Backup and swap settings
-" Swap dir
-set dir=~/.cache/vim
-" Backup dir
-set backupdir=~/.cache/vim
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw
-
-" Show matching brackets when text indicator is over them
-set showmatch
-
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command! W w !sudo tee % > /dev/null<Paste>
-
-"Always show current position
-set ruler
-
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
-
-" Sets how many lines of history VIM has to remember
-set history=500
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-" Add a bit extra margin to the left
-set foldcolumn=1
-
-" Delete trailing white space on save, useful for some filetypes ;)
-fun! CleanExtraSpaces()
-	let save_cursor = getpos(".")
-	let old_query = getreg('/')
-	silent! %s/\s\+$//e
-	call setpos('.', save_cursor)
-	call setreg('/', old_query)
-endfun
-
-if has("autocmd")
-	autocmd BufWritePre *.js,*.py,*.sh :call CleanExtraSpaces()
-endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Turn persistent undo on
-"    means that you can undo even when you close a buffer/VIM
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-try
-	set undodir=~/.vim_runtime/temp_dirs/undodir
-	set undofile
-catch
-endtry
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" Set 10 lines to the cursor - when moving vertically using j/k
-set so=15
-
-" Plugin Settings
-
-" COC --------------------------------------------------
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-			\ pumvisible() ? "\<C-n>" :
-			\ <SID>check_back_space() ? "\<TAB>" :
-			\ coc#refresh()
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-nmap <leader>rn <Plug>(coc-rename)
-
-" Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-	if (index(['vim','help'], &filetype) >= 0)
-		execute 'h '.expand('<cword>')
-	else
-		call CocAction('doHover')
-	endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
-" Ctrl P --------------------------------------------------
-set wildignore+=*/tmp/*,*/node_modules/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-			\ 'dir':  '\v[\/]\.(git|hg|svn)$',
-			\ 'file': '\v\.(exe|so|dll)$',
-			\ }
-let g:ctrlp_working_path_mode = 'ra'
+let g:coc_global_extensions = ['coc-vimlsp', 'coc-json', 'coc-marketplace', 'coc-sh', 'coc-tsserver']
 
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('ag')
-	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" vim-javascript --------------------------------------------------
+nmap <leader>rn <Plug>(coc-rename)
 
-" Better js sysntax
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_ngdoc = 1
+" Nerdtree
 
-" Ale --------------------------------------------------
-
-" Ale linters
-let g:ale_linters = {'javascript': ['eslint'], 'java': []}
-let g:ale_fixers = {'javascript' : ['eslint'], 'java': []}
-
-"let g:ale_lint_delay = 500
-let g:ale_fix_on_save = 1
-
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
 " Ack
 if executable('ag')
@@ -364,23 +149,3 @@ if executable('ag')
 endif
 
 nnoremap <Leader>a :Ack!<Space>
-
-" let g:airline
-let g:airline_powerline_fonts = 1
-let g:airline_theme='gruvbox'
-
-let g:OmniSharp_server_use_mono = 1
-
-augroup terminal_settings
-	autocmd!
-
-	autocmd BufWinEnter,WinEnter term://* startinsert
-	autocmd BufLeave term://* stopinsert
-
-	" Ignore various filetypes as those will close terminal automatically
-	" Ignore fzf, ranger, coc
-	autocmd TermClose term://*
-				\ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
-				\   call nvim_input('<CR>')  |
-				\ endif
-augroup END
