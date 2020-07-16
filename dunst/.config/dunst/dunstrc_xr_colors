@@ -1,3 +1,10 @@
+###################################
+#
+# Config file created with
+# dunst_xr_theme_changer.sh wrapper
+#
+###################################
+
 [global]
     font = Hack Nerd Font 10
 
@@ -154,18 +161,18 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
-    background = "#222222"
-    foreground = "#888888"
+    background = "#140d14"
+    foreground = "#D292B4"
     timeout = 5
 
 [urgency_normal]
-    background = "#222222"
-    foreground = "#888888"
+    background = "#140d14"
+    foreground = "#D292B4"
     timeout = 10
 
 [urgency_critical]
-    background = "#222222"
-    foreground = "#888888"
+    background = "#140d14"
+    foreground = "#D292B4"
     timeout = 0
 
 
