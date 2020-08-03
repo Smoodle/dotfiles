@@ -161,18 +161,18 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
-    background = "#140d14"
-    foreground = "#D292B4"
+    background = "#120d11"
+    foreground = "#e7e0e4"
     timeout = 5
 
 [urgency_normal]
-    background = "#140d14"
-    foreground = "#D292B4"
+    background = "#120d11"
+    foreground = "#e7e0e4"
     timeout = 10
 
 [urgency_critical]
-    background = "#140d14"
-    foreground = "#D292B4"
+    background = "#120d11"
+    foreground = "#e7e0e4"
     timeout = 0
 
 
