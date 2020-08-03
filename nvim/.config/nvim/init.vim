@@ -40,6 +40,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
+Plug 'Yggdroot/indentLine'
+ Plug 'itchyny/lightline.vim'
 
 Plug 'gruvbox-community/gruvbox'
 
@@ -65,7 +67,7 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-autocmd BufWritePre * :call TrimWhitespace()
+"autocmd BufWritePre * :call TrimWhitespace()
 
 let mapleader = " "
 
@@ -105,14 +107,14 @@ nnoremap <leader>gp :terminal git push<CR>
 " Coc configureation
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 nmap <silent> gd <Plug>(coc-definition)
@@ -123,11 +125,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 endfunction
 
 let g:coc_global_extensions = ['coc-vimlsp', 'coc-json', 'coc-marketplace', 'coc-sh', 'coc-tsserver']
@@ -145,7 +147,15 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 
 " Ack
 if executable('ag')
-	let g:ackprg = 'ag --vimgrep'
+    let g:ackprg = 'ag --vimgrep'
 endif
 
 nnoremap <Leader>a :Ack!<Space>
+
+" Lightline
+
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+
+" source $HOME/.config/nvim/statusline.vim
