@@ -86,7 +86,7 @@ theme.menu_width = dpi(100)
 -- beautiful.variable in your rc.lua
 -- theme.bg_widget = "#cc0000"
 
-theme.wallpaper = themes_path .. "default/background.png"
+theme.wallpaper = config_path .. "wallpapers/1586989611377.png"
 
 -- You can use your own layout icons like this:
 theme.layout_floating = config_path .. "icons/floating.png"
@@ -100,6 +100,9 @@ theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height,
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = nil
+
+theme.fullscreen_hide_border = true
+theme.maximized_hide_border = true
 
 return theme
 

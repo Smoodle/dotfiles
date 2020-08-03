@@ -69,6 +69,9 @@ awful.layout.layouts = {
     awful.layout.suit.floating,
 	awful.layout.suit.max
 }
+
+-- awful.layout.tile.resize_jump_to_corner = false
+
 -- }}}
 
 -- {{{ Menu
@@ -142,16 +145,18 @@ local function set_wallpaper(s)
         local wallpaper = beautiful.wallpaper
         -- If wallpaper is a function, call it with the screen
         if type(wallpaper) == "function" then wallpaper = wallpaper(s) end
+
         gears.wallpaper.maximized(wallpaper, s, true)
     end
 end
+
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    -- set_wallpaper(s)
+    set_wallpaper(s)
 
     -- Each screen has its own tag table.
     awful.tag({"1", "2", "3", "4", "5"}, s, awful.layout.layouts[1])
@@ -275,26 +280,13 @@ awful.rules.rules = {
 }
 -- }}}
 
-screen.connect_signal("arrange", function(s)
-    -- but iterate over clients instead of tiled_clients as tiled_clients doesn't include maximized windows
-
-    for _, c in pairs(s.clients) do
-        if (#s.tiled_clients == 1 and not c.floating) or
-            (awful.layout.getname() == awful.layout.suit.max.name) then
-            c.border_width = 0
-        else
-            c.border_width = beautiful.border_width
-        end
-    end
-end)
-
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function(c)
 	-- Rounded corner
-    c.shape = function(cr,w,h)
-        gears.shape.rounded_rect(cr,w,h,12)
-    end
+    -- c.shape = function(cr,w,h)
+    --     gears.shape.rounded_rect(cr,w,h,12)
+    -- end
 
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
@@ -304,6 +296,27 @@ client.connect_signal("manage", function(c)
         not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
+    end
+
+    if #c.screen.clients > 1 then
+        for _, cl in pairs(c.screen.clients) do
+            cl.border_width = beautiful.border_width
+            cl.shape = function(cr,w,h)
+                gears.shape.rounded_rect(cr,w,h,12)
+            end
+        end
+    else
+        c.border_width = 0
+    end
+
+end)
+
+client.connect_signal("unmanage", function(c)
+    if #c.screen.clients == 1 then
+        for _, cl in pairs(c.screen.clients) do
+            cl.border_width = 0
+            cl.shape = gears.shape.rectangle
+        end
     end
 end)
 
@@ -318,4 +331,4 @@ client.connect_signal("unfocus",
                       function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn(gears.filesystem.get_configuration_dir() .. "autostart.sh")
+--awful.spawn(gears.filesystem.get_configuration_dir() .. "autostart.sh")

@@ -1,6 +1,8 @@
 local gears = require("gears")
 local awful = require("awful")
 
+local power_menu = require("modules.powermenu")
+
 local keys = {}
 
 keys.globalkeys = gears.table.join(
@@ -44,7 +46,10 @@ keys.globalkeys = gears.table.join(
         {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
         {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+    awful.key({ modkey, "Shift"   }, "q", function ()
+        --awesome.quit,
+        power_menu.toggle_power_menu()
+    end,
         {description = "quit awesome", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,

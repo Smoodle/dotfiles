@@ -12,3 +12,4 @@ unclutter --timeout 3 &
 feh --bg-scale ~/Pictures/Wallpapers/1588133874953.jpg ~/Pictures/Wallpapers/1588715831828.png
 
 #Applications
+picom &
