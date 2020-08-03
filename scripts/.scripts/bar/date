@@ -1,0 +1,6 @@
+#! /bin/sh
+ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
+FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
+
+date="$(date "+%d-%m-%y")"
+echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${date} "

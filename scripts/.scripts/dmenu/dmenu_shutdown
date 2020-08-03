@@ -1,0 +1,26 @@
+#!/bin/bash
+
+actions=("shutdown\nrestart\nlogout\nsleep\nhibernate")
+action=$(echo -e $actions | dmenu -p "Power Menu:")
+case "$action" in
+    logout)
+        killall xinit
+        ;;
+        
+    restart)
+        systemctl reboot
+        ;;
+
+    shutdown)
+        systemctl poweroff
+        ;;
+
+    sleep)
+        systemctl suspend
+        ;;
+
+    hibernate)
+        systemctl hibernate
+        ;;
+esac
+

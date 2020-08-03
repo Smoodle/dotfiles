@@ -1,0 +1,6 @@
+#! /bin/sh
+ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
+FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
+
+cpu=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {printf("%.2f%"), usage}')
+echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${cpu} "

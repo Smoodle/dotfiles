@@ -1,0 +1,6 @@
+#! /bin/sh
+ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
+FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
+
+mem=$(free | grep Mem | awk '{printf("%.2f%"), $3/$2 * 100.0}')
+echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${mem} "

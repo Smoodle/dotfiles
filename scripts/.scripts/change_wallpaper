@@ -1,0 +1,22 @@
+#! /bin/sh
+
+if [[ -z "$1" ]]; then
+    echo "No wallpaper given"
+    exit 1
+fi
+
+# Set new wallpaper
+wal --saturate 0.4 -i "$1"
+
+# Change dunst them
+sh ~/.scripts/dunst_xr_theme_changer.sh
+killall dunst
+dunst -conf $HOME/.config/dunst/dunstrc_xr_colors &
+
+# Reset dwm colors
+xsetroot -name "fsignal:1"
+
+# Reset dwmblocks colors
+killall dwmblocks
+
+dwmblocks &
