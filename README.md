@@ -16,7 +16,7 @@ After having stow installed all you need to do is clone this repo
 git clone https://github.com/Smoodle/dotfiles
 ```
 
-after the clone is done just stow the dotfiles tou need
+after the clone is done just stow the configs you need
 
 
 ```bash
