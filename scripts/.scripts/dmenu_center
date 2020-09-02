@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+OFFSET_RE="\+([-0-9]+)\+([-0-9]+)"
+
+eval "$(xdotool getmouselocation --shell)"
+
+# Loop through each screen and compare the offset with the window
+# coordinates.
+while read name width height xoff yoff
+do
+    if [ "${X}" -ge "$xoff" \
+      -a "${Y}" -ge "$yoff" \
+      -a "${X}" -lt "$(($xoff+$width))" \
+      -a "${Y}" -lt "$(($yoff+$height))" ]
+    then
+        monitor=$name
+        break
+    fi
+done < <(xrandr | grep -w connected |
+    sed -r "s/^([^ ]*).*\b([-0-9]+)x([-0-9]+)$OFFSET_RE.*$/\1 \2 \3 \4 \5/" |
+    sort -nk4,5)
+
+# If we found a monitor, echo it out, otherwise print an error.
+if [ ! -z "$monitor" ]
+then
+    WIDTH=$(xrandr | grep -w $monitor  | sed 's/primary //' | awk -F'[ +]' '{print $3}' | awk -F 'x' '{print $1}')
+    HEIGHT=$(xrandr | grep -w $monitor | sed 's/primary //' | awk -F'[ +]' '{print $3}' | awk -F 'x' '{print $2}')
+
+    #Maybe this could be automatic
+    width=700
+    height=30
+    y=50
+
+    sh ~/.scripts/dmenu/dmenu_run_history -i -b -x "$(($WIDTH/2 - $width/2))" -y "$y" -w "$width" -h "$height" -p ' '
+    exit 0
+else
+  #notify-send "Couldn't find any monitor for the current window."
+  sh ~/.scripts/dmenu/dmenu_run_history -p ' '
+  exit 1
+fi

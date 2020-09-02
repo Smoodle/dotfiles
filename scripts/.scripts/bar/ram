@@ -2,5 +2,10 @@
 ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
 FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
 
+if [ -z $ICON ] || [ -z $FOREGROUND ]; then
+    ICON="#ffffff"
+    FOREGROUND="#ffffff"
+fi
+
 mem=$(free | grep Mem | awk '{printf("%.2f%"), $3/$2 * 100.0}')
 echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${mem} "

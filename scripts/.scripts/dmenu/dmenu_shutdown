@@ -1,7 +1,7 @@
 #!/bin/bash
 
 actions=("shutdown\nrestart\nlogout\nsleep\nhibernate")
-action=$(echo -e $actions | dmenu -p "Power Menu:")
+action=$(echo -e $actions | dmenu -p " ")
 case "$action" in
     logout)
         killall xinit
