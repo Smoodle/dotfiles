@@ -298,27 +298,62 @@ client.connect_signal("manage", function(c)
         awful.placement.no_offscreen(c)
     end
 
-    if #c.screen.clients > 1 then
-        for _, cl in pairs(c.screen.clients) do
-            cl.border_width = beautiful.border_width
-            cl.shape = function(cr,w,h)
-                gears.shape.rounded_rect(cr,w,h,12)
-            end
-        end
+    --if #c.screen.clients > 1 then
+    --    for _, cl in pairs(c.screen.clients) do
+    --        cl.border_width = beautiful.border_width
+    --        cl.shape = function(cr,w,h)
+    --            gears.shape.rounded_rect(cr,w,h,12)
+    --        end
+    --    end
+    --else
+    --    c.border_width = 0
+    --end
+
+end)
+
+client.connect_signal("focus",
+  function(c)
+    if c.maximized_horizontal == true and c.maximized_vertical == true then
+      c.border_color = beautiful.border_normal
     else
-        c.border_width = 0
+      c.border_color = beautiful.border_focus
     end
+  end)
 
-end)
+client.connect_signal("unfocus",
+  function(c) c.border_color = beautiful.border_normal
+  end)
 
-client.connect_signal("unmanage", function(c)
-    if #c.screen.clients == 1 then
-        for _, cl in pairs(c.screen.clients) do
-            cl.border_width = 0
-            cl.shape = gears.shape.rectangle
+-- Arrange signal handler
+for s = 1, screen.count() do screen[s]:connect_signal("arrange", 
+  function ()
+    local clients = awful.client.visible(s)
+    local layout  = awful.layout.getname(awful.layout.get(s))
+
+    if #clients > 0 then -- Fine grained borders and floaters control
+      for _, c in pairs(clients) do -- Floaters always have borders
+        if awful.client.floating.get(c) or layout == "floating" then
+          c.border_width = beautiful.border_width
+
+        -- No borders with only one visible client
+        elseif #clients == 1 or layout == "max" then
+          c.border_width = 0
+        else
+          c.border_width = beautiful.border_width
         end
+      end
     end
-end)
+  end)
+end
+
+--client.connect_signal("unmanage", function(c)
+--    if #c.screen.clients == 1 then
+--        for _, cl in pairs(c.screen.clients) do
+--            cl.border_width = 0
+--            cl.shape = gears.shape.rectangle
+--        end
+--    end
+--end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
