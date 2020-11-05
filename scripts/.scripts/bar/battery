@@ -1,0 +1,32 @@
+#!/bin/sh
+
+ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
+FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
+
+if [ -z $ICON ] || [ -z $FOREGROUND ]; then
+    ICON="#ffffff"
+    FOREGROUND="#ffffff"
+fi
+
+BAT="BAT0"
+
+dwm_battery () {
+    CHARGE=$(cat /sys/class/power_supply/$BAT/capacity)
+    STATUS=$(cat /sys/class/power_supply/$BAT/status)
+
+    if [ "$STATUS" = "Charging" ]; then
+        echo -ne "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+    else
+        if [ "$CHARGE" -ge 80 ]; then
+            echo -ne "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+        elif [ "$CHARGE" -ge 50 ]; then
+            echo -ne "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+        else
+            echo -ne "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+        fi
+    fi
+}
+
+if [ -d /sys/class/power_supply/$BAT ]; then
+    dwm_battery
+fi

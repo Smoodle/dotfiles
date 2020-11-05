@@ -1,0 +1,6 @@
+#! /bin/sh
+
+# Change dunst them
+sh ~/.scripts/dunst_xr_theme_changer.sh
+killall dunst
+dunst -conf $HOME/.config/dunst/dunstrc_xr_colors &
