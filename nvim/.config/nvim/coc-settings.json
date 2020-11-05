@@ -9,6 +9,10 @@
 					"directory": "/tmp/ccls"
 				}
 			}
+		},
+		"lua": {
+			"command": "lua-lsp",
+			"filetypes": ["lua"]
 		}
 	}
 }

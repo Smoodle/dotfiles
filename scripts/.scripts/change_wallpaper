@@ -8,6 +8,9 @@ fi
 # Set new wallpaper
 wal --saturate 0.4 -i "$1"
 
+# Generate new GTK theme
+oomox-cli -o Custom ~/.cache/wal/colors-oomox
+
 # Change dunst them
 sh ~/.scripts/dunst_xr_theme_changer.sh
 killall dunst

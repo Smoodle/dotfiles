@@ -144,8 +144,6 @@ awful.key({}, "XF86AudioPrev", function()
 end),
 
 -- Custom
-awful.key({ modkey, "Shift", "Control" }, "p", function() awful.spawn("/bin/sh /home/smoodle/.config/dmneu/dmenu_shutdown") end,
-    {description = "show the power menu", group = "launcher"}),
 awful.key({ modkey, "Shift" }, "p", nil, function() awful.spawn("scrot -s -e 'mv $f ~/Pictures/Screenshots'") end,
     {description = "Take screenshot", group = "launcher"}),
 -- Menubar

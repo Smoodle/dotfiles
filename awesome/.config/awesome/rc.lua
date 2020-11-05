@@ -63,12 +63,11 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
--- Table of layouts to cover with awful.layout.inc, order matters.
-awful.layout.layouts = {
+awful.layout.append_default_layouts({
     awful.layout.suit.tile,
     awful.layout.suit.floating,
-	awful.layout.suit.max
-}
+    awful.layout.suit.max,
+})
 
 -- awful.layout.tile.resize_jump_to_corner = false
 
@@ -90,6 +89,7 @@ mymainmenu = awful.menu({
         {"awesome", myawesomemenu, beautiful.awesome_icon},
         {"open terminal", terminal}
     }
+
 })
 
 mylauncher = awful.widget.launcher({
@@ -332,7 +332,7 @@ for s = 1, screen.count() do screen[s]:connect_signal("arrange",
 
     if #clients > 0 then -- Fine grained borders and floaters control
       for _, c in pairs(clients) do -- Floaters always have borders
-        if awful.client.floating.get(c) or layout == "floating" then
+        if c.floating or layout == "floating" then
           c.border_width = beautiful.border_width
 
         -- No borders with only one visible client

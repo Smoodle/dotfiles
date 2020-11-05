@@ -1,12 +1,14 @@
 syntax on
 
 set noerrorbells
-set tabstop=4 softtabstop=4
+set tabstop=4 
+set softtabstop=4
 set shiftwidth=4
-set expandtab
+"set expandtab
 set smartindent
 set nu
-set nowrap
+set wrap
+set showbreak=>
 set smartcase
 set noswapfile
 set nobackup
@@ -41,11 +43,20 @@ Plug 'mileszs/ack.vim'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'Yggdroot/indentLine'
- Plug 'itchyny/lightline.vim'
+"Plug 'itchyny/lightline.vim'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 Plug 'gruvbox-community/gruvbox'
 
 call plug#end()
+
+" Airline
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='deus'
 
 let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
@@ -155,7 +166,7 @@ nnoremap <Leader>a :Ack!<Space>
 " Lightline
 
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+            \ 'colorscheme': 'wombat',
+            \ }
 
 " source $HOME/.config/nvim/statusline.vim

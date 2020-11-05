@@ -107,3 +107,4 @@ export PATH=$HOME/.scripts:$PATH
 alias sudo="sudo "
 alias v=nvim
 alias vim=nvim
+alias neofetch="neofetch --w3m '${~/.cache/wal/wal}'"
