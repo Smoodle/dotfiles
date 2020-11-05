@@ -108,7 +108,7 @@
     icon_position = left
 
     #Set corner radius
-    corner_radius = 10
+    corner_radius = 5
 
     # Define a color for the separator.
     # possible values are:
@@ -130,7 +130,7 @@
     browser = /usr/bin/firefox -new-tab
 
 [frame]
-    width = 0
+    width = 3
     color = "#000000"
 
 [shortcuts]

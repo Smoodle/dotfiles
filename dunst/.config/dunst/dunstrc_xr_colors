@@ -115,7 +115,7 @@
     icon_position = left
 
     #Set corner radius
-    corner_radius = 10
+    corner_radius = 5
 
     # Define a color for the separator.
     # possible values are:
@@ -137,8 +137,8 @@
     browser = /usr/bin/firefox -new-tab
 
 [frame]
-    width = 0
-    color = "#000000"
+    width = 3
+    color = "#03a9f4"
 
 [shortcuts]
     # shortcuts are specified as [modifier+][modifier+]...key
@@ -161,18 +161,18 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
-    background = "#0F191F"
-    foreground = "#c5c1c8"
+    background = "#263238"
+    foreground = "#eceff1"
     timeout = 5
 
 [urgency_normal]
-    background = "#0F191F"
-    foreground = "#c5c1c8"
+    background = "#263238"
+    foreground = "#eceff1"
     timeout = 10
 
 [urgency_critical]
-    background = "#0F191F"
-    foreground = "#c5c1c8"
+    background = "#263238"
+    foreground = "#eceff1"
     timeout = 0
 
 
