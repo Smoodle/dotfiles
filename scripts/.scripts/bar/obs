@@ -1,0 +1,15 @@
+#! /bin/sh
+ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
+FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
+
+if [ -z $ICON ] || [ -z $FOREGROUND ]; then
+    ICON="#ffffff"
+    FOREGROUND="#ffffff"
+fi
+
+
+if $(pidof /usr/bin/obs-ffmpeg-mux > /dev/null); then
+    echo -ne " ^c${ICON}^雷  ^c${FOREGROUND}^Rec "
+else
+    echo -ne ""
+fi
