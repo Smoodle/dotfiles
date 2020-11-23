@@ -15,8 +15,9 @@ local theme = {}
 
 theme.font = "Hack Nerd Font 10"
 
-theme.bg_normal = "#434c5e"
-theme.bg_focus = "#2e3440"
+--theme.bg_normal = "#434c5e"
+theme.bg_normal = "#2e3440"
+theme.bg_focus = "#434c5e"
 theme.bg_urgent = theme.bg_normal
 theme.bg_minimize = theme.bg_normal
 theme.bg_systray = theme.bg_normal
@@ -28,12 +29,12 @@ theme.fg_minimize = theme.fg_normal
 
 theme.useless_gap = dpi(5)
 theme.gap_single_client = false
-theme.border_width = dpi(4)
+theme.border_width = dpi(2)
 theme.border_normal = "#88c0d0"
 theme.border_focus = "#a3be8c"
 theme.border_marked = "#bf616a"
 
-theme.wibar_height = dpi(30)
+theme.wibar_height = dpi(20)
 
 theme.bar_right_spacing = dpi(5)
 theme.systray_icon_spacing = dpi(7)
