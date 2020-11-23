@@ -3,6 +3,8 @@ local awful = require("awful")
 
 local power_menu = require("modules.powermenu")
 
+local apps = require("apps")
+
 local keys = {}
 
 keys.globalkeys = gears.table.join(
@@ -139,15 +141,20 @@ end),
 awful.key({}, "XF86AudioNext", function()
     awful.util.spawn("playerctl next", false)
 end),
+
 awful.key({}, "XF86AudioPrev", function()
     awful.util.spawn("playerctl previous", false)
 end),
 
 -- Custom
-awful.key({ modkey, "Shift" }, "p", nil, function() awful.spawn("scrot -s -e 'mv $f ~/Pictures/Screenshots'") end,
+awful.key({ modkey }, "e", function() awful.spawn(apps.file_manager) end,
+    {description = "show the file browser", group = "launcher"}),
+
+awful.key({ modkey, "Shift" }, "p", nil, function() awful.spawn(apps.screenshot) end,
     {description = "Take screenshot", group = "launcher"}),
+
 -- Menubar
-awful.key({ modkey }, "p", function() awful.spawn("rofi -show drun") end,
+awful.key({ modkey }, "p", function() awful.spawn(apps.launcher) end,
     {description = "show the menubar", group = "launcher"})
 )
 
