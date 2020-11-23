@@ -1,6 +1,9 @@
 #!/bin/bash
 
-[ ! "$(playerctl -p spotify status 2>&1)" = "Playing" ] && exit 33;
+#Change this if player changes
+playerName="spotify"
+
+[ "$(playerctl -p $playerName status 2>&1)" = "No players found" ] && exit 33;
 
 # Define cursor icons
 ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
@@ -11,9 +14,12 @@ if [ -z $ICON ] || [ -z $FOREGROUND ]; then
     FOREGROUND="#ffffff"
 fi
 
-songTitle="$(playerctl metadata title)"
-songArtist="$(playerctl metadata artist)"
-songInfo="$songTitle - $songArtist ";
+songStatus=""
+[ "$(playerctl -p $playerName status)" = "Paused" ] && songStatus="";
+
+songTitle="$(playerctl -p $playerName metadata title)"
+songArtist="$(playerctl -p $playerName metadata artist)"
+songInfo="$songTitle - $songArtist $songStatus";
 
 #Display output
-echo -ne "^c${ICON}^ ^c${FOREGROUND}^${songInfo}";
+echo -ne "^c${ICON}^ ^c${FOREGROUND}^${songInfo} ";
