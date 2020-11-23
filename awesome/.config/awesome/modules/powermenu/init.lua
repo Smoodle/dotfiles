@@ -8,20 +8,19 @@ local dpi = xresources.apply_dpi
 
 local poweroff_widget = wibox.widget {
     {
-        image  = "/home/smoodle/.config/awesome/modules/powermenu/icons/poweroff.svg",
+        image  = gears.filesystem.get_configuration_dir() .. "/modules/powermenu/icons/power-off.png",
         resize = true,
         widget = wibox.widget.imagebox,
+        forced_height = dpi(100),
+        forced_width = dpi(100),
     },
     {
-        text   = 'Power Off',
+        markup = "<span size='x-large' font-weight='bold'>Power off</span>",
         widget = wibox.widget.textbox,
         align = "center"
     },
 
     layout  = wibox.layout.align.vertical,
-    forced_height = dpi(300),
-    forced_width = dpi(200),
-    --expand = "none"
 }
 
 local poweroff = function ()
@@ -32,20 +31,19 @@ poweroff_widget:connect_signal("button::press", poweroff)
 
 local restart_widget = wibox.widget {
     {
-        image  = "/home/smoodle/.config/awesome/modules/powermenu/icons/restart.png",
+        image  = gears.filesystem.get_configuration_dir() .. "/modules/powermenu/icons/restart.png",
         resize = true,
         widget = wibox.widget.imagebox,
+        forced_height = dpi(100),
+        forced_width = dpi(100),
     },
     {
-        text   = 'Restart',
+        markup = "<span size='x-large' font-weight='bold'>Restart</span>",
         widget = wibox.widget.textbox,
         align = "center"
     },
 
     layout  = wibox.layout.align.vertical,
-    forced_height = dpi(300),
-    forced_width = dpi(200),
-    --expand = "none"
 }
 
 local restart = function ()
@@ -54,16 +52,57 @@ end
 
 restart_widget:connect_signal("button::press", restart)
 
+local logout_widget = wibox.widget {
+    {
+        image  = gears.filesystem.get_configuration_dir() .. "/modules/powermenu/icons/logout.png",
+        resize = true,
+        widget = wibox.widget.imagebox,
+        forced_height = dpi(100),
+        forced_width = dpi(100),
+    },
+    {
+        markup = "<span size='x-large' font-weight='bold'>Logout</span>",
+        widget = wibox.widget.textbox,
+        align = "center"
+    },
+
+    layout  = wibox.layout.align.vertical,
+}
+
+local logout = function ()
+    awful.spawn.with_shell("killall xinit")
+end
+
+logout_widget:connect_signal("button::press", logout)
+
 local power_menu = awful.popup {
     widget = {
         {
-            poweroff_widget,
-            restart_widget,
-            layout = wibox.layout.flex.horizontal,
-            spacing = dpi(30)
+            {
+                nil,
+                {
+                    markup = "<span size='xx-large' font-weight='bold'>GoodBye!</span>",
+                    align = "center",
+                    valign = "center",
+                    widget = wibox.widget.textbox,
+                },
+                nil,
+                layout = wibox.layout.align.horizontal,
+                expand = "outside",
+            },
+            {
+                poweroff_widget,
+                restart_widget,
+                logout_widget,
+                layout = wibox.layout.flex.horizontal,
+                expand = "none",
+                spacing = dpi(40)
+            },
+            nil,
+            layout = wibox.layout.align.vertical,
         },
-        margins = 10,
-        widget  = wibox.container.margin
+        margins = dpi(10),
+        widget  = wibox.container.margin,
     },
     placement    = awful.placement.centered,
     shape        = gears.shape.rounded_rect,
