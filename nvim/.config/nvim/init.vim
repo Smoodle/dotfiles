@@ -52,6 +52,8 @@ Plug 'gruvbox-community/gruvbox'
 
 call plug#end()
 
+let g:vim_markdown_conceal = 0
+
 " Airline
 
 let g:airline#extensions#tabline#enabled = 1
