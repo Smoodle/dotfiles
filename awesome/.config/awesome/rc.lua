@@ -65,11 +65,17 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
-awful.layout.append_default_layouts({
+awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
-    awful.layout.suit.max,
-})
+    awful.layout.suit.max
+}
+
+-- awful.layout.append_default_layouts({
+--     awful.layout.suit.tile,
+--     awful.layout.suit.floating,
+--     awful.layout.suit.max
+-- })
 
 -- awful.layout.tile.resize_jump_to_corner = false
 
@@ -156,6 +162,8 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+local tablet_widget = require("widgets/tablet")
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     -- set_wallpaper(s)
@@ -211,6 +219,7 @@ awful.screen.connect_for_each_screen(function(s)
             spacing = beautiful.bar_right_spacing,
             -- mykeyboardlayout,
             wibox.widget.systray(),
+            tablet_widget,
             s.mylayoutbox,
         }
     }
@@ -239,6 +248,9 @@ awful.rules.rules = {
             focus = awful.client.focus.filter,
             raise = true,
             keys = clientkeys,
+            maximized = false,
+            maximized_vertical   = false,
+            maximized_horizontal = false,
             buttons = clientbuttons,
             screen = awful.screen.preferred,
             placement = awful.placement.no_overlap +
@@ -269,11 +281,15 @@ awful.rules.rules = {
                 "pop-up" -- e.g. Google Chrome's (detached) Developer Tools.
             }
         },
-        properties = {floating = true}
+        properties = {
+            floating = true
+        }
     }, -- Add titlebars to normal clients and dialogs
     {
         rule_any = {type = {"normal", "dialog"}},
-        properties = {titlebars_enabled = false}
+        properties = {
+            titlebars_enabled = false
+        }
     }
 
     -- Set Firefox to always map on the tag named "2" on screen 1.

@@ -13,7 +13,7 @@ local config_path = gfs.get_configuration_dir()
 
 local theme = {}
 
-theme.font = "Hack Nerd Font 10"
+theme.font = "mononoki Nerd Font 10"
 
 --theme.bg_normal = "#434c5e"
 theme.bg_normal = "#2e3440"

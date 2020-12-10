@@ -177,6 +177,13 @@ keys.clientkeys = gears.table.join(
         c:swap(awful.client.getmaster())
     end,
     {description = "move to master", group = "client"}),
+    awful.key({ modkey, "Shift"}, "m",
+        function (c)
+            c.maximized = not c.maximized
+            c:raise()
+        end ,
+        {description = "(un)maximize", group = "client"}),
+
 
 awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
 {description = "move to screen", group = "client"})
