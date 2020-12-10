@@ -16,7 +16,6 @@ sleep 0.1
 
 if [[ $cmd = "select (copy)" ]]; then
     maim -s | xclip -selection clipboard -t image/png
-    notify-send -a "Screenshot" "Screenshot taken" -i $HOME/.scripts/icons/camera.png
 elif [[ $cmd = "window (copy)" ]]; then
     maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 elif [[ $cmd = "screen (copy)" ]]; then
@@ -46,4 +45,6 @@ elif [[ $cmd = "screen (copy)" ]]; then
     done
 elif [[ $cmd = "all (copy)" ]]; then
     maim | xclip -selection clipboard -t image/png
+elif [[ $cmd = "select" ]]; then
+    maim -s ~/Pictures/Screenshots/$(date +%s) | xclip -selection clipboard -t image/png
 fi
