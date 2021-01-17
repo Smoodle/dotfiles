@@ -110,6 +110,10 @@ local power_menu = awful.popup {
     ontop = true,
 }
 
+power_menu:connect_signal("mouse::leave", function()
+    power_menu.visible = not power_menu.visible
+end)
+
 power_menu.toggle_power_menu = function ()
     power_menu.visible = not power_menu.visible
 end

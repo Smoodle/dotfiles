@@ -27,9 +27,9 @@ theme.fg_focus = "#d8dee9"
 theme.fg_urgent = theme.fg_normal
 theme.fg_minimize = theme.fg_normal
 
-theme.useless_gap = dpi(5)
+theme.useless_gap = dpi(8)
 theme.gap_single_client = false
-theme.border_width = dpi(2)
+theme.border_width = dpi(3)
 theme.border_normal = "#88c0d0"
 theme.border_focus = "#a3be8c"
 theme.border_marked = "#bf616a"
@@ -72,7 +72,7 @@ theme.taglist_spacing = dpi(6)
 theme.notification_max_width = dpi(400)
 theme.notification_icon_size = dpi(100)
 theme.notification_shape = shape.rounded_rect
-theme.notification_opacity = 0.90
+theme.notification_opacity = 0.80
 theme.notification_margin = dpi(50)
 
 -- Variables set for theming the menu:
@@ -87,7 +87,7 @@ theme.menu_width = dpi(100)
 -- beautiful.variable in your rc.lua
 -- theme.bg_widget = "#cc0000"
 
-theme.wallpaper = "/home/smoodle/Pictures/Wallpapers/1522505786859.jpg"
+-- theme.wallpaper = ""
 
 -- You can use your own layout icons like this:
 theme.layout_floating = config_path .. "icons/floating.png"
@@ -102,6 +102,7 @@ theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height,
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = nil
 
+-- Hide border on fullscreen and max layout
 theme.fullscreen_hide_border = true
 theme.maximized_hide_border = true
 

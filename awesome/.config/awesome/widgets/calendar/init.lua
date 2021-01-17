@@ -182,6 +182,7 @@ local function worker(args)
         widget = cal
     }
 
+
     popup:buttons(
             awful.util.table.join(
                     awful.button({}, 4, function()
@@ -225,6 +226,10 @@ local function worker(args)
 
         end
     end
+
+	popup:connect_signal("mouse::leave", function ()
+		calendar_widget.toggle()
+	end)
 
     return calendar_widget
 

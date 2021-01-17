@@ -163,6 +163,7 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 local tablet_widget = require("widgets/tablet")
+local settings_widget = require("widgets/settings")
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -220,6 +221,7 @@ awful.screen.connect_for_each_screen(function(s)
             -- mykeyboardlayout,
             wibox.widget.systray(),
             tablet_widget,
+            settings_widget,
             s.mylayoutbox,
         }
     }
@@ -376,6 +378,10 @@ end
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
+end)
+
+client.connect_signal("property::minimized", function(c)
+    c.minimized = false
 end)
 
 client.connect_signal("focus",
