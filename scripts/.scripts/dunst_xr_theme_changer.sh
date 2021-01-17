@@ -252,3 +252,6 @@ user_xr_color_conf_content+="$(printf '%s\n' "${conf[@]}")"
 printf '%s\n' "$user_xr_color_conf_content" > "$user_xr_color_conf"
 
 printf '"%s" updated successfully.\n' "$user_xr_color_conf"
+
+killall dunst
+dunst -conf "$user_xr_color_conf" &
