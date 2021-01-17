@@ -3,6 +3,7 @@ pfetch
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+setopt rmstarsilent
 # Path to your oh-my-zsh installation.
 export ZSH="/home/smoodle/.oh-my-zsh"
 
@@ -65,12 +66,17 @@ ZSH_THEME="juanghurtado"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+ZSH_TMUX_AUTOSTART=false
+ZSH_TMUX_AUTOCONNECT=false
+ZSH_TMUX_FIXTERM=true
+ZSH_TMUX_UNICODE=true
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,11 +106,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export BROWSER=firefox
-export EDITOR=nvim
-export PATH=$HOME/.scripts:$PATH
+#export BROWSER=firefox
+export EDITOR="nvim"                  # $EDITOR opens in terminal
 
 alias sudo="sudo "
 alias v=nvim
 alias vim=nvim
-alias neofetch="neofetch --w3m '${~/.cache/wal/wal}'"
+alias neofetch="neofetch --w3m $(cat ~/.cache/wal/wal)"
