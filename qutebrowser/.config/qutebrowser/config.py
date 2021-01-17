@@ -14,7 +14,9 @@ def filter_yt(info: interceptor.Request):
 interceptor.register(filter_yt)
 
 # Misc config
-c.qt.args=["ignore-gpu-blacklist", "enable-gpu-rasterization", "enable-native-gpu-memory-buffers", "num-raster-threads=8"]
+#c.qt.args=["ignore-gpu-blacklist", "enable-gpu-rasterization", "enable-native-gpu-memory-buffers", "num-raster-threads=8"]
+
+config.set("tabs.background", True)
 
 # Binds
 config.bind('<Ctrl-Shift-y>', 'hint links spawn mpv {hint-url}')
@@ -34,23 +36,25 @@ config.bind(';if', 'hint images')
 config.bind(';id', 'hint images download')
 
 # AdBlock
-config.set('content.host_blocking.enabled', False)
-sys.path.append(os.path.join(sys.path[0], "jblock"))
-config.source("jblock/jblock/integrations/qutebrowser.py")
-config.set(
-    "content.host_blocking.lists",
-    [
-        "https://easylist.to/easylist/easylist.txt",
-        "https://easylist.to/easylist/easyprivacy.txt",
-        "https://easylist.to/easylist/fanboy-annoyance.txt",
-        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt",
-        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances.txt",
-        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt",
-        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt",
-        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/resource-abuse.txt",
-        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt",
-    ],
-)
+c.content.blocking.method = 'adblock'
+
+#config.set('content.host_blocking.enabled', False)
+#sys.path.append(os.path.join(sys.path[0], "jblock"))
+#config.source("jblock/jblock/integrations/qutebrowser.py")
+#config.set(
+#    "content.host_blocking.lists",
+#    [
+#        "https://easylist.to/easylist/easylist.txt",
+#        "https://easylist.to/easylist/easyprivacy.txt",
+#        "https://easylist.to/easylist/fanboy-annoyance.txt",
+#        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt",
+#        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances.txt",
+#        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt",
+#        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt",
+#        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/resource-abuse.txt",
+#        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt",
+#    ],
+#)
 
 # Platform specific settings
 
