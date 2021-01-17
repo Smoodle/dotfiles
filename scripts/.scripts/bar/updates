@@ -1,4 +1,12 @@
 #!/bin/sh
+
+# First check internet connection to not get stuck
+ping -c 1 8.8.8.8 > /dev/null 2>&1
+if [ $? != 0 ]; then 
+	echo -ne ""
+	exit 33
+fi
+
 ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
 FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
 
@@ -17,8 +25,4 @@ fi
 
 updates=$(("$updates_arch" + "$updates_aur"))
 
-if [ "$updates" -gt 0 ]; then
-	echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${updates} "
-else
-	echo -ne ""
-fi
+[[ "$updates" -gt 0 ]] && echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${updates}  "

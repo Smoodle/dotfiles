@@ -7,5 +7,6 @@ if [ -z $ICON ] || [ -z $FOREGROUND ]; then
     FOREGROUND="#ffffff"
 fi
 
-date="$(date "+%d-%m-%y %H:%M")"
-echo -ne "^c${FOREGROUND}^${date} "
+date="$(date "+%d-%m-%y, %a")"
+time="$(date "+%H:%M")"
+echo -ne " ^c${ICON}^ ^c${FOREGROUND}^$date ^c${ICON}^ ^c${FOREGROUND}^$time "

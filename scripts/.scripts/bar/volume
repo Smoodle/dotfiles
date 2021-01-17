@@ -1,4 +1,5 @@
-#! /bin/sh
+#!/bin/bash
+
 ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
 FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
 
@@ -7,5 +8,6 @@ if [ -z $ICON ] || [ -z $FOREGROUND ]; then
     FOREGROUND="#ffffff"
 fi
 
-time="$(date "+%H:%M")"
-echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${time} "
+volume=$(pamixer --get-volume)
+
+echo -ne " ^c${ICON}^墳 ^c${FOREGROUND}^$volume  "
