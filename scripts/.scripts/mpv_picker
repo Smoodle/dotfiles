@@ -1,0 +1,23 @@
+#!/bin/sh
+
+DIRECTORY="$1"
+[ -z "$2" ] && COMMAND="mpv" || COMMAND="$2"
+
+while [ true ]; do
+	FILES=$(ls -1 "$DIRECTORY" | sort -r)
+	CHOISE=$(printf "$FILES\n../" | dmenu -i -p "Choose: ")
+
+	[ -z "$CHOISE" ] && exit
+
+	if [ "$CHOISE" -eq "../" ]; then
+		DIRECTORY=$(dirname "$DIRECTORY")
+		continue
+	fi
+
+	if [ -d "$DIRECTORY/$CHOISE" ]; then
+		DIRECTORY="$DIRECTORY/$CHOISE"
+	else
+		$COMMAND "$DIRECTORY/$CHOISE"
+		exit
+	fi
+done

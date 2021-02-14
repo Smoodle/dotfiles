@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -euC
+
+if tmux has-session -t 'main' 2> /dev/null; then
+	tmux attach-session -s "main"
+    exit 0
+else
+	tmux new-session -s "main"
+fi 

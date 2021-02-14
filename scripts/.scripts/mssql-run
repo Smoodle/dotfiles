@@ -1,0 +1,3 @@
+#!/bin/sh
+
+docker run --mount source=sql,target=/app -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Linduxa123!" -p 1433:1433 mcr.microsoft.com/mssql/server:latest
