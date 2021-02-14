@@ -126,8 +126,7 @@ tablet_widget:connect_signal("button::press", function(_, _, _, button)
     else
         popup:move_next_to(mouse.current_widget_geometry)
     end
-end
-) 
+end)
 
 gears.timer {
     timeout = 5,

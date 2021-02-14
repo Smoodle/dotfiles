@@ -15,24 +15,29 @@ local theme = {}
 
 theme.font = "mononoki Nerd Font 10"
 
---theme.bg_normal = "#434c5e"
-theme.bg_normal = "#2e3440"
-theme.bg_focus = "#434c5e"
+local main_bg_normal = "#161616"
+local main_bg_focus = "#e95678"
+local main_fg_normal = "#fdf0ed"
+local main_fg_focus = "#16161c"
+
+theme.bg_normal = main_bg_normal
+theme.bg_focus = main_bg_focus
 theme.bg_urgent = theme.bg_normal
 theme.bg_minimize = theme.bg_normal
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#d8dee9"
-theme.fg_focus = "#d8dee9"
+theme.fg_normal = main_fg_normal
+theme.fg_focus = main_fg_focus
 theme.fg_urgent = theme.fg_normal
 theme.fg_minimize = theme.fg_normal
 
+theme.border_radius = dpi(10)
 theme.useless_gap = dpi(8)
 theme.gap_single_client = false
-theme.border_width = dpi(3)
-theme.border_normal = "#88c0d0"
-theme.border_focus = "#a3be8c"
-theme.border_marked = "#bf616a"
+theme.border_width = dpi(1)
+theme.border_normal = main_bg_normal
+theme.border_focus = main_bg_focus
+theme.border_marked = main_bg_focus
 
 theme.wibar_height = dpi(20)
 
@@ -57,9 +62,9 @@ theme.tasklist_disable_icon = true
 -- Generate taglist squares:
 local taglist_square_size = dpi(5)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-                                taglist_square_size, theme.fg_normal)
+        taglist_square_size, theme.fg_normal)
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-                                  taglist_square_size, theme.fg_normal)
+        taglist_square_size, theme.fg_normal)
 
 theme.taglist_spacing = dpi(6)
 
@@ -96,7 +101,7 @@ theme.layout_max = config_path .. "icons/max.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height,
-                                               theme.bg_focus, theme.fg_focus)
+        theme.bg_focus, theme.fg_focus)
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
