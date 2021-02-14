@@ -138,7 +138,7 @@
 
 [frame]
     width = 3
-    color = "#bc9063"
+    color = "#dab1ab"
 
 [shortcuts]
     # shortcuts are specified as [modifier+][modifier+]...key
@@ -161,18 +161,18 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
-    background = "#141512"
-    foreground = "#d6d5d5"
+    background = "#161616"
+    foreground = "#dfdbdf"
     timeout = 5
 
 [urgency_normal]
-    background = "#141512"
-    foreground = "#d6d5d5"
+    background = "#161616"
+    foreground = "#dfdbdf"
     timeout = 10
 
 [urgency_critical]
-    background = "#141512"
-    foreground = "#d6d5d5"
+    background = "#161616"
+    foreground = "#dfdbdf"
     timeout = 0
 
 
@@ -202,7 +202,6 @@
 #    summary = "*script*"
 #    script = dunst_test.sh
 
-#[ignore]
-## This notification will not be displayed
-#    summary = "foobar"
-#    format = ""
+[brave]
+	summary = "Brave*"
+	format = ""
