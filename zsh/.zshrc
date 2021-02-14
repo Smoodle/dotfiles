@@ -1,7 +1,8 @@
 pfetch
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/home/smoodle/.local/bin:$PATH
 
 setopt rmstarsilent
 # Path to your oh-my-zsh installation.
@@ -68,6 +69,7 @@ ZSH_THEME="juanghurtado"
 
 ZSH_TMUX_AUTOSTART=false
 ZSH_TMUX_AUTOCONNECT=false
+ZSH_TMUX_AUTOQUIT=false
 ZSH_TMUX_FIXTERM=true
 ZSH_TMUX_UNICODE=true
 
