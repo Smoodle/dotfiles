@@ -6,7 +6,7 @@ then
     exit
 fi
 
-cmd_list="select (copy)\nwindow (copy)\nscreen (copy)\nall (copy)\nselect\nwindow\nscreen\nall"
+cmd_list="select (copy)\nwindow (copy)\nscreen (copy)\nall (copy)\nselect"
 
 cmd="$(echo -e $cmd_list | dmenu -p "Screenshot")"
 
@@ -15,9 +15,11 @@ cmd="$(echo -e $cmd_list | dmenu -p "Screenshot")"
 sleep 0.1
 
 if [[ $cmd = "select (copy)" ]]; then
-    maim -s | xclip -selection clipboard -t image/png
+	sleep 0.1
+    maim -u -s | xclip -selection clipboard -t image/png
 elif [[ $cmd = "window (copy)" ]]; then
-    maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+	sleep 0.1
+    maim -u -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 elif [[ $cmd = "screen (copy)" ]]; then
     MONITORS=$(xrandr | grep -o '[0-9]*x[0-9]*[+-][0-9]*[+-][0-9]*')
     # Get the location of the mouse
@@ -36,7 +38,8 @@ elif [[ $cmd = "screen (copy)" ]]; then
                 if (( ${YMOUSE} >= ${MONY} )); then
                     if (( ${YMOUSE} <= ${MONY}+${MONH} )); then
                         # We have found our monitor!
-                        maim -g "${MONW}x${MONH}+${MONX}+${MONY}" | xclip -selection clipboard -t image/png
+						sleep 0.1
+                        maim -u -g "${MONW}x${MONH}+${MONX}+${MONY}" | xclip -selection clipboard -t image/png
                         exit 0
                     fi
                 fi
@@ -44,7 +47,9 @@ elif [[ $cmd = "screen (copy)" ]]; then
         fi
     done
 elif [[ $cmd = "all (copy)" ]]; then
-    maim | xclip -selection clipboard -t image/png
+	sleep 0.1
+    maim -u | xclip -selection clipboard -t image/png
 elif [[ $cmd = "select" ]]; then
-    maim -s ~/Pictures/Screenshots/$(date +%s) | xclip -selection clipboard -t image/png
+	sleep 0.1
+    maim -u -s ~/Pictures/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png
 fi

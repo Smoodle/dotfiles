@@ -6,7 +6,7 @@ if [[ -z "$1" ]]; then
 fi
 
 # Set new wallpaper
-wal --saturate 0.4 -i "$1"
+wal -b "#161616" --saturate 0.4 -i "$1"
 
 # Generate new GTK theme
 oomox-cli -o Custom ~/.cache/wal/colors-oomox
