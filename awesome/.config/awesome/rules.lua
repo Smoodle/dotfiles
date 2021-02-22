@@ -14,6 +14,7 @@ awful.rules.rules = {
 			maximized = false,
 			maximized_vertical   = false,
 			maximized_horizontal = false,
+			size_hints_honor = false,
 			buttons = Clientbuttons,
 			screen = awful.screen.preferred,
 			placement = awful.placement.no_overlap +
@@ -53,7 +54,6 @@ awful.rules.rules = {
 		properties = { titlebars_enabled = false
 		}
 	},
-
 	-- Set Firefox to always map on the tag named "2" on screen 1.
 	{ rule = { class = "Thunderbird" }, properties = { screen = 1, tag = "8" } },
 	{ rule = { class = "qBittorrent" }, properties = { screen = 1, tag = "9" } },

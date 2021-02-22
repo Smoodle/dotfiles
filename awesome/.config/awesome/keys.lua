@@ -72,8 +72,6 @@ keys.globalkeys = gears.table.join(
 		{description = "decrease the number of columns", group = "layout"}),
 	awful.key({ Modkey,           }, "space", function () awful.layout.inc( 1)                end,
 		{description = "select next", group = "layout"}),
-	awful.key({ Modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
-		{description = "select previous", group = "layout"}),
 	awful.key({ Modkey            }, "d", function ()
 		local src = awful.screen.focused()
 		src.selected_tag.master_count = src.selected_tag.master_count - 1
@@ -207,7 +205,11 @@ keys.clientkeys = gears.table.join(
 		c:kill()
 	end, {description = "close", group = "client"}),
 
-	awful.key({ Modkey, "Shift" }, "space",  awful.client.floating.toggle                     ,
+	awful.key({ Modkey, "Shift" }, "space",
+		function(c)
+			awful.client.floating.toggle()
+			c:raise()
+		end,
 		{description = "toggle floating", group = "client"}),
 
 	awful.key({ Modkey }, "Return", function (c)
@@ -291,6 +293,14 @@ keys.clientbuttons = gears.table.join(
 	end),
 	awful.button({ Modkey }, 3, function (c)
 		c:emit_signal("request::activate", "mouse_click", {raise = true})
+		awful.mouse.client.resize(c)
+	end),
+	awful.button({ Modkey , "Shift" }, 3, function (c)
+		c:emit_signal("request::activate", "mouse_click", {raise = true})
+		if (c.floating == false) then
+			c.floating = true
+		end
+
 		awful.mouse.client.resize(c)
 	end)
 )
