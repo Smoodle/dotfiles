@@ -1,6 +1,7 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
+local beautiful = require("beautiful")
 
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
@@ -65,8 +66,7 @@ local power_menu = awful.popup {
 				poweroff_widget,
 				restart_widget,
 				logout_widget,
-				layout = wibox.layout.flex.horizontal,
-				expand = "none",
+				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(40)
 			},
 			nil,
@@ -79,6 +79,8 @@ local power_menu = awful.popup {
 	},
 	placement    = awful.placement.centered,
 	shape        = gears.shape.rounded_rect,
+	border_color = beautiful.bg_focus,
+    border_width = dpi(1),
 	visible      = false,
 	ontop = true,
 }
