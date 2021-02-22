@@ -202,6 +202,7 @@
 #    summary = "*script*"
 #    script = dunst_test.sh
 
-[brave]
-	summary = "Brave*"
-	format = ""
+#[ignore]
+## This notification will not be displayed
+#    summary = "foobar"
+#    format = ""
