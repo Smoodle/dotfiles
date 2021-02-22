@@ -2,13 +2,13 @@
 
 if ! command -v maim &> /dev/null
 then
-    notify-send -u critical -a Error "Maim is not installed! Aborting."
-    exit
+	notify-send -u critical -a Error "Maim is not installed! Aborting."
+	exit
 fi
 
 cmd_list="select (copy)\nwindow (copy)\nscreen (copy)\nall (copy)\nselect"
 
-cmd="$(echo -e $cmd_list | dmenu -p "Screenshot")"
+cmd="$(echo -e $cmd_list | rofi -dmenu -p "Screenshot")"
 
 [[ -z $cmd ]] && exit 1;
 
@@ -16,40 +16,40 @@ sleep 0.1
 
 if [[ $cmd = "select (copy)" ]]; then
 	sleep 0.1
-    maim -u -s | xclip -selection clipboard -t image/png
+	maim -u -s | xclip -selection clipboard -t image/png
 elif [[ $cmd = "window (copy)" ]]; then
 	sleep 0.1
-    maim -u -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+	maim -u -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 elif [[ $cmd = "screen (copy)" ]]; then
-    MONITORS=$(xrandr | grep -o '[0-9]*x[0-9]*[+-][0-9]*[+-][0-9]*')
-    # Get the location of the mouse
-    XMOUSE=$(xdotool getmouselocation | awk -F "[: ]" '{print $2}')
-    YMOUSE=$(xdotool getmouselocation | awk -F "[: ]" '{print $4}')
+	MONITORS=$(xrandr | grep -o '[0-9]*x[0-9]*[+-][0-9]*[+-][0-9]*')
+	# Get the location of the mouse
+	XMOUSE=$(xdotool getmouselocation | awk -F "[: ]" '{print $2}')
+	YMOUSE=$(xdotool getmouselocation | awk -F "[: ]" '{print $4}')
 
-    for mon in ${MONITORS}; do
-        # Parse the geometry of the monitor
-        MONW=$(echo ${mon} | awk -F "[x+]" '{print $1}')
-        MONH=$(echo ${mon} | awk -F "[x+]" '{print $2}')
-        MONX=$(echo ${mon} | awk -F "[x+]" '{print $3}')
-        MONY=$(echo ${mon} | awk -F "[x+]" '{print $4}')
-        # Use a simple collision check
-        if (( ${XMOUSE} >= ${MONX} )); then
-            if (( ${XMOUSE} <= ${MONX}+${MONW} )); then
-                if (( ${YMOUSE} >= ${MONY} )); then
-                    if (( ${YMOUSE} <= ${MONY}+${MONH} )); then
-                        # We have found our monitor!
+	for mon in ${MONITORS}; do
+		# Parse the geometry of the monitor
+		MONW=$(echo ${mon} | awk -F "[x+]" '{print $1}')
+		MONH=$(echo ${mon} | awk -F "[x+]" '{print $2}')
+		MONX=$(echo ${mon} | awk -F "[x+]" '{print $3}')
+		MONY=$(echo ${mon} | awk -F "[x+]" '{print $4}')
+		# Use a simple collision check
+		if (( ${XMOUSE} >= ${MONX} )); then
+			if (( ${XMOUSE} <= ${MONX}+${MONW} )); then
+				if (( ${YMOUSE} >= ${MONY} )); then
+					if (( ${YMOUSE} <= ${MONY}+${MONH} )); then
+						# We have found our monitor!
 						sleep 0.1
-                        maim -u -g "${MONW}x${MONH}+${MONX}+${MONY}" | xclip -selection clipboard -t image/png
-                        exit 0
-                    fi
-                fi
-            fi
-        fi
-    done
+						maim -u -g "${MONW}x${MONH}+${MONX}+${MONY}" | xclip -selection clipboard -t image/png
+						exit 0
+					fi
+				fi
+			fi
+		fi
+	done
 elif [[ $cmd = "all (copy)" ]]; then
 	sleep 0.1
-    maim -u | xclip -selection clipboard -t image/png
+	maim -u | xclip -selection clipboard -t image/png
 elif [[ $cmd = "select" ]]; then
 	sleep 0.1
-    maim -u -s ~/Pictures/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png
+	maim -u -s ~/Pictures/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png
 fi
