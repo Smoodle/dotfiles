@@ -49,6 +49,9 @@ vmap <C-v> c<ESC>"+p
 imap <C-v> <ESC>"+pa
 nnoremap <silent> <leader>, :noh<cr>
 
+" Auto insert mode on terminal
+autocmd TermOpen * startinsert
+
 " Window keys
 function! WinMove(key)
 	let t:curwin = winnr()
