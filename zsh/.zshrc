@@ -67,18 +67,12 @@ ZSH_THEME="juanghurtado"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-ZSH_TMUX_AUTOSTART=false
-ZSH_TMUX_AUTOCONNECT=false
-ZSH_TMUX_AUTOQUIT=false
-ZSH_TMUX_FIXTERM=true
-ZSH_TMUX_UNICODE=true
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -111,6 +105,13 @@ source $ZSH/oh-my-zsh.sh
 #export BROWSER=firefox
 export EDITOR="nvim"                  # $EDITOR opens in terminal
 
+#Tmux alias
+alias t="tmux"
+alias ta="t a -t"
+alias tls="t ls"
+alias tn="t new -t"
+
+#General alias
 alias sudo="sudo "
 alias v=nvim
 alias vim=nvim
