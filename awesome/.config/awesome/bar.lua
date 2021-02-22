@@ -2,10 +2,11 @@ local gears = require("gears")
 local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
-local helpers = require("helpers")
 
 local tablet_widget = require("widgets/tablet")
 local updates = require("widgets/updates")
+local ram_widget = require("widgets/ram")
+local cpu_widget = require("widgets/cpu")
 
 local taglist_buttons = gears.table.join(
 	awful.button({}, 1, function(t) t:view_only() end),
@@ -17,7 +18,8 @@ local taglist_buttons = gears.table.join(
 	end)
 )
 
-local textclock = wibox.widget.textclock()
+local time_format = '<span color="'..beautiful.bg_focus..'">  </span>%a %b %d <span color="'..beautiful.bg_focus..'">  </span>%H:%M'
+local textclock = wibox.widget.textclock(time_format)
 
 -- load the widget code
 local calendar = require("widgets.calendar")
@@ -91,9 +93,11 @@ awful.screen.connect_for_each_screen(function(s)
 			--spacing = beautiful.bar_right_spacing,
 			{
 				layout = wibox.layout.fixed.horizontal,
-				--spacing = beautiful.bar_right_spacing,
+				spacing = beautiful.bar_right_spacing,
 				tablet_widget,
 				updates,
+				cpu_widget,
+				ram_widget,
 				textclock,
 				wibox.widget.systray(),
 			},

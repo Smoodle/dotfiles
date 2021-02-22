@@ -13,12 +13,13 @@ local config_path = gfs.get_configuration_dir()
 
 local theme = {}
 
-theme.font = "mononoki Nerd Font 10"
+theme.font = "mononoki Nerd Font 11"
 
-local main_bg_normal = "#161616"
-local main_bg_focus = "#e95678"
-local main_fg_normal = "#fdf0ed"
-local main_fg_focus = "#16161c"
+local main_bg_normal = "#282a36"
+local main_bg_focus = "#bd93f9"
+
+local main_fg_normal = "#f8f8f2"
+local main_fg_focus = "#44475a"
 
 theme.bg_normal = main_bg_normal
 theme.bg_focus = main_bg_focus
@@ -41,7 +42,7 @@ theme.border_marked = main_bg_focus
 
 theme.wibar_height = dpi(20)
 
-theme.bar_right_spacing = dpi(5)
+theme.bar_right_spacing = dpi(10)
 theme.systray_icon_spacing = dpi(7)
 
 -- There are other variable sets

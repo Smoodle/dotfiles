@@ -6,10 +6,10 @@ local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
 local tablet_widget = wibox.widget {
-    image = gears.filesystem.get_configuration_dir() .. "/widgets/tablet/icons/drawing-tablet.png",
-    resize = true,
-    widget = wibox.widget.imagebox,
-    visible = false
+	markup = '<span color="'..beautiful.bg_focus..'">淋 </span>',
+	align = 'center',
+	widget = wibox.widget.textbox,
+	visible = false
 }
 
 local tablet_mode = wibox.widget {

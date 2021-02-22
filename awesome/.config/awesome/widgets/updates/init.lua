@@ -1,33 +1,30 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
+local beautiful = require("beautiful")
 
 local update_widget = wibox.widget {
-	image = "/home/smoodle/.config/awesome/widgets/updates/icons/update.png",
-	resize = true,
-	visible = false,
-	widget = wibox.widget.imagebox
+	markup = '',
+	align = 'center',
+	widget = wibox.widget.textbox
 }
 
 local function check_updates()
 	awful.spawn.easy_async({"sh", "-c", "checkupdates 2> /dev/null | wc -l"},
 		function (o)
-			if (tonumber(o) > 0)
-			then
-				print(tonumber(o))
-				update_widget.visible = true
-			else
-				awful.spawn.easy_async({"sh", "-c", "yay -Qum 2> /dev/null | wc -l"},
-					function (aur_o)
-						if (tonumber(aur_o) > 0)
-						then
-							update_widget.visible = true
-						else
-							update_widget.visible = false
+			local total = tonumber(o)
 
-						end
-					end)
-			end
+			awful.spawn.easy_async({"sh", "-c", "yay -Qum 2> /dev/null | wc -l"},
+				function (aur_o)
+					total = total + tonumber(aur_o)
+					if (total > 0)
+					then
+						update_widget.visible = true
+						update_widget.markup = '<span color="'..beautiful.bg_focus..'">  </span>' .. total
+					else
+						update_widget.visible = false
+					end
+				end)
 		end)
 end
 
