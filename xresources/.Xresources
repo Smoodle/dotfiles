@@ -1,3 +1,5 @@
+!Xft.dpi: 100
+
 ! special
 *.foreground:   #c7ccd1
 *.background:   #1c2023
