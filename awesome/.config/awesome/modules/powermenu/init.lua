@@ -80,7 +80,7 @@ local power_menu = awful.popup {
 	placement    = awful.placement.centered,
 	shape        = gears.shape.rounded_rect,
 	border_color = beautiful.bg_focus,
-    border_width = dpi(1),
+	border_width = dpi(1),
 	visible      = false,
 	ontop = true,
 }
