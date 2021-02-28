@@ -16,6 +16,8 @@ packadd packer.nvim
 lua require "init"
 
 " Main config
+set encoding=utf-8
+set hidden
 set completeopt=menu,menuone,noselect
 set shortmess+=c
 set splitbelow
@@ -30,6 +32,8 @@ set autoread
 set nu rnu
 set mouse=a
 set title
+set cmdheight=2
+set updatetime=300
 
 syntax enable
 set termguicolors
@@ -84,13 +88,9 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <Leader>b :lua require'telescope.builtin'.buffers { show_all_buffers = true }<cr>
 
-
 " Dashboard
 let g:dashboard_default_executive = 'telescope'
 autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2
-
-let bufferline = {}
-let bufferline.clickable = v:true
 
 " Vim Pandoc
 let g:pandoc#command#autoexec_command = "Pandoc! pdf"

@@ -115,4 +115,5 @@ alias tn="t new -t"
 alias sudo="sudo "
 alias v=nvim
 alias vim=nvim
+alias emacs="emacsclient -c"
 alias neofetch="neofetch --w3m $(cat ~/.cache/wal/wal)"

@@ -2,18 +2,16 @@ local packer = require('packer')
 local use = packer.use
 
 packer.init()
+use {'wbthomason/packer.nvim', opt = true}
 
 use {
 	'glepnir/galaxyline.nvim',
 	branch = 'main',
 	requires = {'kyazdani42/nvim-web-devicons', opt = true}
 }
-
-use {'wbthomason/packer.nvim', opt = true}
 use {'preservim/nerdtree',
 	requires = { 'ryanoasis/vim-devicons'}
 }
-use {'neovim/nvim-lspconfig'}
 use {'vim-pandoc/vim-pandoc-syntax'}
 use {'vim-pandoc/vim-pandoc'}
 use {'tpope/vim-surround'}
@@ -27,12 +25,12 @@ use {
 use {'nvim-treesitter/nvim-treesitter',
 	config = function()
 		require'nvim-treesitter.configs'.setup {
-			ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+			ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 			highlight = {
 				enable = true,              -- false will disable the whole extension
 			},
 			indent = {
-				enable = true
+				enable = false
 			}
 		}
 	end}
@@ -40,15 +38,13 @@ use {'nvim-treesitter/nvim-treesitter',
 use {'sainnhe/sonokai'}
 use {'glepnir/zephyr-nvim'}
 
+use {'neovim/nvim-lspconfig'}
 use {
 	'Shougo/deoplete.nvim',
 	run = ':UpdateRemotePlugins',
 }
-
 use {'Shougo/deoplete-lsp'}
 
-use {'romgrk/barbar.nvim',
-	requires = { 'kyazdani42/nvim-web-devicons'}
-}
+use {'junegunn/goyo.vim'}
 
 packer.compile('~/.config/nvim/plugin/packer_load.vim')
