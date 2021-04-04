@@ -14,7 +14,7 @@ local function check_updates()
 		function (o)
 			local total = tonumber(o)
 
-			awful.spawn.easy_async({"sh", "-c", "yay -Qum 2> /dev/null | wc -l"},
+			awful.spawn.easy_async({"sh", "-c", "paru -Qum 2> /dev/null | wc -l"},
 				function (aur_o)
 					total = total + tonumber(aur_o)
 					if (total > 0)

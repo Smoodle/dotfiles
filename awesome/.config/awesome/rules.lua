@@ -1,4 +1,6 @@
 local awful = require("awful")
+local ruled = require("ruled")
+local naughty = require("naughty")
 local beautiful = require("beautiful")
 
 awful.rules.rules = {
@@ -29,8 +31,8 @@ awful.rules.rules = {
 				"pinentry"
 			},
 			class = {
-				"Arandr", "Blueman-manager", "Gpick", "Kruler", "MessageWin", -- kalarm.
-				"Sxiv", "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
+				"Blueman-manager", "Gpick", "Kruler", "MessageWin", -- kalarm.
+				"Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
 				"Wpa_gui", "veromix", "xtightvncviewer"
 			},
 
@@ -48,13 +50,19 @@ awful.rules.rules = {
 		properties = {
 			floating = true
 		}
-	}, -- Add titlebars to normal clients and dialogs
+	},
 	{
 		rule_any = {type = {"normal", "dialog"}},
 		properties = { titlebars_enabled = false
 		}
 	},
-	-- Set Firefox to always map on the tag named "2" on screen 1.
 	{ rule = { class = "Thunderbird" }, properties = { screen = 1, tag = "8" } },
 	{ rule = { class = "qBittorrent" }, properties = { screen = 1, tag = "9" } },
 }
+
+-- Remove brave notifications
+naughty.config.presets.brave = {callback = function() return false end}
+table.insert(naughty.config.mapping, {{appname = "brave-browser"}, naughty.config.presets.brave})
+table.insert(naughty.config.mapping, {{appname = "Brave-browser"}, naughty.config.presets.brave})
+table.insert(naughty.config.mapping, {{appname = "brave"}, naughty.config.presets.brave})
+table.insert(naughty.config.mapping, {{appname = "Brave"}, naughty.config.presets.brave})

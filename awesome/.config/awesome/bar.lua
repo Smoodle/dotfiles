@@ -5,8 +5,6 @@ local beautiful = require("beautiful")
 
 local tablet_widget = require("widgets/tablet")
 local updates = require("widgets/updates")
-local ram_widget = require("widgets/ram")
-local cpu_widget = require("widgets/cpu")
 
 local taglist_buttons = gears.table.join(
 	awful.button({}, 1, function(t) t:view_only() end),
@@ -36,18 +34,16 @@ textclock:connect_signal("button::press",
 		end
 	end)
 
--- local current_client = wibox.widget {
--- 	text = '',
--- 	widget = wibox.widget.textbox
--- }
---
--- client.connect_signal("focus", function (c)
--- 	current_client.text = c.name or ''
--- end)
---
--- client.connect_signal("unfocus", function ()
--- 	current_client.text = ''
--- end)
+
+	local song_text = wibox.widget {
+		markup = '',
+		widget = wibox.widget.textbox,
+	}
+
+	awesome.connect_signal("signals::spotify", function(value)
+		song_text.markup = value
+	end)
+
 
 awful.screen.connect_for_each_screen(function(s)
 	-- Each screen has its own tag table.
@@ -70,11 +66,28 @@ awful.screen.connect_for_each_screen(function(s)
 	-- Create a taglist widget
 	s.mytaglist = awful.widget.taglist {
 		screen = s,
-		filter = awful.widget.taglist.filter.all,
+		--filter = awful.widget.taglist.filter.all,
+		filter = function (t) return t.selected or #t:clients() > 0 end,
 		buttons = taglist_buttons,
 	}
 	-- Create the wibox
 	s.mywibox = awful.wibar({position = "top", screen = s})
+
+	s.mytasklist = awful.widget.tasklist {
+		screen   = s,
+		filter   = awful.widget.tasklist.filter.focused,
+		style    = {
+			fg_focus = beautiful.bg_focus,
+			bg_focus = beautiful.bg_normal,
+		},
+		widget_template = {
+				{
+					id     = 'text_role',
+					widget = wibox.widget.textbox,
+				},
+				layout = wibox.layout.fixed.horizontal,
+		},
+	}
 
 	-- Add widgets to the wibox
 	s.mywibox:setup{
@@ -84,10 +97,11 @@ awful.screen.connect_for_each_screen(function(s)
 			layout = wibox.layout.fixed.horizontal,
 			s.mytaglist,
 			s.mylayoutbox,
+			song_text,
 			--current_client,
 			s.mypromptbox,
 		},
-		nil,
+		s.mytasklist,
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
 			--spacing = beautiful.bar_right_spacing,
@@ -96,8 +110,6 @@ awful.screen.connect_for_each_screen(function(s)
 				spacing = beautiful.bar_right_spacing,
 				tablet_widget,
 				updates,
-				cpu_widget,
-				ram_widget,
 				textclock,
 				wibox.widget.systray(),
 			},

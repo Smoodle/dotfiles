@@ -33,9 +33,9 @@ theme.fg_urgent = theme.fg_normal
 theme.fg_minimize = theme.fg_normal
 
 theme.border_radius = dpi(10)
-theme.useless_gap = dpi(8)
+theme.useless_gap = dpi(3)
 theme.gap_single_client = false
-theme.border_width = dpi(1)
+theme.border_width = dpi(2)
 theme.border_normal = main_bg_normal
 theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
@@ -78,7 +78,7 @@ theme.taglist_spacing = dpi(6)
 theme.notification_max_width = dpi(400)
 theme.notification_icon_size = dpi(100)
 theme.notification_shape = shape.rounded_rect
-theme.notification_opacity = 0.80
+theme.notification_opacity = 1
 theme.notification_margin = dpi(50)
 
 -- Variables set for theming the menu:

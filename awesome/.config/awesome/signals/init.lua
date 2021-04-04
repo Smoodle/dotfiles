@@ -1,3 +1,7 @@
+require("signals.cpu")
+require("signals.ram")
+--require("signals.spotify")
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 

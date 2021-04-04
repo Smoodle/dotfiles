@@ -2,8 +2,6 @@ local gears = require("gears")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local power_menu = require("modules.powermenu")
-
 require("awful.autofocus")
 
 local apps = require("apps")
@@ -53,11 +51,6 @@ keys.globalkeys = gears.table.join(
 		{description = "open a terminal", group = "launcher"}),
 	awful.key({ Modkey, "Control" }, "r", awesome.restart,
 		{description = "reload awesome", group = "awesome"}),
-	awful.key({ Modkey, "Shift"   }, "q", function ()
-		power_menu.toggle_power_menu()
-	end,
-		{description = "quit awesome", group = "awesome"}),
-
 	awful.key({ Modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
 		{description = "increase master width factor", group = "layout"}),
 	awful.key({ Modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
@@ -191,7 +184,10 @@ keys.globalkeys = gears.table.join(
 		{description = "show the menubar", group = "launcher"}),
 
 	awful.key({ Modkey }, "w", function() Menu:toggle() end,
-		{description = "show the menu", group = "launcher"})
+		{description = "show the menu", group = "launcher"}),
+
+	awful.key({ Modkey, "Shift" }, "q", function() Sidebar_toggle() end,
+		{description = "toggle side bar", group = "launcher"})
 )
 
 keys.clientkeys = gears.table.join(
