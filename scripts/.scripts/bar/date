@@ -8,4 +8,4 @@ if [ -z $ICON ] || [ -z $FOREGROUND ]; then
 fi
 
 date="$(date "+%d-%m-%y %H:%M")"
-echo -ne "^c${FOREGROUND}^${date} "
+printf "^c%s^%s " "$FOREGROUND" "$date"

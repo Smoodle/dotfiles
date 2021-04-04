@@ -22,4 +22,4 @@ songArtist="$(playerctl -p $playerName metadata artist)"
 songInfo="$songTitle - $songArtist $songStatus";
 
 #Display output
-echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${songInfo} ";
+printf " ^c${ICON}^  ^c${FOREGROUND}^${songInfo} ";

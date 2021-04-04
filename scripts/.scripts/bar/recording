@@ -16,7 +16,7 @@ if [ -z $ICON ] || [ -z $FOREGROUND ]; then
 fi
 
 if [ -z "$RECORDING_PID" ]; then
-	echo -ne " ^c${ICON}^雷 ^c${FOREGROUND}^Not Recording  "
+	printf " ^c${ICON}^雷 ^c${FOREGROUND}^Not Recording  "
 else
-	echo -ne " ^c${ICON}^壘 ^c${FOREGROUND}^Recording  "
+	printf " ^c${ICON}^壘 ^c${FOREGROUND}^Recording  "
 fi

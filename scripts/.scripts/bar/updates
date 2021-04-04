@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # First check internet connection to not get stuck
 ping -c 1 8.8.8.8 > /dev/null 2>&1
@@ -19,10 +19,10 @@ if ! updates_arch=$(checkupdates 2> /dev/null | wc -l ); then
     updates_arch=0
 fi
 
-if ! updates_aur=$(yay -Qum 2> /dev/null | wc -l); then
+if ! updates_aur=$(paru -Qum 2> /dev/null | wc -l); then
     updates_aur=0
 fi
 
 updates=$(("$updates_arch" + "$updates_aur"))
 
-[[ "$updates" -gt 0 ]] && echo -ne " ^c${ICON}^  ^c${FOREGROUND}^${updates}  "
+[[ "$updates" -gt 0 ]] && echo " ^c${ICON}^ ^c${FOREGROUND}^${updates} "

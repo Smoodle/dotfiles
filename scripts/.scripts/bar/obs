@@ -9,7 +9,4 @@ fi
 
 
 if $(pidof /usr/bin/obs-ffmpeg-mux > /dev/null); then
-    echo -ne "^c${ICON}^雷^c${FOREGROUND}^Rec"
-else
-    echo -ne ""
-fi
+    echo " ^c${ICON}^雷^c${FOREGROUND}^Rec "

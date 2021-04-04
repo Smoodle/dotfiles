@@ -9,4 +9,4 @@ fi
 
 disk=$(df -h $DISK | grep /dev/sda | tr -d % | awk '{print $5}')
 
-[[ "$disk" -gt 80 ]] && echo -ne " ^c${ICON}^ ^c${FOREGROUND}^${disk} "
+[[ "$disk" -gt 80 ]] && printf " ^c${ICON}^ ^c${FOREGROUND}^${disk} "

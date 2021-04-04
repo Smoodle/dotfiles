@@ -9,4 +9,4 @@ fi
 
 mem=$(free | grep Mem | awk '{printf("%.2f%"), $3/$2 * 100.0}')
 
-echo -ne " ^c${ICON}^﬙ ^c${FOREGROUND}^${mem}  "
+echo " ^c${ICON}^﬙ ^c${FOREGROUND}^$mem "

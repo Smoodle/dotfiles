@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
 FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
 
@@ -7,6 +7,10 @@ if [ -z $ICON ] || [ -z $FOREGROUND ]; then
     FOREGROUND="#ffffff"
 fi
 
-date="$(date "+%d-%m-%y, %a")"
-time="$(date "+%H:%M")"
-printf " ^c${ICON}^ ^c${FOREGROUND}^$date ^c${ICON}^ ^c${FOREGROUND}^$time "
+if [ "$(mullvad status)" == "Tunnel status: Disconnected" ]; then
+	echo " ^c$ICON^ ^c$FOREGROUND^"
+else
+	echo " ^c$ICON^^c$FOREGROUND^ "
+fi
+
+

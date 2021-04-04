@@ -10,4 +10,4 @@ fi
 
 volume=$(pamixer --get-volume)
 
-echo -ne " ^c${ICON}^墳 ^c${FOREGROUND}^$volume  "
+echo " ^c${ICON}^墳 ^c${FOREGROUND}^$volume "
