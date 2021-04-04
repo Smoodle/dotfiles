@@ -1,4 +1,4 @@
-pfetch
+#pfetch
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -113,7 +113,7 @@ alias tn="t new -t"
 
 #General alias
 alias sudo="sudo "
+alias gldl="gallery-dl -d ~/Misc/gallery-dl"
 alias v=nvim
 alias vim=nvim
-alias emacs="emacsclient -c"
-alias neofetch="neofetch --w3m $(cat ~/.cache/wal/wal)"
+#alias neofetch="neofetch --w3m $(cat ~/.cache/wal/wal)"
