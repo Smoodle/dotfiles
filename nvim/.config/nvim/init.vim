@@ -1,4 +1,5 @@
 " Auto install packer
+
 lua << EOF
 local execute = vim.api.nvim_command
 local fn = vim.fn
@@ -18,7 +19,7 @@ lua require "init"
 " Main config
 set encoding=utf-8
 set hidden
-set completeopt=menu,menuone,noselect
+set completeopt=menuone,noselect
 set shortmess+=c
 set splitbelow
 set splitright
@@ -34,10 +35,11 @@ set mouse=a
 set title
 set cmdheight=2
 set updatetime=300
+set scrolloff=5
 
 syntax enable
 set termguicolors
-colorscheme zephyr
+colorscheme sonokai
 
 set tabstop=4
 set shiftwidth=4
@@ -113,8 +115,18 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#lsp#use_icons_for_candidates = v:true
-let g:deoplete#lsp#handler_enabled = v:true
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+lua << EOF
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = false,
+    underline = true,
+    signs = true,
+  }
+)
+vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
+vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
+EOF
