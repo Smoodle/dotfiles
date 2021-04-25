@@ -114,6 +114,7 @@ alias tn="t new -t"
 #General alias
 alias sudo="sudo "
 alias gldl="gallery-dl -d ~/Misc/gallery-dl"
+alias emacs="emacsclient -c"
 alias v=nvim
 alias vim=nvim
 #alias neofetch="neofetch --w3m $(cat ~/.cache/wal/wal)"
