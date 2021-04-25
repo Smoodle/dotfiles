@@ -10,6 +10,8 @@ use {
 	requires = {'kyazdani42/nvim-web-devicons', opt = true}
 }
 
+use { 'jalvesaq/Nvim-R', branch = 'stable' }
+
 use {'preservim/nerdtree',
 	requires = { 'ryanoasis/vim-devicons'}
 }
@@ -68,12 +70,6 @@ use {'hrsh7th/nvim-compe',
 			};
 		}
 	end}
-
---use {
---	'Shougo/deoplete.nvim',
---	run = ':UpdateRemotePlugins',
---}
---use {'Shougo/deoplete-lsp'}
 
 use {'junegunn/goyo.vim'}
 
