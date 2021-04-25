@@ -1,8 +1,8 @@
 * {
-  bg: #161616;
-  bg-alt: #20212C;
-  fg: #fdf0ed;
-  fg-alt: #5D5E72;
+  bg: #1d1f21;
+  bg-alt: #969896;
+  fg: #ffffff;
+  fg-alt: #ffffff;
 
   background-color: @bg;
   border: 0;
