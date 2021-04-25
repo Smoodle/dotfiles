@@ -1,8 +1,9 @@
 local apps = {
-	terminal = "st",
+	terminal = "kitty",
 	launcher = "rofi -show drun",
 	file_manager = "pcmanfm",
-	screenshot = "sh -c ~/.scripts/screenshot"
+	screenshot = "sh -c ~/.scripts/screenshot",
+	vpn = "mullvad-vpn"
 }
 
 return apps
