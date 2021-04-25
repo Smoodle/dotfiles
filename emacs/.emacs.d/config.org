@@ -24,7 +24,7 @@
 
    Set inital buffer
    #+BEGIN_SRC emacs-lisp
-	 (setq initial-buffer-choice '(lambda () (get-buffer dashboard-buffer-name)))
+	 (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
    #+END_SRC
 
    Disable automatic creation of backup files
@@ -196,7 +196,7 @@
 
 ** Font
    #+begin_src emacs-lisp
-	 (set-face-attribute 'default nil :font "Hack Nerd Font" :height 160)
+	 (set-face-attribute 'default nil :font "Hack Nerd Font" :height 120)
    #+end_src
 
 ** All the icons
@@ -216,7 +216,7 @@
 	 (use-package dashboard
 	   :custom
 											 ;(dashboard-banner-logo-title "[M E G U M A C S]")
-	   (dashboard-startup-banner (expand-file-name "banners/megumacs.png" user-emacs-directory))
+	   (dashboard-startup-banner (expand-file-name "megumin_emacs.png" user-emacs-directory))
 	   (dashboard-footer-messages '("EXPLOOOOOOOOOOSIONNN!"))
 	   (dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
 	   (dashboard-center-content t)
@@ -239,6 +239,16 @@
 	   (dashboard-setup-startup-hook))
    #+end_src
 
+* TreeSitter
+  #+BEGIN_SRC emacs-lisp
+	(use-package tree-sitter
+	  :ensure t
+	  :hook ((c-mode python-mode) . tree-sitter-hl-mode))
+
+	(use-package tree-sitter-langs
+	  :ensure t
+	  :after tree-sitter)
+  #+END_SRC
 * Async
   Enable async
   #+BEGIN_SRC emacs-lisp
@@ -247,6 +257,7 @@
 		:init
 		(dired-async-mode 1))
   #+END_SRC
+
 * Magit
 ** magit
    #+begin_src emacs-lisp
@@ -310,6 +321,17 @@
 	   :config
 	   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
    #+end_src
+
+* R
+  #+BEGIN_SRC emacs-lisp
+	(use-package ess
+	  :ensure t
+	  :config
+	  (setq ess-fancy-comments nil))
+
+	(use-package poly-R
+	  :ensure t)
+  #+END_SRC
 
 * Which key
 ** which-key
