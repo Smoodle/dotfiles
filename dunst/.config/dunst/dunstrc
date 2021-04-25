@@ -195,6 +195,7 @@
 #    summary = "*script*"
 #    script = dunst_test.sh
 
-[brave-ignore]
-	desktop_entry = "brave-browser"
-    format = ""
+#[ignore]
+## This notification will not be displayed
+#    summary = "foobar"
+#    format = ""
