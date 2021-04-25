@@ -1,7 +1,8 @@
 local awful = require("awful")
-local ruled = require("ruled")
 local naughty = require("naughty")
 local beautiful = require("beautiful")
+local ruled = require("ruled")
+local helpers = require("helpers")
 
 awful.rules.rules = {
 	-- All clients will match this rule.
@@ -60,9 +61,23 @@ awful.rules.rules = {
 	{ rule = { class = "qBittorrent" }, properties = { screen = 1, tag = "9" } },
 }
 
--- Remove brave notifications
-naughty.config.presets.brave = {callback = function() return false end}
-table.insert(naughty.config.mapping, {{appname = "brave-browser"}, naughty.config.presets.brave})
-table.insert(naughty.config.mapping, {{appname = "Brave-browser"}, naughty.config.presets.brave})
-table.insert(naughty.config.mapping, {{appname = "brave"}, naughty.config.presets.brave})
-table.insert(naughty.config.mapping, {{appname = "Brave"}, naughty.config.presets.brave})
+ruled.notification.connect_signal('request::rules', function() ruled.notification.append_rule {
+	rule_any = {
+		app_name = {
+			"brave-browser",
+			"Brave-browser",
+			"brave",
+			"Brave"
+		},
+		has_class = {
+			"brave-browser",
+			"Brave-browser",
+			"brave",
+			"Brave"
+		}
+	},
+	properties = {
+		ignore = true
+	}
+}
+end)
