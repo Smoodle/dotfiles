@@ -1,16 +1,21 @@
-#! /bin/bash
+#! /bin/sh
+# check if can run
+APPPID=$(pgrep -x mullvad-vpn)
+
+if [ -z "$APPPID" ]; then
+	exit
+fi
+
 ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
 FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
 
 if [ -z $ICON ] || [ -z $FOREGROUND ]; then
-    ICON="#ffffff"
-    FOREGROUND="#ffffff"
+	ICON="#ffffff"
+	FOREGROUND="#ffffff"
 fi
 
-if [ "$(mullvad status)" == "Tunnel status: Disconnected" ]; then
-	echo " ^c$ICON^ ^c$FOREGROUND^"
+if [ "$(mullvad status)" = "Tunnel status: Disconnected" ]; then
+	echo " ^c$ICON^ ^c$FOREGROUND^ "
 else
 	echo " ^c$ICON^^c$FOREGROUND^ "
 fi
-
-

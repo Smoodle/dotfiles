@@ -4,12 +4,12 @@ RESULT=$(echo -e "Output\nSmall\nReset\n" | dmenu -i -p "Tablet Mode:")
 
 case $RESULT in
 	"Output")
-		sh ~/.scripts/tablet/map_to_output.sh
+		bash ~/.scripts/tablet/map_to_output.sh
 		;;
 	"Small")
-		sh ~/.scripts/tablet/reset_wacom.sh
+		bash ~/.scripts/tablet/reset_wacom.sh
 		;;
 	"Reset")
-		sh ~/.scripts/tablet/reset_wacom.sh
+		bash ~/.scripts/tablet/reset_wacom.sh
 		;;
 esac

@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 if [[ -z "$1" ]]; then
     echo "No wallpaper given"
@@ -9,12 +9,12 @@ fi
 wal -b "#161616" --saturate 0.4 -i "$1"
 
 # Generate new GTK theme
-oomox-cli -o Custom ~/.cache/wal/colors-oomox
+#oomox-cli -o Custom ~/.cache/wal/colors-oomox
 
 # Change dunst them
-sh ~/.scripts/dunst_xr_theme_changer.sh
-killall dunst
-dunst -conf $HOME/.config/dunst/dunstrc_xr_colors &
+#sh ~/.scripts/dunst_xr_theme_changer.sh
+#killall dunst
+#dunst -conf $HOME/.config/dunst/dunstrc_xr_colors &
 
 # Reset dwm colors
 xsetroot -name "fsignal:1"
