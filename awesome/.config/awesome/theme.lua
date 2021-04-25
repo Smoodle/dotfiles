@@ -7,6 +7,10 @@ local gears = require("gears")
 local dpi = xresources.apply_dpi
 local shape = gears.shape
 
+local helpers = require("helpers")
+
+local xresources_theme = xresources.get_current_theme()
+
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 local config_path = gfs.get_configuration_dir()
@@ -15,11 +19,11 @@ local theme = {}
 
 theme.font = "mononoki Nerd Font 11"
 
-local main_bg_normal = "#282a36"
-local main_bg_focus = "#bd93f9"
+local main_bg_normal = xresources_theme.background or "#282a36"
+local main_bg_focus = xresources_theme.color12 or "#bd93f9"
 
-local main_fg_normal = "#f8f8f2"
-local main_fg_focus = "#44475a"
+local main_fg_normal = xresources_theme.foreground or "#f8f8f2"
+local main_fg_focus = xresources_theme.background or "#44475a"
 
 theme.bg_normal = main_bg_normal
 theme.bg_focus = main_bg_focus

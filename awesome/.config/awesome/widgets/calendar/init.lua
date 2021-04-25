@@ -13,7 +13,6 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local gears = require("gears")
 local naughty = require("naughty")
-local theme = require("theme")
 
 local calendar_widget = {}
 
@@ -71,14 +70,14 @@ local function worker(args)
 			border = '#75715E'
 		},
 		theme = {
-			bg = theme.bg_normal,
-			fg = theme.fg_normal,
-			focus_date_bg = theme.bg_focus,
-			focus_date_fg = theme.fg_focus,
-			weekend_day_bg = theme.bg_urgent,
-			weekday_fg = theme.fg_urgent,
-			header_fg = theme.fg_normal,
-			border = theme.bg_focus
+			bg = beautiful.bg_normal,
+			fg = beautiful.fg_normal,
+			focus_date_bg = beautiful.bg_focus,
+			focus_date_fg = beautiful.fg_focus,
+			weekend_day_bg = beautiful.bg_urgent,
+			weekday_fg = beautiful.fg_urgent,
+			header_fg = beautiful.fg_normal,
+			border = beautiful.bg_focus
 		}
 	}
 
