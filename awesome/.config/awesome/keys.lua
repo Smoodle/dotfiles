@@ -144,6 +144,14 @@ keys.globalkeys = gears.table.join(
 	awful.key({}, "XF86AudioPrev", function()
 		awful.util.spawn("playerctl previous", false)
 	end),
+	-- Light keys
+	awful.key({}, "XF86MonBrightnessUp", function()
+		awful.util.spawn("xbacklight -inc 10", false)
+	end),
+
+	awful.key({}, "XF86MonBrightnessDown", function()
+		awful.util.spawn("xbacklight -dec 10", false)
+	end),
 
 	awful.key({ Modkey }, "+", function()
 		beautiful.useless_gap = beautiful.useless_gap + 1
