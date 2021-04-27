@@ -1,4 +1,5 @@
-#! /bin/sh
+#! /bin/bash
+
 # check if can run
 APPPID=$(pgrep -x mullvad-vpn)
 
