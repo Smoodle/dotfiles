@@ -450,6 +450,10 @@
 ** lsp
   #+begin_src emacs-lisp
 	(use-package lsp-mode
+	  :config
+	  ;; Set performance options
+	  (setq gc-cons-threshold 100000000)
+	  (setq read-process-output-max (* 1024 1024)) ;; 1mb
 	  :hook ((js-mode         . lsp-deferred)
 			 (typescript-mode . lsp-deferred)
 			 (shell-mode      . lsp-deferred)
