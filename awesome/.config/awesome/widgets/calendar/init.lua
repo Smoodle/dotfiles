@@ -241,6 +241,7 @@ local function worker(args)
 		calendar_widget.toggle()
 	end)
 
+
 	return calendar_widget
 
 end

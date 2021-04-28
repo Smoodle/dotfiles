@@ -2,6 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local gears = require("gears")
+local helpers = require("helpers")
 
 local bat = "BAT0"
 
@@ -9,8 +10,10 @@ local battery_widget = wibox.widget {
    markup = '<span color="'..beautiful.bg_focus..'">icon</span><span color="'.. beautiful.fg_normal ..'">Percentage</span>',
    align = "center",
    widget = wibox.widget.textbox,
-   visible = true
 }
+
+local main_widget = helpers.baseBar(battery_widget);
+main_widget.visible = false
 
 local icon = ""
 local value = ""
@@ -20,7 +23,7 @@ local function update_text()
 end
 
 local function toggle_widget()
-   battery_widget.visible = not battery_widget.visible
+   main_widget.visible = not main_widget.visible
 end
 
 gears.timer {
@@ -31,7 +34,7 @@ gears.timer {
 	  awful.spawn.easy_async({"sh", "-c", " [ -d /sys/class/power_supply/" .. bat .. "/ ] && echo 1"}, function(out)
 			if out == "1\n"
 			then
-			   if battery_widget.visible == false then
+			   if main_widget.visible == false then
 				  toggle_widget()
 			   end
 
@@ -51,7 +54,7 @@ gears.timer {
 
 			   end)
 			else
-			   if battery_widget.visible == true then
+			   if main_widget.visible == true then
 				  toggle_widget()
 			   end
 			end
@@ -59,4 +62,4 @@ gears.timer {
    end,
 }
 
-return battery_widget
+return main_widget

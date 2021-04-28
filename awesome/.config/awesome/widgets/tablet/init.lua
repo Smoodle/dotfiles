@@ -5,12 +5,17 @@ local gears = require("gears")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
+local helpers = require("helpers")
+
+
 local tablet_widget = wibox.widget {
 	markup = '<span color="'..beautiful.bg_focus..'">淋 </span>',
 	align = 'center',
 	widget = wibox.widget.textbox,
-	visible = false
 }
+
+local main_widget = helpers.baseBar(tablet_widget)
+main_widget.visible = false
 
 local tablet_mode = wibox.widget {
     {
@@ -135,13 +140,13 @@ gears.timer {
     callback = function()
         awful.spawn.easy_async({"sh", "-c", "xsetwacom --list devices | wc -l"}, function(out)
                 if(out == "0\n") then
-                    tablet_widget.visible = false
+                    main_widget.visible = false
                     popup.visible = false
                 else
-                    tablet_widget.visible = true
+                    main_widget.visible = true
                 end
             end)
         end
     }
 
-return tablet_widget;
+return main_widget

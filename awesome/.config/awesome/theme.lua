@@ -7,8 +7,6 @@ local gears = require("gears")
 local dpi = xresources.apply_dpi
 local shape = gears.shape
 
-local helpers = require("helpers")
-
 local xresources_theme = xresources.get_current_theme()
 
 local gfs = require("gears.filesystem")

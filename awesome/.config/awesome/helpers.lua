@@ -17,12 +17,12 @@ helpers.text = function(text)
 	}
 end
 
-helpers.basebar = function(child)
+helpers.baseBar = function(child)
 	return wibox.widget {
-		left = beautiful.bar_right_spacing / 2,
-		right = beautiful.bar_right_spacing / 2,
+		--left = beautiful.bar_right_spacing,
+		right = beautiful.bar_right_spacing,
 		widget = wibox.container.margin,
-		children = child
+		children = { child }
 	}
 end
 

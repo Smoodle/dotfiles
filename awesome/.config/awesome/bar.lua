@@ -3,6 +3,8 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
+local helpers = require("helpers")
+
 local tablet_widget = require("widgets/tablet")
 local updates = require("widgets/updates")
 
@@ -35,17 +37,6 @@ textclock:connect_signal("button::press",
 							   cw.toggle()
 							end
 end)
-
-
-local song_text = wibox.widget {
-   markup = '',
-   widget = wibox.widget.textbox,
-}
-
-awesome.connect_signal("signals::spotify", function(value)
-						  song_text.markup = value
-end)
-
 
 awful.screen.connect_for_each_screen(function(s)
 	  -- Each screen has its own tag table.
@@ -99,21 +90,18 @@ awful.screen.connect_for_each_screen(function(s)
 			layout = wibox.layout.fixed.horizontal,
 			s.mytaglist,
 			s.mylayoutbox,
-			song_text,
-			--current_client,
 			s.mypromptbox,
 		 },
 		 s.mytasklist,
 		 { -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
-			--spacing = beautiful.bar_right_spacing,
 			{
 			   layout = wibox.layout.fixed.horizontal,
-			   spacing = beautiful.bar_right_spacing,
+			   spacing = 0,
 			   battery,
 			   tablet_widget,
 			   updates,
-			   textclock,
+			   helpers.baseBar(textclock),
 			   wibox.widget.systray(),
 			},
 		 }

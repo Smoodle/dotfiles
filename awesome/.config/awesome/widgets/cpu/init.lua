@@ -1,6 +1,7 @@
 local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local helpers = require("helpers")
 
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
