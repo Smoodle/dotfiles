@@ -62,13 +62,12 @@ tag.connect_signal("request::default_layouts", function()
 	})
 end)
 
--- }}}
-
+-- External Modules
 require("bar")
 require("menu")
 require("modules.sidepanel")
 
--- {{{ Key bindings
+-- Key bindings
 local keys = require("keys")
 
 Globalkeys = keys.globalkeys
@@ -77,15 +76,12 @@ Clientbuttons = keys.clientbuttons
 
 -- Set keys
 root.keys(Globalkeys)
--- }}}
 
--- {{{ Rules
+-- Rules
 require("rules")
--- }}}
 
--- {{{ Signals
+-- Signals
 require("signals")
--- }}}
 
 -- Garbage collection
 collectgarbage("setpause", 110)

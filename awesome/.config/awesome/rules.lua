@@ -59,6 +59,14 @@ awful.rules.rules = {
 	},
 	{ rule = { class = "Thunderbird" }, properties = { screen = 1, tag = "8" } },
 	{ rule = { class = "qBittorrent" }, properties = { screen = 1, tag = "9" } },
+	{ rule = {
+		class = "jetbrains-studio",
+		name="^win[0-9]+$"
+	},
+	properties = {
+		placement = awful.placement.no_offscreen,
+		titlebars_enabled = false
+	}}
 }
 
 ruled.notification.connect_signal('request::rules', function() ruled.notification.append_rule {
