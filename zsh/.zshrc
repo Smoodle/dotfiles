@@ -105,6 +105,8 @@ source $ZSH/oh-my-zsh.sh
 #export BROWSER=firefox
 export EDITOR="nvim"                  # $EDITOR opens in terminal
 
+setopt HIST_IGNORE_SPACE
+
 #Tmux alias
 alias t="tmux"
 alias ta="t a -t"
