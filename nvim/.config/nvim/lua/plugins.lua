@@ -4,13 +4,13 @@ local use = packer.use
 packer.init()
 use {'wbthomason/packer.nvim', opt = true}
 
+use { 'sainnhe/edge' }
+
 use {
 	'glepnir/galaxyline.nvim',
 	branch = 'main',
 	requires = {'kyazdani42/nvim-web-devicons', opt = true}
 }
-
-use { 'jalvesaq/Nvim-R', branch = 'stable' }
 
 use {'preservim/nerdtree',
 	requires = { 'ryanoasis/vim-devicons'}
@@ -39,10 +39,24 @@ use {'nvim-treesitter/nvim-treesitter',
 		}
 	end}
 
+use {'davidgranstrom/nvim-markdown-preview'}
+
 use {'sainnhe/sonokai'}
 use {'glepnir/zephyr-nvim'}
 
 use {'neovim/nvim-lspconfig'}
+use {'RishabhRD/nvim-lsputils',
+	requires = {'RishabhRD/popfix'},
+	config = function()
+		vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+		vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+		vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+		vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+		vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+		vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+		vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+		vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+	end}
 
 use {'hrsh7th/nvim-compe',
 	config = function()
