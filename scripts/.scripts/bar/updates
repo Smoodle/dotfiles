@@ -15,7 +15,7 @@ if [ -z $ICON ] || [ -z $FOREGROUND ]; then
     FOREGROUND="#ffffff"
 fi
 
-if ! updates_arch=$(timeoit --preserve-status 5 checkupdates 2> /dev/null | wc -l ); then
+if ! updates_arch=$(timeout --preserve-status 5 checkupdates 2> /dev/null | wc -l ); then
     updates_arch=0
 fi
 

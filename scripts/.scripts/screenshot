@@ -8,7 +8,7 @@ fi
 
 cmd_list="select (copy)\nwindow (copy)\nscreen (copy)\nall (copy)\nselect"
 
-cmd="$(echo -e $cmd_list | rofi -dmenu -p "Screenshot")"
+cmd="$(echo -e "$cmd_list" | dmenu -p "Screenshot")"
 
 [[ -z $cmd ]] && exit 1;
 
@@ -19,7 +19,7 @@ if [[ $cmd = "select (copy)" ]]; then
 	maim -u -s | xclip -selection clipboard -t image/png
 elif [[ $cmd = "window (copy)" ]]; then
 	sleep 0.1
-	maim -u -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+	maim -u -i "$(xdotool getactivewindow)" | xclip -selection clipboard -t image/png
 elif [[ $cmd = "screen (copy)" ]]; then
 	MONITORS=$(xrandr | grep -o '[0-9]*x[0-9]*[+-][0-9]*[+-][0-9]*')
 	# Get the location of the mouse
@@ -28,10 +28,10 @@ elif [[ $cmd = "screen (copy)" ]]; then
 
 	for mon in ${MONITORS}; do
 		# Parse the geometry of the monitor
-		MONW=$(echo ${mon} | awk -F "[x+]" '{print $1}')
-		MONH=$(echo ${mon} | awk -F "[x+]" '{print $2}')
-		MONX=$(echo ${mon} | awk -F "[x+]" '{print $3}')
-		MONY=$(echo ${mon} | awk -F "[x+]" '{print $4}')
+		MONW=$(echo "${mon}" | awk -F "[x+]" '{print $1}')
+		MONH=$(echo "${mon}" | awk -F "[x+]" '{print $2}')
+		MONX=$(echo "${mon}" | awk -F "[x+]" '{print $3}')
+		MONY=$(echo "${mon}" | awk -F "[x+]" '{print $4}')
 		# Use a simple collision check
 		if (( ${XMOUSE} >= ${MONX} )); then
 			if (( ${XMOUSE} <= ${MONX}+${MONW} )); then
