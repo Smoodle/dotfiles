@@ -462,45 +462,41 @@
 * LSP
 ** lsp
   #+begin_src emacs-lisp
-	;;(use-package lsp-mode
-	;;  :config
-	;;  ;; Set performance options
-	;;  (setq gc-cons-threshold 100000000)
-	;;  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-	;;  :hook ((js-mode         . lsp-deferred)
-	;;		 (typescript-mode . lsp-deferred)
-	;;		 (shell-mode      . lsp-deferred)
-	;;		 (c-mode          . lsp-deferred)
-	;;		 (lua-mode        . lsp-deferred)
-	;;		 (python-mode     . lsp-deferred)
-	;;		 (sql-mode        . lsp-deferred))
-	;;  :commands (lsp lsp-deferred))
-	;;
-	;;(smoodle/leader-key
-	;;	"lF" 'lsp-format-buffer
-	;;	"lR" 'lsp-rename)
+	(use-package lsp-mode
+	  :config
+	  ;; Set performance options
+	  (setq gc-cons-threshold 100000000)
+	  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+	  :hook ((js-mode         . lsp-deferred)
+			 (typescript-mode . lsp-deferred)
+			 (shell-mode      . lsp-deferred)
+			 (c-mode          . lsp-deferred)
+			 (lua-mode        . lsp-deferred)
+			 (python-mode     . lsp-deferred)
+			 (sql-mode        . lsp-deferred))
+	  :commands (lsp lsp-deferred))
+
+	(smoodle/leader-key
+		"lF" 'lsp-format-buffer
+		"lR" 'lsp-rename)
   #+end_src
 
 ** lsp-ui
    #+begin_src emacs-lisp
-	 ;;(use-package lsp-ui
-	 ;;  :after lsp-mode
-	 ;;  :commands lsp-ui-mode
-	 ;;  :hook (lsp-mode . lsp-ui-mode))
-	 ;;
-	 ;;(smoodle/leader-key
-	 ;;  "l" '(nil :which-key "LSP")
-	 ;;  "li" 'lsp-ui-peek-find-implementation
-	 ;;  "lr" 'lsp-ui-peek-find-references
-	 ;;  "ld" 'lsp-ui-peek-find-definitions
-	 ;;  "ll" 'lsp-ui-flycheck-list
-	 ;;  "la" 'lsp-ui-sideline-apply-code-actions)
+	 (use-package lsp-ui
+	   :after lsp-mode
+	   :commands lsp-ui-mode
+	   :hook (lsp-mode . lsp-ui-mode))
+
+	 (smoodle/leader-key
+	   "l" '(nil :which-key "LSP")
+	   "li" 'lsp-ui-peek-find-implementation
+	   "lr" 'lsp-ui-peek-find-references
+	   "ld" 'lsp-ui-peek-find-definitions
+	   "ll" 'lsp-ui-flycheck-list
+	   "la" 'lsp-ui-sideline-apply-code-actions)
    #+end_src
 
-** eglot
-   #+BEGIN_SRC emacs-lisp
-	 (use-package eglot)
-   #+END_SRC
 
 * YaSnippet
 ** yasnippet
