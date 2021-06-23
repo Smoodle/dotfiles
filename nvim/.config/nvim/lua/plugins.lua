@@ -4,16 +4,20 @@ local use = packer.use
 packer.init()
 use {'wbthomason/packer.nvim', opt = true}
 
-use { 'sainnhe/edge' }
+use 'navarasu/onedark.nvim'
 
 use {
 	'glepnir/galaxyline.nvim',
 	branch = 'main',
-	requires = {'kyazdani42/nvim-web-devicons', opt = true}
+	requires = { 'kyazdani42/nvim-web-devicons' }
 }
 
-use {'preservim/nerdtree',
-	requires = { 'ryanoasis/vim-devicons'}
+use { 'romgrk/barbar.nvim',
+	requires = { 'kyazdani42/nvim-web-devicons' }
+}
+
+use { 'kyazdani42/nvim-tree.lua',
+	requires = { 'kyazdani42/nvim-web-devicons' }
 }
 
 use {'vim-pandoc/vim-pandoc-syntax'}
@@ -45,6 +49,7 @@ use {'sainnhe/sonokai'}
 use {'glepnir/zephyr-nvim'}
 
 use {'neovim/nvim-lspconfig'}
+
 use {'RishabhRD/nvim-lsputils',
 	requires = {'RishabhRD/popfix'},
 	config = function()
@@ -58,32 +63,12 @@ use {'RishabhRD/nvim-lsputils',
 		vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 	end}
 
-use {'hrsh7th/nvim-compe',
+use {'kosayoda/nvim-lightbulb',
 	config = function()
-		require'compe'.setup {
-			enabled = true;
-			autocomplete = true;
-			debug = false;
-			min_length = 1;
-			preselect = 'enable';
-			throttle_time = 80;
-			source_timeout = 200;
-			incomplete_delay = 400;
-			max_abbr_width = 100;
-			max_kind_width = 100;
-			max_menu_width = 100;
-			documentation = true;
-
-			source = {
-				path = true;
-				buffer = true;
-				calc = true;
-				nvim_lsp = true;
-				nvim_lua = true;
-				vsnip = true;
-			};
-		}
+		vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
 	end}
+
+use {'hrsh7th/nvim-compe'}
 
 use {'junegunn/goyo.vim'}
 
