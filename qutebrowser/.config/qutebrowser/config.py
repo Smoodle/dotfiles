@@ -35,6 +35,8 @@ config.unbind(';i')
 config.bind(';if', 'hint images')
 config.bind(';id', 'hint images download')
 
+config.bind(',b', 'spawn --userscript qute-bitwarden')
+
 # AdBlock
 c.content.blocking.method = 'adblock'
 
