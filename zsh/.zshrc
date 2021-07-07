@@ -107,6 +107,10 @@ export EDITOR="nvim"                  # $EDITOR opens in terminal
 
 setopt HIST_IGNORE_SPACE
 
+if [[ "$TERM" == "xterm-kitty" ]]; then
+  alias ssh="kitty +kitten ssh"
+fi
+
 #Tmux alias
 alias t="tmux"
 alias ta="t a -t"
