@@ -324,6 +324,8 @@
 	   :init
 	   (setq org-startup-folded t)
 	   (add-to-list 'org-file-apps '("\\.pdf\\'" . "zathura %s")))
+
+	 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
    #+end_src
 
 ** Org bullet
@@ -497,7 +499,6 @@
 	   "la" 'lsp-ui-sideline-apply-code-actions)
    #+end_src
 
-
 * YaSnippet
 ** yasnippet
    #+begin_src emacs-lisp
@@ -543,3 +544,9 @@
 		:init
 		(add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 	#+END_SRC
+
+** Lisp
+   Set lisp program
+   #+BEGIN_SRC emacs-lisp
+	 (setq inferior-lisp-program (executable-find "sbcl"))
+   #+END_SRC
