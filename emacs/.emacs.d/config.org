@@ -179,6 +179,7 @@
 	   (load-theme 'doom-horizon t)
 	   (doom-themes-treemacs-config))
    #+end_src
+
 ** Beacon
    #+BEGIN_SRC emacs-lisp
 	 (use-package beacon
@@ -186,6 +187,7 @@
 	   :config
 	   (beacon-mode 1))
    #+END_SRC
+
 ** Modeline
    #+begin_src emacs-lisp
 	 (use-package doom-modeline
@@ -222,7 +224,6 @@
    #+begin_src emacs-lisp
 	 (use-package dashboard
 	   :custom
-											 ;(dashboard-banner-logo-title "[M E G U M A C S]")
 	   (dashboard-startup-banner (expand-file-name "megumin_emacs.png" user-emacs-directory))
 	   (dashboard-footer-messages '("EXPLOOOOOOOOOOSIONNN!"))
 	   (dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
@@ -230,18 +231,6 @@
 	   (dashboard-set-heading-icons t)
 	   (dashboard-set-file-icons t)
 	   (dashboard-set-navigator t)
-	   ;; (dashboard-navigator-buttons
-	   ;;  `(((,(all-the-icons-octicon "octoface" :height 1.1 :v-adjust 0.0)
-	   ;; 	   "Homepage"
-	   ;; 	   "Browse homepage"
-	   ;; 	   (lambda (&rest _) (browse-url "https://github.com/0-l/megumacs")))
-	   ;; 	  (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
-	   ;; 	   "Update"
-	   ;; 	   "Update Megumacs"
-	   ;; 	   (lambda (&rest _) (update-packages)) warning)
-	   ;; 	  ("⚑" nil
-	   ;; 	   "Report BUG"
-	   ;; 	   (lambda (&rest _) (browse-url "https://github.com/0-l/megumacs/issues/new")) error))))
 	   :config
 	   (dashboard-setup-startup-hook))
    #+end_src
@@ -345,17 +334,6 @@
 	   (setq TeX-auto-save t))
    #+END_SRC
 
-* R
-  #+BEGIN_SRC emacs-lisp
-	(use-package ess
-	  :ensure t
-	  :config
-	  (setq ess-fancy-comments nil))
-
-	(use-package poly-R
-	  :ensure t)
-  #+END_SRC
-
 * Which key
 ** which-key
    #+begin_src emacs-lisp
@@ -386,7 +364,7 @@
 	 (use-package winum
 	   :custom
 	   (winum-auto-setup-mode-line nil)
-	   :config
+	   :init
 	   (winum-mode))
    #+end_src
 
@@ -514,10 +492,26 @@
    #+end_src
 
 * Programming
-** typescript
-   #+begin_src emacs-lisp
-	 (use-package typescript-mode)
-   #+end_src
+** Flymake
+*** ShellCheck
+	#+BEGIN_SRC emacs-lisp
+	  (use-package flymake-shellcheck
+		:ensure t
+		:commands flymake-shellcheck-load
+		:init
+		(add-hook 'sh-mode-hook 'flymake-shellcheck-load))
+	#+END_SRC
+
+** R
+   #+BEGIN_SRC emacs-lisp
+	 (use-package ess
+	   :ensure t
+	   :config
+	   (setq ess-fancy-comments nil))
+
+	 (use-package poly-R
+	   :ensure t)
+   #+END_SRC
 
 ** Markdown
    #+BEGIN_SRC emacs-lisp
@@ -534,6 +528,11 @@
 	 (use-package json-mode)
    #+end_src
 
+** typescript
+   #+begin_src emacs-lisp
+	 (use-package typescript-mode)
+   #+end_src
+
 ** lua
    #+begin_src emacs-lisp
 	 (use-package lua-mode)
@@ -543,16 +542,6 @@
    #+BEGIN_SRC emacs-lisp
 	 (use-package moonscript)
    #+END_SRC
-
-** Flymake
-*** ShellCheck
-	#+BEGIN_SRC emacs-lisp
-	  (use-package flymake-shellcheck
-		:ensure t
-		:commands flymake-shellcheck-load
-		:init
-		(add-hook 'sh-mode-hook 'flymake-shellcheck-load))
-	#+END_SRC
 
 ** Lisp
    Set lisp program
