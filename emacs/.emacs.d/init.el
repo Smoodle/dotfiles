@@ -29,10 +29,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-show-quick-access t nil nil "Customized with use-package company")
  '(custom-safe-themes
    '("27a1dd6378f3782a593cc83e108a35c2b93e5ecc3bd9057313e1d88462701fcd" "76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" default))
  '(package-selected-packages
-   '(lsp-ui lsp-mode auctex eglot beacon flymake-shellcheck tree-sitter-langs tree-sitter poly-R ess moe-theme moonscript moonscript-mode yasnippet lua-mode neotree undo-tree json-mode helpful ivy-rich rainbow-delimiters company-lsp lsp-mssql ox-twbs ox-twiki typescript-mode ivy winum projectile treemacs company org-bullets doom-modeline elcord which-key evil-collection evil-surround evil-magit evil use-package org-plus-contrib)))
+   '(company-box lsp-ui lsp-mode auctex eglot beacon flymake-shellcheck tree-sitter-langs tree-sitter poly-R ess moe-theme moonscript moonscript-mode yasnippet lua-mode neotree undo-tree json-mode helpful ivy-rich rainbow-delimiters company-lsp lsp-mssql ox-twbs ox-twiki typescript-mode ivy winum projectile treemacs company org-bullets doom-modeline elcord which-key evil-collection evil-surround evil-magit evil use-package org-plus-contrib)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

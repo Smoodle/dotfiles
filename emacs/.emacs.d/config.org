@@ -17,7 +17,7 @@
 	 (tooltip-mode 0)     ; Disable the tooltips
    #+end_src
 
-  Restore ESC functionality
+   Restore ESC functionality
    #+begin_src emacs-lisp
 	 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
    #+end_src
@@ -41,18 +41,18 @@
    New window switches
    #+BEGIN_SRC emacs-lisp
 	 (defun split-and-follow-horizontally ()
-		 (interactive)
-		 (split-window-below)
-		 (balance-windows)
-		 (other-window 1))
-	  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+	   (interactive)
+	   (split-window-below)
+	   (balance-windows)
+	   (other-window 1))
+	 (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
 
-	  (defun split-and-follow-vertically ()
-		 (interactive)
-		 (split-window-right)
-		 (balance-windows)
-		 (other-window 1))
-	  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+	 (defun split-and-follow-vertically ()
+	   (interactive)
+	   (split-window-right)
+	   (balance-windows)
+	   (other-window 1))
+	 (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
    #+END_SRC
 
    Highlight current line
@@ -62,61 +62,61 @@
 
    Always defer packages
    #+BEGIN_SRC emacs-lisp
-	 ;(setq use-package-always-defer t)
+											 ;(setq use-package-always-defer t)
    #+END_SRC
 
    General better defaults:
    #+begin_src emacs-lisp
-     (setq-default
-      ad-redefinition-action 'accept                   ; Silence warnings for redefinition
-      scroll-step 1                                    ; Better scroll
-      scroll-conservatively 10000                      ; Better scroll
-      auto-window-vscroll nil                          ; Lighten vertical scroll
-      confirm-kill-emacs 'y-or-n-p                     ; Confirm before exiting Emacs
-      cursor-in-non-selected-windows nil               ; Hide the cursor in inactive windows
-      delete-by-moving-to-trash t                      ; Delete files to trash
-      display-time-default-load-average nil            ; Don't display load average
-      display-time-format "%H:%M"                      ; Format the time string
-      fill-column 80                                   ; Set width for automatic line breaks
-      help-window-select t                             ; Focus new help windows when opened
-      indent-tabs-mode t                               ; Use tabs to indent
-      inhibit-startup-screen t                         ; Disable start-up screen
-      initial-scratch-message ""                       ; Empty the initial *scratch* buffer
-      mouse-yank-at-point t                            ; Yank at point rather than pointer
-      ns-use-srgb-colorspace nil                       ; Don't use sRGB colors
-      select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
-      sentence-end-double-space nil                    ; End a sentence after a dot and a space
-										     ;show-help-function nil                          ; Disable help messages
-      show-trailing-whitespace nil                       ; Display trailing whitespaces
-      split-height-threshold nil                       ; Disable vertical window splitting
-      split-width-threshold nil                        ; Disable horizontal window splitting
-      tab-width 4                                      ; Set width for tabs
-      uniquify-buffer-name-style 'forward              ; Uniquify buffer names
-      window-combination-resize t                      ; Resize windows proportionally
-      x-stretch-cursor t                               ; Stretch cursor to the glyph width
-      delete-old-versions -1                           ; Delete excess backup versions silently
-      version-control t                                ; Use version control
-      ring-bell-function 'ignore                       ; Silent bell when you make a mistake
-      inhibit-compacting-font-caches t                 ; Faster navigation point (costs more memory)
-      recentf-mode nil                                   ; Keep recent files
-      ;make-backup-files nil                            ; Stop creating backup files
-      display-line-numbers-type 'relative              ; Use relative line numbers
-      vc-follow-symlinks t)                            ; Don't ask for confirmation when opening symlinked file
+	 (setq-default
+	  ad-redefinition-action 'accept                   ; Silence warnings for redefinition
+	  scroll-step 1                                    ; Better scroll
+	  scroll-conservatively 10000                      ; Better scroll
+	  auto-window-vscroll nil                          ; Lighten vertical scroll
+	  confirm-kill-emacs 'y-or-n-p                     ; Confirm before exiting Emacs
+	  cursor-in-non-selected-windows nil               ; Hide the cursor in inactive windows
+	  delete-by-moving-to-trash t                      ; Delete files to trash
+	  display-time-default-load-average nil            ; Don't display load average
+	  display-time-format "%H:%M"                      ; Format the time string
+	  fill-column 80                                   ; Set width for automatic line breaks
+	  help-window-select t                             ; Focus new help windows when opened
+	  indent-tabs-mode t                               ; Use tabs to indent
+	  inhibit-startup-screen t                         ; Disable start-up screen
+	  initial-scratch-message ""                       ; Empty the initial *scratch* buffer
+	  mouse-yank-at-point t                            ; Yank at point rather than pointer
+	  ns-use-srgb-colorspace nil                       ; Don't use sRGB colors
+	  select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+	  sentence-end-double-space nil                    ; End a sentence after a dot and a space
+											 ;show-help-function nil                          ; Disable help messages
+	  show-trailing-whitespace nil                       ; Display trailing whitespaces
+	  split-height-threshold nil                       ; Disable vertical window splitting
+	  split-width-threshold nil                        ; Disable horizontal window splitting
+	  tab-width 4                                      ; Set width for tabs
+	  uniquify-buffer-name-style 'forward              ; Uniquify buffer names
+	  window-combination-resize t                      ; Resize windows proportionally
+	  x-stretch-cursor t                               ; Stretch cursor to the glyph width
+	  delete-old-versions -1                           ; Delete excess backup versions silently
+	  version-control t                                ; Use version control
+	  ring-bell-function 'ignore                       ; Silent bell when you make a mistake
+	  inhibit-compacting-font-caches t                 ; Faster navigation point (costs more memory)
+	  recentf-mode nil                                   ; Keep recent files
+											 ;make-backup-files nil                            ; Stop creating backup files
+	  display-line-numbers-type 'relative              ; Use relative line numbers
+	  vc-follow-symlinks t)                            ; Don't ask for confirmation when opening symlinked file
 
-     (cd "~/")                                         ; Move to the user directory
-     (global-display-line-numbers-mode t)              ; Enable line numbers globally
-     (delete-selection-mode 1)                         ; Replace region when inserting text
-     (display-time-mode 1)                             ; Enable time in the mode-line
-     (global-auto-revert-mode 1)                       ; Automatically revert a buffer when it changes on disk
-     (fringe-mode '(8 . 0))                            ; Enable fringe on the left for git-gutter-fringe+
-     (electric-pair-mode t)                            ; Enable Matching delimeters
-     (electric-indent-mode t)                          ; Auto indentation
-     (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
-     (global-subword-mode 1)                           ; Iterate through CamelCase words
-     (menu-bar-mode 0)                                 ; Disable the menu bar
-     (mouse-avoidance-mode 'jump)                      ; Avoid collision of mouse with point
-     (put 'downcase-region 'disabled nil)              ; Enable downcase-region
-     (put 'upcase-region 'disabled nil)                ; Enable upcase-region
+	 (cd "~/")                                         ; Move to the user directory
+	 (global-display-line-numbers-mode t)              ; Enable line numbers globally
+	 (delete-selection-mode 1)                         ; Replace region when inserting text
+	 (display-time-mode 1)                             ; Enable time in the mode-line
+	 (global-auto-revert-mode 1)                       ; Automatically revert a buffer when it changes on disk
+	 (fringe-mode '(8 . 0))                            ; Enable fringe on the left for git-gutter-fringe+
+	 (electric-pair-mode t)                            ; Enable Matching delimeters
+	 (electric-indent-mode t)                          ; Auto indentation
+	 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
+	 (global-subword-mode 1)                           ; Iterate through CamelCase words
+	 (menu-bar-mode 0)                                 ; Disable the menu bar
+	 (mouse-avoidance-mode 'jump)                      ; Avoid collision of mouse with point
+	 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
+	 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
    #+end_src
 
    Disable line numbers in select modes
@@ -153,20 +153,20 @@
 
 * Keybindings
 ** General
-#+begin_src emacs-lisp
-  (use-package general
-	:config
-	(general-evil-setup t))
+   #+begin_src emacs-lisp
+	 (use-package general
+	   :config
+	   (general-evil-setup t))
 
-  (general-create-definer smoodle/leader-key
-	:prefix "SPC"
-	:states 'normal)
+	 (general-create-definer smoodle/leader-key
+	   :prefix "SPC"
+	   :states 'normal)
 
-  (smoodle/leader-key
-	 "w" 'save-buffer :which-key "Save Buffer"
-	 "q" 'delete-window :which-key "Close window"
-	 "TAB" 'mode-line-other-buffer :which-key "Switch to recent buffer")
-#+end_src
+	 (smoodle/leader-key
+	   "w" 'save-buffer :which-key "Save Buffer"
+	   "q" 'delete-window :which-key "Close window"
+	   "TAB" 'mode-line-other-buffer :which-key "Switch to recent buffer")
+   #+end_src
 
 * Appearance
 ** Theme
@@ -262,10 +262,10 @@
 * Async
   Enable async
   #+BEGIN_SRC emacs-lisp
-	 (use-package async
-		:ensure t
-		:init
-		(dired-async-mode 1))
+	(use-package async
+	  :ensure t
+	  :init
+	  (dired-async-mode 1))
   #+END_SRC
 
 * Magit
@@ -274,23 +274,23 @@
 	 (use-package magit)
 
 	 (smoodle/leader-key
-		 "g" '(nil :which-key "magit")
-		 "gs" 'magit-status
-		 "gb" 'magit-blame)
+	   "g" '(nil :which-key "magit")
+	   "gs" 'magit-status
+	   "gb" 'magit-blame)
    #+end_src
 
 * Evil
 ** evil
    #+begin_src emacs-lisp
-			   (use-package evil
-				 :init
-				 (setq evil-want-integration t)
-				 (setq evil-want-keybinding nil)
-				 (setq evil-want-C-u-scroll t)
-				 (setq evil-undo-system 'undo-tree)
-				 :config
-				 (evil-mode 1)
-				 (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state))
+	 (use-package evil
+	   :init
+	   (setq evil-want-integration t)
+	   (setq evil-want-keybinding nil)
+	   (setq evil-want-C-u-scroll t)
+	   (setq evil-undo-system 'undo-tree)
+	   :config
+	   (evil-mode 1)
+	   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state))
    #+end_src
 
 ** evil-surround
@@ -337,13 +337,13 @@
 
 * Tex
 ** Auctex
-  #+BEGIN_SRC emacs-lisp
-	(use-package tex
-	  :defer t
-	  :ensure auctex
-	  :config
-	  (setq TeX-auto-save t))
-  #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+	 (use-package tex
+	   :defer t
+	   :ensure auctex
+	   :config
+	   (setq TeX-auto-save t))
+   #+END_SRC
 
 * R
   #+BEGIN_SRC emacs-lisp
@@ -359,12 +359,12 @@
 * Which key
 ** which-key
    #+begin_src emacs-lisp
-		  (use-package which-key
-			:defer 5
-			:init
-			(which-key-mode)
-			:config
-			(setq which-key-idle-delay 0.3))
+	 (use-package which-key
+	   :defer 5
+	   :init
+	   (which-key-mode)
+	   :config
+	   (setq which-key-idle-delay 0.3))
    #+end_src
 
 * Project Navigation
@@ -392,13 +392,13 @@
 
 * Ivy
 ** ivy
-  #+begin_src emacs-lisp
-	(use-package ivy
-	  :bind
-	  (("C-s" . swiper))
-	  :init
-	  (ivy-mode 1))
-  #+end_src
+   #+begin_src emacs-lisp
+	 (use-package ivy
+	   :bind
+	   (("C-s" . swiper))
+	   :init
+	   (ivy-mode 1))
+   #+end_src
 
 ** counsel
    #+begin_src emacs-lisp
@@ -409,10 +409,10 @@
    #+end_src
 
 ** ivy-rich
-#+begin_src emacs-lisp
-  (use-package ivy-rich
-	:init (ivy-rich-mode 1))
-#+end_src
+   #+begin_src emacs-lisp
+	 (use-package ivy-rich
+	   :init (ivy-rich-mode 1))
+   #+end_src
 
 * Helpful
 ** helpful
@@ -432,18 +432,19 @@
 ** Company
    #+begin_src emacs-lisp
 	 (use-package company
-			:defer 5
-			:init (global-company-mode)
-			:custom
-			(setq company-idle-delay 0)
-			(setq company-minimum-prefix-length 1)
-			(setq company-selection-wrap-around t)
-			(setq company-minimum-prefix-length 1)
-			(company-show-numbers t)
-			(company-tooltip-align-annotations t))
+	   :defer 5
+	   :init (global-company-mode)
+	   :config
+	   (add-hook 'after-init-hook 'company-tng-mode)
+	   :custom
+	   (setq company-idle-delay 0)
+	   (setq company-minimum-prefix-length 1)
+	   (setq company-selection-wrap-around t)
+	   (setq company-minimum-prefix-length 1)
+	   (company-show-numbers t)
+	   (company-tooltip-align-annotations t))
    #+end_src
 
-** company-lsp
 * Hydra
 ** hydra
    #+begin_src emacs-lisp
@@ -463,30 +464,36 @@
 
 * LSP
 ** lsp
-  #+begin_src emacs-lisp
-	(use-package lsp-mode
-	  :config
-	  ;; Set performance options
-	  (setq gc-cons-threshold 100000000)
-	  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-	  :hook ((js-mode         . lsp-deferred)
-			 (typescript-mode . lsp-deferred)
-			 (shell-mode      . lsp-deferred)
-			 (c-mode          . lsp-deferred)
-			 (lua-mode        . lsp-deferred)
-			 (python-mode     . lsp-deferred)
-			 (sql-mode        . lsp-deferred))
-	  :commands (lsp lsp-deferred))
+   #+begin_src emacs-lisp
+	 (use-package lsp-mode
+	   :config
+	   ;; Set performance options
+	   (setq gc-cons-threshold 100000000)
+	   (setq read-process-output-max (* 1024 1024)) ;; 1mb
+	   :hook ((js-mode         . lsp-deferred)
+			  (typescript-mode . lsp-deferred)
+			  (shell-mode      . lsp-deferred)
+			  (c-mode          . lsp-deferred)
+			  (csharp-mode     . lsp-deferred)
+			  (lua-mode        . lsp-deferred)
+			  (python-mode     . lsp-deferred)
+			  (sql-mode        . lsp-deferred)
+			  (lsp-mode . lsp-enable-which-key-integration))
+	   :commands (lsp lsp-deferred))
 
-	(smoodle/leader-key
-		"lF" 'lsp-format-buffer
-		"lR" 'lsp-rename)
-  #+end_src
+	 (smoodle/leader-key
+	   "lF" 'lsp-format-buffer
+	   "lR" 'lsp-rename)
+   #+end_src
 
 ** lsp-ui
    #+begin_src emacs-lisp
 	 (use-package lsp-ui
 	   :after lsp-mode
+	   :config
+	   (setq lsp-ui-doc-show-with-cursor nil)
+	   (setq lsp-ui-sideline-show-code-actions nil)
+	   (setq lsp-ui-doc-show-with-mouse t)
 	   :commands lsp-ui-mode
 	   :hook (lsp-mode . lsp-ui-mode))
 
@@ -511,15 +518,17 @@
    #+begin_src emacs-lisp
 	 (use-package typescript-mode)
    #+end_src
-** markdown
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-	:ensure t
-	:mode (("README\\.md\\'" . gfm-mode)
-		   ("\\.md\\'" . markdown-mode)
-		   ("\\.markdown\\'" . markdown-mode))
-	:init (setq markdown-command "multimarkdown"))
-#+END_SRC
+
+** Markdown
+   #+BEGIN_SRC emacs-lisp
+	 (use-package markdown-mode
+	   :ensure t
+	   :mode (("README\\.md\\'" . gfm-mode)
+			  ("\\.md\\'" . markdown-mode)
+			  ("\\.markdown\\'" . markdown-mode))
+	   :init (setq markdown-command "multimarkdown"))
+   #+END_SRC
+
 ** json
    #+begin_src emacs-lisp
 	 (use-package json-mode)
