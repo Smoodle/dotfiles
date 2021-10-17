@@ -22,7 +22,7 @@
 	 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
    #+end_src
 
-   Set inital buffer
+   Set inital buffer (for when emacs is run in daemon mode)
    #+BEGIN_SRC emacs-lisp
 	 (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
    #+END_SRC
@@ -60,11 +60,6 @@
 	 (global-hl-line-mode t)
    #+END_SRC
 
-   Always defer packages
-   #+BEGIN_SRC emacs-lisp
-											 ;(setq use-package-always-defer t)
-   #+END_SRC
-
    General better defaults:
    #+begin_src emacs-lisp
 	 (setq-default
@@ -86,7 +81,6 @@
 	  ns-use-srgb-colorspace nil                       ; Don't use sRGB colors
 	  select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
 	  sentence-end-double-space nil                    ; End a sentence after a dot and a space
-											 ;show-help-function nil                          ; Disable help messages
 	  show-trailing-whitespace nil                       ; Display trailing whitespaces
 	  split-height-threshold nil                       ; Disable vertical window splitting
 	  split-width-threshold nil                        ; Disable horizontal window splitting
@@ -99,7 +93,6 @@
 	  ring-bell-function 'ignore                       ; Silent bell when you make a mistake
 	  inhibit-compacting-font-caches t                 ; Faster navigation point (costs more memory)
 	  recentf-mode nil                                   ; Keep recent files
-											 ;make-backup-files nil                            ; Stop creating backup files
 	  display-line-numbers-type 'relative              ; Use relative line numbers
 	  vc-follow-symlinks t)                            ; Don't ask for confirmation when opening symlinked file
 
@@ -317,22 +310,27 @@
 	 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
    #+end_src
 
-** Org bullet
-   #+begin_src emacs-lisp
-	 (use-package org-bullets
-	   :config
-	   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-   #+end_src
+** Pretty org
 
-* Tex
-** Auctex
-   #+BEGIN_SRC emacs-lisp
-	 (use-package tex
-	   :defer t
-	   :ensure auctex
-	   :config
-	   (setq TeX-auto-save t))
-   #+END_SRC
+*** Org bullet
+	#+begin_src emacs-lisp
+	  (use-package org-bullets
+		:config
+		(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+	#+end_src
+
+
+*** Pretify symbols
+
+	#+BEGIN_SRC emacs-lisp
+	  (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "")
+											 ("#+END_SRC" . "")
+											 ("#+begin_src" . "")
+											 ("#+end_src" . "")))
+
+	  (setq prettify-symbols-unprettify-at-point 'right-edge)
+	  (add-hook 'org-mode-hook 'prettify-symbols-mode)
+	#+END_SRC
 
 * Which key
 ** which-key
@@ -491,7 +489,36 @@
 	   :config (yas-global-mode 1))
    #+end_src
 
+* Custom functions
+
+** Create new project
+
+   Create a new project and git init
+
+   #+BEGIN_SRC emacs-lisp
+	 (defun smoodle/make-project ()
+	   "Create a new project"
+	   (interactive)
+	   (let ((_dir (read-directory-name "Enter project path:")))
+		 (unless (file-directory-p _dir)
+		   (make-directory _dir)
+		   nil)
+		 (magit-init _dir)
+		 (delete-window)))
+
+   #+END_SRC
+
 * Programming
+** Tex
+*** Auctex
+	#+BEGIN_SRC emacs-lisp
+	  (use-package tex
+		:defer t
+		:ensure auctex
+		:config
+		(setq TeX-auto-save t))
+	#+END_SRC
+
 ** Flymake
 *** ShellCheck
 	#+BEGIN_SRC emacs-lisp
