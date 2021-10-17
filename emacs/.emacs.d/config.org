@@ -324,8 +324,8 @@
 
 	#+BEGIN_SRC emacs-lisp
 	  (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "")
-											 ("#+END_SRC" . "")
-											 ("#+begin_src" . "")
+											 ("#+END_SRC" . "")
+											 ("#+begin_src" . "")
 											 ("#+end_src" . "")))
 
 	  (setq prettify-symbols-unprettify-at-point 'right-edge)
