@@ -366,6 +366,13 @@
 	   (winum-mode))
    #+end_src
 
+** rotate
+
+   #+BEGIN_SRC emacs-lisp
+	 (use-package rotate
+	   :ensure t)
+   #+END_SRC
+
 * Ivy
 ** ivy
    #+begin_src emacs-lisp
