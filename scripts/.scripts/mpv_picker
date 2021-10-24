@@ -5,7 +5,7 @@ DIRECTORY="$1"
 
 while true; do
 	FILES=$(ls "$DIRECTORY" | sort -r)
-	CHOISE=$(printf "%s\n../" "$FILES" | rofi -dmenu -i -p "Choose: ")
+	CHOISE=$(printf "%s\n../" "$FILES" | dmenu -i -p "Choose: ")
 
 	[ -z "$CHOISE" ] && exit
 

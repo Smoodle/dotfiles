@@ -1,0 +1,16 @@
+#!/bin/sh
+
+CONFIG_FILE=~/.config/dunst/dunstrc
+
+lb=$(xrdb -query | grep 'dunst.low-background' | awk 'NR==1{print $NF}')
+lf=$(xrdb -query | grep 'dunst.low-foreground' | awk 'NR==1{print $NF}')
+lfr=$(xrdb -query | grep 'dunst.low-frame' | awk 'NR==1{print $NF}')
+nb=$(xrdb -query | grep 'dunst.normal-background' | awk 'NR==1{print $NF}')
+nf=$(xrdb -query | grep 'dunst.normal-foreground' | awk 'NR==1{print $NF}')
+nfr=$(xrdb -query | grep 'dunst.normal-frame' | awk 'NR==1{print $NF}')
+cb=$(xrdb -query | grep 'dunst.critical-background' | awk 'NR==1{print $NF}')
+cf=$(xrdb -query | grep 'dunst.critical-foreground' | awk 'NR==1{print $NF}')
+cfr=$(xrdb -query | grep 'dunst.critical-frame' | awk 'NR==1{print $NF}')
+
+killall dunst;
+dunst -lb "$lb" -lf "$lf" -lfr "$lfr" -nb "$nb" -nf "$nf" -nfr "$nfr" -cb "$cb" -cf "$cf" -cfr "$cfr"

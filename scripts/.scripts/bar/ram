@@ -1,7 +1,7 @@
 #! /bin/bash
 
-ICON=$(xrdb -query | grep 'color4'| awk 'NR==1{print $NF}')
-FOREGROUND=$(xrdb -query | grep 'foreground'| awk 'NR==1{print $NF}')
+ICON=$(xrdb -query | grep 'bar.icon'| awk 'NR==1{print $NF}')
+FOREGROUND=$(xrdb -query | grep 'bar.text'| awk 'NR==1{print $NF}')
 
 if [ -z $ICON ] || [ -z $FOREGROUND ]; then
     ICON="#ffffff"
