@@ -810,3 +810,6 @@ font:
 
   # Print all received window events.
   #print_events: false
+
+import:
+  - ~/.config/dracula.yml

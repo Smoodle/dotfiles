@@ -1,7 +1,7 @@
 local apps = {
-	terminal = "kitty",
+	terminal = "alacritty",
 	launcher = "rofi -show drun",
-	file_manager = "pcmanfm",
+	file_manager = "thunar",
 	screenshot = "sh -c ~/.scripts/screenshot",
 	vpn = "mullvad-vpn"
 }

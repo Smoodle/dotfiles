@@ -16,8 +16,10 @@ use { 'romgrk/barbar.nvim',
 	requires = { 'kyazdani42/nvim-web-devicons' }
 }
 
-use { 'kyazdani42/nvim-tree.lua',
-	requires = { 'kyazdani42/nvim-web-devicons' }
+use {
+    'kyazdani42/nvim-tree.lua',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function() require'nvim-tree'.setup {} end
 }
 
 use {'vim-pandoc/vim-pandoc-syntax'}
@@ -49,6 +51,8 @@ use {'sainnhe/sonokai'}
 use {'glepnir/zephyr-nvim'}
 
 use {'neovim/nvim-lspconfig'}
+
+use {'kabouzeid/nvim-lspinstall'}
 
 use {'RishabhRD/nvim-lsputils',
 	requires = {'RishabhRD/popfix'},

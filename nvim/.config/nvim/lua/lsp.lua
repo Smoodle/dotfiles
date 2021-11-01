@@ -37,7 +37,7 @@ lspconfig.sumneko_lua.setup {
 lspconfig.tsserver.setup{}
 
 -- bashls (bash/sh)
-lspconfig.pyls.setup{}
+--lspconfig.pyls.setup{}
 
 -- bashls (bash/sh)
 lspconfig.bashls.setup{}
@@ -47,3 +47,5 @@ lspconfig.gopls.setup{}
 
 -- vimls (vim)
 lspconfig.vimls.setup{}
+
+lspconfig.csharp_ls.setup{}

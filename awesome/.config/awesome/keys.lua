@@ -181,7 +181,7 @@ keys.globalkeys = gears.table.join(
 		{description = "show the file browser", group = "launcher"}),
 
 	awful.key({ Modkey }, "a", function()
-		awful.spawn.with_shell("~/.scripts/mpv_picker ~/Misc/Anime")
+		awful.spawn.with_shell("~/.scripts/mpv_picker /Media/Anime")
 	end, {description = "Open mpv picker", group = "launcher"}),
 
 	awful.key({ Modkey, "Shift" }, "p", function() awful.spawn(apps.screenshot) end,
