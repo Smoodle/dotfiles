@@ -59,6 +59,8 @@ awful.rules.rules = {
 	},
 	{ rule = { class = "Thunderbird" }, properties = { screen = 1, tag = "8" } },
 	{ rule = { class = "qBittorrent" }, properties = { screen = 1, tag = "9" } },
+	{ rule = { class = "mpv" },
+	  properties = { floating = true, ontop = true } },
 	{ rule = {
 		class = "jetbrains-studio",
 		name="^win[0-9]+$"

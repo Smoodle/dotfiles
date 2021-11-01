@@ -169,7 +169,7 @@
 	   (doom-themes-enable-bold t)
 	   (doom-themes-enable-italic t)
 	   :config
-	   (load-theme 'doom-one t)
+	   (load-theme 'doom-dracula t)
 	   (doom-themes-treemacs-config))
    #+end_src
 
@@ -597,6 +597,11 @@
    Set lisp program
    #+BEGIN_SRC emacs-lisp
 	 (setq inferior-lisp-program (executable-find "sbcl"))
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp
+	 (use-package slime
+	   :ensure t)
    #+END_SRC
 
 ** C#

@@ -1,8 +1,4 @@
-configuration {
-	modi: "window,run,ssh,drun";
-	show-icons: true;
-	font: "Hack Nerd Font 12";
-}
+/*Dracula theme based on the Purple official rofi theme*/
 
 * {
     font: "Jetbrains Mono 12";
