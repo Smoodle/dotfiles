@@ -177,7 +177,10 @@ keys.globalkeys = gears.table.join(
 	end, {description = "reduce the gaps", group = "launcher"}),
 
 	-- Custom
-	awful.key({ Modkey }, "e", function() awful.spawn(apps.file_manager) end,
+	awful.key({ Modkey }, "e", function() awful.spawn(apps.emacs) end,
+		{description = "start emacs", group = "launcher"}),
+
+	awful.key({ Modkey }, "n", function() awful.spawn(apps.file_manager) end,
 		{description = "show the file browser", group = "launcher"}),
 
 	awful.key({ Modkey }, "a", function()
