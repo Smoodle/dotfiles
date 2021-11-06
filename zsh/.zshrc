@@ -122,6 +122,7 @@ alias tn="t new -t"
 #General alias
 alias sudo="sudo "
 alias gldl="gallery-dl -d /Media/gallery-dl"
+alias start-vline="sbcl --load ~/.local/share/nvim/site/pack/packer/start/vlime/lisp/start-vlime.lisp"
 alias emacs="emacsclient -c -a 'emacs'"
 alias v=nvim
 alias vim=nvim
