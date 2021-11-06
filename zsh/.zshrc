@@ -121,8 +121,8 @@ alias tn="t new -t"
 
 #General alias
 alias sudo="sudo "
-alias gldl="gallery-dl -d ~/Misc/gallery-dl"
-alias emacs="emacsclient -c"
+alias gldl="gallery-dl -d /Media/gallery-dl"
+alias emacs="emacsclient -c -a 'emacs'"
 alias v=nvim
 alias vim=nvim
 
