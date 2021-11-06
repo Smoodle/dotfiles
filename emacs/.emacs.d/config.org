@@ -386,6 +386,8 @@
 ** counsel
    #+begin_src emacs-lisp
 	 (use-package counsel
+	   :config
+	   (setq ivy-initial-inputs-alist nil)
 	   :bind (("M-x" . counsel-M-x)
 			  ("C-x b" . counsel-switch-buffer)
 			  ("C-x C-f" . counsel-find-file)))
@@ -509,11 +511,11 @@
 ** yasnippet
    #+begin_src emacs-lisp
 	 (use-package yasnippet
+	   :ensure t
 	   :config (yas-global-mode 1))
    #+end_src
 
 * Custom functions
-
 ** Create new project
 
    Create a new project and git init
@@ -528,7 +530,37 @@
 		   nil)
 		 (magit-init _dir)
 		 (delete-window)))
+   #+END_SRC
 
+** Pandoc
+
+   Generate pdf
+   #+BEGIN_SRC emacs-lisp
+	 (defun pandoc ()
+	   (interactive)
+	   (let* (
+			  (in (read-file-name
+				   "Input file:"
+				   (if (boundp 'pandoc-pdf-last-dir-in) pandoc-pdf-last-dir-in "")
+				   nil
+				   nil
+				   (if (boundp 'pandoc-pdf-last-file-in) pandoc-pdf-last-file-in ""))
+				  )
+			  (dest (read-file-name
+					 "Output file:"
+					 (if (boundp 'pandoc-pdf-last-dir-in) pandoc-pdf-last-dir-in "")
+					 nil
+					 nil
+					 (if (boundp 'pandoc-pdf-last-file-dest) pandoc-pdf-last-file-dest ""))
+					)
+			  )
+
+		 (start-process "Pandoc" "*Pandoc*" "pandoc" in "-o" dest)
+		 (setq pandoc-pdf-last-file-in (file-name-nondirectory in))
+		 (setq pandoc-pdf-last-file-dest (file-name-nondirectory dest))
+		 (setq pandoc-pdf-last-dir-in (file-name-directory in))
+		 (setq pandoc-pdf-last-dir-dest (file-name-directory dest))
+		 ))
    #+END_SRC
 
 * Programming
@@ -580,7 +612,10 @@
 
 ** typescript
    #+begin_src emacs-lisp
-	 (use-package typescript-mode)
+	 (use-package typescript-mode
+	   :mode "\\.tsx?$"
+	   :hook
+	   (typescript-mode . lsp))
    #+end_src
 
 ** lua
@@ -618,4 +653,12 @@
 	   (electric-pair-local-mode 1) ;; Emacs 25
 	   )
 	 (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
+   #+END_SRC
+
+** WebMode
+   #+BEGIN_SRC emacs-lisp
+	   (use-package web-mode
+		 :ensure t
+		 :mode ("\\.tsx\\'")
+		 :config)
    #+END_SRC
