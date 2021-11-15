@@ -31,6 +31,18 @@ use {'glepnir/dashboard-nvim'}
 use {
 	'nvim-telescope/telescope.nvim',
 	requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+	config = function()
+		local actions = require('telescope.actions')
+		require('telescope').setup{
+			defaults = {
+				mappings = {
+					i = {
+						["<esc>"] = actions.close
+					},
+				},
+			}
+		}
+	end
 }
 use {'nvim-treesitter/nvim-treesitter',
 	config = function()

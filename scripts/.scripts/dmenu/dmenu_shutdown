@@ -6,7 +6,7 @@ case "$action" in
     logout)
         killall xinit
         ;;
-        
+
     restart)
         systemctl reboot
         ;;
@@ -23,7 +23,6 @@ case "$action" in
         systemctl hibernate
         ;;
 	"restart dwm")
-		xsetroot -name "fsignal:2"
+		xsetroot -name "fsignal:1"
 		;;
 esac
-

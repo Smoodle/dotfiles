@@ -48,4 +48,4 @@ lspconfig.gopls.setup{}
 -- vimls (vim)
 lspconfig.vimls.setup{}
 
-lspconfig.csharp_ls.setup{}
+lspconfig.omnisharp.setup{}
