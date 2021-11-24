@@ -15,14 +15,14 @@ dwm_battery () {
     STATUS=$(cat /sys/class/power_supply/$BAT/status)
 
     if [ "$STATUS" = "Charging" ]; then
-        echo "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+        echo " ^c${ICON}^ ^c${FOREGROUND}^${CHARGE}% "
     else
         if [ "$CHARGE" -ge 80 ]; then
-            echo "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+            echo " ^c${ICON}^ ^c${FOREGROUND}^${CHARGE}% "
         elif [ "$CHARGE" -ge 50 ]; then
-            echo "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+            echo " ^c${ICON}^ ^c${FOREGROUND}^${CHARGE}% "
         else
-            echo "^c${ICON}^ ^c${FOREGROUND}^${CHARGE}%%"
+            echo " ^c${ICON}^ ^c${FOREGROUND}^${CHARGE}% "
         fi
     fi
 }
