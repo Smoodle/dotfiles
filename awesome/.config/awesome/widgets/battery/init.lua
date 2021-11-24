@@ -7,7 +7,7 @@ local helpers = require("helpers")
 local bat = "BAT0"
 
 local battery_widget = wibox.widget {
-   markup = '<span color="'..beautiful.bg_focus..'">icon</span><span color="'.. beautiful.fg_normal ..'">Percentage</span>',
+   markup = '<span color="'..beautiful.fg_focus..'">icon</span><span color="'.. beautiful.fg_normal ..'">Percentage</span>',
    align = "center",
    widget = wibox.widget.textbox,
 }
@@ -19,7 +19,7 @@ local icon = ""
 local value = ""
 
 local function update_text()
-   battery_widget.markup = '<span color="'..beautiful.bg_focus..'">' .. icon .. '</span><span color="'.. beautiful.fg_normal ..'">'.. value ..'</span>'
+   battery_widget.markup = '<span color="'..beautiful.fg_focus..'">' .. icon .. '</span><span color="'.. beautiful.fg_normal ..'">'.. value ..'</span>'
 end
 
 local function toggle_widget()

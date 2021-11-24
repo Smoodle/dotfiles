@@ -3,8 +3,8 @@
 ---------------------------
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
-local gears = require("gears")
 local dpi = xresources.apply_dpi
+local gears = require("gears")
 local shape = gears.shape
 
 local xresources_theme = xresources.get_current_theme()
@@ -23,14 +23,18 @@ local main_bg_focus = xresources_theme.color12 or "#bd93f9"
 local main_fg_normal = xresources_theme.foreground or "#f8f8f2"
 local main_fg_focus = xresources_theme.background or "#44475a"
 
+local alt_color = "#363842"
+
+theme.alt_color = alt_color
+
 theme.bg_normal = main_bg_normal
-theme.bg_focus = main_bg_focus
+theme.bg_focus = alt_color
 theme.bg_urgent = theme.bg_normal
 theme.bg_minimize = theme.bg_normal
-theme.bg_systray = theme.bg_normal
+theme.bg_systray = theme.alt_color
 
 theme.fg_normal = main_fg_normal
-theme.fg_focus = main_fg_focus
+theme.fg_focus = main_bg_focus
 theme.fg_urgent = theme.fg_normal
 theme.fg_minimize = theme.fg_normal
 
@@ -42,9 +46,10 @@ theme.border_normal = main_bg_normal
 theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
 
-theme.wibar_height = dpi(20)
+theme.wibar_height = dpi(30)
+theme.taglist_disable_icon = true
 
-theme.bar_right_spacing = dpi(10)
+theme.bar_right_spacing = dpi(7)
 theme.systray_icon_spacing = dpi(7)
 
 -- There are other variable sets
@@ -60,15 +65,15 @@ theme.systray_icon_spacing = dpi(7)
 -- Example:
 -- theme.taglist_bg_focus = "#ff0000"
 
-theme.tasklist_disable_icon = true
 
 -- Generate taglist squares:
-local taglist_square_size = dpi(5)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-        taglist_square_size, theme.fg_normal)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-        taglist_square_size, theme.fg_normal)
+--local taglist_square_size = dpi(5)
+--theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
+--        taglist_square_size, theme.fg_normal)
+--theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
+--        taglist_square_size, theme.fg_normal)
 
+theme.tasklist_disable_icon = true
 theme.taglist_spacing = dpi(6)
 
 -- Variables set for theming notifications:

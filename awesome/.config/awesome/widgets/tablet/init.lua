@@ -9,7 +9,7 @@ local helpers = require("helpers")
 
 
 local tablet_widget = wibox.widget {
-	markup = '<span color="'..beautiful.bg_focus..'">淋 </span>',
+	markup = '<span color="'..beautiful.fg_focus..'">淋 </span>',
 	align = 'center',
 	widget = wibox.widget.textbox,
 }

@@ -77,7 +77,7 @@ local function worker(args)
 			weekend_day_bg = beautiful.bg_urgent,
 			weekday_fg = beautiful.fg_urgent,
 			header_fg = beautiful.fg_normal,
-			border = beautiful.bg_focus
+			border = beautiful.fg_focus
 		}
 	}
 
@@ -249,4 +249,3 @@ end
 return setmetatable(calendar_widget, { __call = function(_, ...)
 	return worker(...)
 end })
-
