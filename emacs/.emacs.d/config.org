@@ -320,7 +320,6 @@
 
 
 *** Pretify symbols
-
 	#+BEGIN_SRC emacs-lisp
 	  (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "")
 											 ("#+END_SRC" . "")
@@ -329,6 +328,11 @@
 
 	  (setq prettify-symbols-unprettify-at-point 'right-edge)
 	  (add-hook 'org-mode-hook 'prettify-symbols-mode)
+	#+END_SRC
+
+*** Change org marings
+	#+BEGIN_SRC emacs-lisp
+	  (setq org-latex-packages-alist '(("margin=2cm" "geometry" nil)))
 	#+END_SRC
 
 * Which key
@@ -563,6 +567,11 @@
    #+END_SRC
 
 * Programming
+** Carbon sh
+#+BEGIN_SRC emacs-lisp
+  (use-package carbon-now-sh
+	:ensure t)
+#+END_SRC
 ** Tex
 *** Auctex
 	#+BEGIN_SRC emacs-lisp
