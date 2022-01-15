@@ -60,4 +60,14 @@ helpers.printTable = function(t)
 	end
 end
 
+helpers.isLaptop = function()
+   local hostname = io.popen("uname -n"):read()
+
+   if hostname:find("-lp", 1, true) then
+	  return true
+   end
+
+   return false
+end
+
 return helpers

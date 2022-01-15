@@ -10,6 +10,10 @@ local updates = require("widgets/updates")
 
 local battery = require("widgets.battery")
 
+if helpers.isLaptop() == false then
+   battery = nil
+end
+
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
