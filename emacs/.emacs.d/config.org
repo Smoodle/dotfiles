@@ -148,17 +148,18 @@ Set docview settings
 ** General
 #+begin_src emacs-lisp
   (use-package general
-	:config
-	(general-evil-setup t))
+    :config
+    (general-evil-setup t))
 
   (general-create-definer smoodle/leader-key
-	:prefix "SPC"
-	:states 'normal)
+    :prefix "SPC"
+    :states 'normal)
 
   (smoodle/leader-key
-	"w" 'save-buffer :which-key "Save Buffer"
-	"q" 'delete-window :which-key "Close window"
-	"TAB" 'mode-line-other-buffer :which-key "Switch to recent buffer")
+    "w" 'save-buffer :which-key "Save Buffer"
+    "q" 'delete-window :which-key "Close window"
+    "TAB" 'mode-line-other-buffer :which-key "Switch to recent buffer"
+    "rg" 'deadgrep :which-key "RipGrep")
 #+end_src
 
 * Appearance
@@ -260,6 +261,7 @@ Enable async
 	"gs" 'magit-status
 	"gb" 'magit-blame)
 #+end_src
+
 * Evil
 ** evil
 #+begin_src emacs-lisp
@@ -317,7 +319,7 @@ Enable async
   (setq org-startup-indented t
 		org-pretty-entities t
 		org-hide-emphasis-markers t
-		org-startup-with-inline-images t
+		org-startup-with-inline-images nil
 		org-image-actual-width '(300))
 
   (use-package org-appear
@@ -692,4 +694,10 @@ Set lisp program
 #+BEGIN_SRC emacs-lisp
   (use-package ng2-mode
 	:ensure t)
+#+END_SRC
+
+* RipGrep
+#+BEGIN_SRC emacs-lisp
+  (use-package deadgrep
+    :ensure t)
 #+END_SRC

@@ -13,7 +13,6 @@ export ZSH="/home/smoodle/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="juanghurtado"
-
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -126,5 +125,22 @@ alias start-vline="sbcl --load ~/.local/share/nvim/site/pack/packer/start/vlime/
 alias emacs="emacsclient -c -a 'emacs'"
 alias v=nvim
 alias vim=nvim
+alias pencil="electron11 /usr/lib/pencil"
 
 alias luamake=/home/smoodle/.builds/lua-language-server/3rd/luamake/luamake
+
+
+function pomo() {
+    arg1=$1
+    shift
+    args="$*"
+
+    min=${arg1:?Example: pomo 15 Take a break}
+    sec=$((min * 60))
+    msg="${args:?Example: pomo 15 Take a break}"
+
+    while true; do
+        date '+%H:%M' && sleep "${sec:?}" && notify-send -u critical -t 0 -a pomo "${msg:?}"
+    done
+}
+
