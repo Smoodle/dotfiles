@@ -75,4 +75,14 @@ nnoremap <silent> <C-k> :call WinMove('k')<CR>
 nnoremap <silent> <C-l> :call WinMove('l')<CR>
 ]])
 
+vim.cmd [[
+autocmd FileType cs call CSharp_Settings()
+
+function! CSharp_Settings()
+  setlocal tabstop=4
+  setlocal shiftwidth=4
+  setlocal noexpandtab
+endfunction
+]]
+
 require 'mappings'

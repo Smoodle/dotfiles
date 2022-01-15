@@ -34,7 +34,7 @@ awful.rules.rules = {
 			class = {
 				"Blueman-manager", "Gpick", "Kruler", "MessageWin", -- kalarm.
 				"Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-				"Wpa_gui", "veromix", "xtightvncviewer"
+				"Wpa_gui", "veromix", "xtightvncviewer", "tint2"
 			},
 
 			-- Note that the name property shown in xprop might be set slightly after creation of the client

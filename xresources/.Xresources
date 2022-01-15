@@ -2,6 +2,8 @@
 #define fg #C9989F
 #define accent #4B3246
 
+ Xft.dpi: 96
+
 dwm.normbordercolor: accent
 dwm.normbgcolor: bg
 dwm.normfgcolor: fg

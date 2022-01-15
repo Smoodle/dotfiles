@@ -84,9 +84,11 @@ theme.taglist_spacing = dpi(6)
 
 theme.notification_max_width = dpi(400)
 theme.notification_icon_size = dpi(100)
-theme.notification_shape = shape.rounded_rect
+--theme.notification_shape = shape.rounded_rect
 theme.notification_opacity = 1
 theme.notification_margin = dpi(50)
+theme.notification_border_width = dpi(2)
+theme.notification_border_color = main_bg_focus
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
