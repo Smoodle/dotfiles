@@ -218,7 +218,7 @@ Set docview settings
 #+begin_src emacs-lisp
   (use-package dashboard
 	:custom
-	(dashboard-startup-banner (expand-file-name "megumin_emacs.png" user-emacs-directory))
+	(dashboard-startup-banner (expand-file-name "gura.png" user-emacs-directory))
 	(dashboard-footer-messages '("EXPLOOOOOOOOOOSIONNN!"))
 	(dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
 	(dashboard-center-content t)

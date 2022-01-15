@@ -19,18 +19,18 @@ main_widget.visible = false
 main_widget:connect_signal("button::press",
 						   function ()
 							  awful.spawn.easy_async(apps.updater,
-							  						 function (_ , _, reason, err_code)
-							  							   naughty.notify({ title = "Update", text = "reason: " .. reason .. " exit code: " .. err_code, timeout = 5 })
-							  							if (reason == "exit")
-							  							then
-							  							   naughty.notify({ title = "Update", text = "Update closed", timeout = 5 })
-							  							elseif (reason == "signal" and err_code ~= 0)
-							  							then
-							  							   naughty.notify({ title = "Update", text = "Update error with code: " .. err_code, timeout = 5 })
-							  							else
-							  							   main_widget.visible = false
-							  							   naughty.notify({ title = "Update!", text = "Update Sucessfull ", timeout = 5 })
-							  							end
+													 function (_ , _, reason, err_code)
+														naughty.notify({ title = "Update", text = "reason: " .. reason .. " exit code: " .. err_code, timeout = 5 })
+														if (reason == "exit")
+														then
+														   naughty.notify({ title = "Update", text = "Update closed", timeout = 5 })
+														elseif (reason == "signal" and err_code ~= 0)
+														then
+														   naughty.notify({ title = "Update", text = "Update error with code: " .. err_code, timeout = 5 })
+														else
+														   main_widget.visible = false
+														   naughty.notify({ title = "Update!", text = "Update Sucessfull ", timeout = 5 })
+														end
 							  end)
 end)
 

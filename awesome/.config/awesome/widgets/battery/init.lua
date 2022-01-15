@@ -17,6 +17,7 @@ main_widget.visible = false
 
 local icon = ""
 local value = ""
+local charging
 
 local function update_text()
    battery_widget.markup = '<span color="'..beautiful.fg_focus..'">' .. icon .. '</span><span color="'.. beautiful.fg_normal ..'">'.. value ..'</span>'
@@ -39,12 +40,21 @@ gears.timer {
 			   end
 
 			   awful.spawn.easy_async({"sh", "-c", "cat /sys/class/power_supply/" .. bat .. "/status"}, function(out2)
-
 					 if out2 == "Charging\n"
 					 then
-						icon = " "
+						if charging == false or charging == nil then
+						   icon = " "
+						   charging = true
+						   awful.spawn({"sh", "-c", "xbacklight -set 100"})
+						end
+					 elseif out2 == "Full\n"  then
+						   icon = " "
 					 else
-						icon = " "
+						if charging == true or charging == nil then
+						   icon = " "
+						   charging = false
+						   awful.spawn({"sh", "-c", "xbacklight -set 50"})
+						end
 					 end
 
 					 awful.spawn.easy_async({"sh", "-c", "cat /sys/class/power_supply/" .. bat .. "/capacity"}, function(out3)
