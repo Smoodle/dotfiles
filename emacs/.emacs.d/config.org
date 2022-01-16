@@ -144,6 +144,12 @@ Set docview settings
   (setq-default doc-view-continuous t)
 #+end_src
 
+Enable visual line mode
+
+#+BEGIN_SRC emacs-lisp
+  (global-visual-line-mode)
+#+END_SRC
+
 * Keybindings
 ** General
 #+begin_src emacs-lisp
@@ -212,6 +218,13 @@ Set docview settings
   (use-package rainbow-delimiters
 	:hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
+
+** Golden ratio
+
+#+BEGIN_SRC emacs-lisp
+  (use-package golden-ratio :ensure t)
+  (golden-ratio-mode 1)
+#+END_SRC
 
 * Dashboard
 ** emacs-dashboard
@@ -317,17 +330,19 @@ Enable async
 
 #+BEGIN_SRC emacs-lisp
   (setq org-startup-indented t
-		org-pretty-entities t
-		org-hide-emphasis-markers t
-		org-startup-with-inline-images nil
-		org-image-actual-width '(300))
+        org-pretty-entities t
+        org-hide-emphasis-markers t
+        org-startup-with-inline-images nil
+        org-image-actual-width '(300))
 
   (use-package org-appear
-	:ensure t
-	:hook (org-mode . org-appear-mode))
+    :ensure t
+    :hook (org-mode . org-appear-mode))
 
   ;; Increase size of LaTeX fragment previews
   (plist-put org-format-latex-options :scale 2)
+
+  (setq org-src-fontify-natively t)
 #+END_SRC
 
 *** Org bullet
@@ -341,17 +356,42 @@ Enable async
 *** Pretify symbols
 #+BEGIN_SRC emacs-lisp
   (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "")
-										 ("#+END_SRC" . "")
-										 ("#+begin_src" . "")
-										 ("#+end_src" . "")))
+                                         ("#+END_SRC" . "")
+                                         ("#+begin_src" . "")
+                                         ("#+end_src" . "")))
 
   (setq prettify-symbols-unprettify-at-point 'right-edge)
   (add-hook 'org-mode-hook 'prettify-symbols-mode)
+
+  (setq org-ellipsis "")
 #+END_SRC
 
 *** Change org marings
 #+BEGIN_SRC emacs-lisp
   (setq org-latex-packages-alist '(("margin=2cm" "geometry" nil)))
+#+END_SRC
+
+*** Different latex exporter
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-latex-pdf-process '("tectonic -Z shell-escape --outdir=%o %f"))
+#+END_SRC
+
+** Org Roam
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam
+    :ensure t
+    :custom
+    (org-roam-directory (file-truename "~/Notes/Roam"))
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n g" . org-roam-graph)
+           ("C-c n i" . org-roam-node-insert)
+           ("C-c n c" . org-roam-capture)
+           ;; Dailies
+           ("C-c n j" . org-roam-dailies-capture-today))
+    :config
+    (org-roam-db-autosync-mode))
 #+END_SRC
 
 * Which key
