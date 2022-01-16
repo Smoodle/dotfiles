@@ -373,7 +373,7 @@ Enable async
 
 *** Different latex exporter
 #+BEGIN_SRC emacs-lisp
-  (setq-default org-latex-pdf-process '("tectonic -Z shell-escape --outdir=%o %f"))
+  ;;(setq-default org-latex-pdf-process '("tectonic -Z shell-escape --outdir=%o %f"))
 #+END_SRC
 
 ** Org Roam
