@@ -127,6 +127,8 @@ alias v=nvim
 alias vim=nvim
 alias pencil="electron11 /usr/lib/pencil"
 
+alias redshift="redshift -l 38.7172303:-9.1235584"
+
 alias luamake=/home/smoodle/.builds/lua-language-server/3rd/luamake/luamake
 
 
