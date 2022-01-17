@@ -146,3 +146,5 @@ function pomo() {
     done
 }
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -1,4 +1,4 @@
 require ('plugins')
 require ('lsp')
-require ('statusline')
+--require ('statusline')
 require ('nvim-compe')

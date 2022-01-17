@@ -6,20 +6,37 @@ use {'wbthomason/packer.nvim', opt = true}
 
 use 'navarasu/onedark.nvim'
 
-use {
-	'glepnir/galaxyline.nvim',
-	branch = 'main',
-	requires = { 'kyazdani42/nvim-web-devicons' }
-}
+--use {
+--	'junegunn/fzf.vim',
+--	requires = {
+--		{ 'junegunn/fzf', run = function() vim.fn['fzf#install()'](0) end}
+--	}
+--}
+
+use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
+use {'junegunn/fzf.vim'}
+
+use({
+  "NTBBloodbath/galaxyline.nvim",
+  -- your statusline
+  config = function()
+    require("galaxyline.themes.eviline")
+  end,
+  -- some optional icons
+  requires = { "kyazdani42/nvim-web-devicons", opt = true }
+})
 
 use { 'romgrk/barbar.nvim',
 	requires = { 'kyazdani42/nvim-web-devicons' }
 }
 
 use {
-    'kyazdani42/nvim-tree.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'nvim-tree'.setup {} end
+	'kyazdani42/nvim-tree.lua',
+	requires = 'kyazdani42/nvim-web-devicons',
+	config = function()
+		require'nvim-tree'.setup {}
+		vim.g.nvim_tree_disable_window_picker = 1
+	end
 }
 
 use {'vim-pandoc/vim-pandoc-syntax'}
@@ -28,6 +45,7 @@ use {'tpope/vim-surround'}
 use {'tpope/vim-commentary'}
 use {'tpope/vim-fugitive'}
 use {'glepnir/dashboard-nvim'}
+
 use {
 	'nvim-telescope/telescope.nvim',
 	requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
@@ -59,12 +77,14 @@ use {'nvim-treesitter/nvim-treesitter',
 
 use {'davidgranstrom/nvim-markdown-preview'}
 
+--Themes
 use {'sainnhe/sonokai'}
 use {'glepnir/zephyr-nvim'}
 
-use {'neovim/nvim-lspconfig'}
-
-use {'kabouzeid/nvim-lspinstall'}
+use {
+	'neovim/nvim-lspconfig',
+	'williamboman/nvim-lsp-installer',
+}
 
 use {'RishabhRD/nvim-lsputils',
 	requires = {'RishabhRD/popfix'},
@@ -79,13 +99,13 @@ use {'RishabhRD/nvim-lsputils',
 		vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 	end}
 
-use {'kosayoda/nvim-lightbulb',
-	config = function()
-		vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-	end}
+--use {'kosayoda/nvim-lightbulb',
+--	config = function()
+--		vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+--	end}
 
 use {'hrsh7th/nvim-compe'}
 
-use {'junegunn/goyo.vim'}
+--use {'junegunn/goyo.vim'}
 
 packer.compile('~/.config/nvim/plugin/packer_load.vim')
