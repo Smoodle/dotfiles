@@ -45,7 +45,7 @@ gears.timer {
 						if charging == false or charging == nil then
 						   icon = " "
 						   charging = true
-						   awful.spawn({"sh", "-c", "xbacklight -set 100"})
+						   --awful.spawn({"sh", "-c", "xbacklight -set 100"})
 						end
 					 elseif out2 == "Full\n"  then
 						   icon = " "
@@ -53,7 +53,7 @@ gears.timer {
 						if charging == true or charging == nil then
 						   icon = " "
 						   charging = false
-						   awful.spawn({"sh", "-c", "xbacklight -set 50"})
+						   --awful.spawn({"sh", "-c", "xbacklight -set 50"})
 						end
 					 end
 
