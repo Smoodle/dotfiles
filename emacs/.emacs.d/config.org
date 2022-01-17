@@ -244,15 +244,15 @@ Enable visual line mode
 
 * TreeSitter
 #+BEGIN_SRC emacs-lisp
-  (use-package tree-sitter
-	:ensure t
-	:config
-	(global-tree-sitter-mode)
-	(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
-  (use-package tree-sitter-langs
-	:ensure t
-	:after tree-sitter)
+;;  (use-package tree-sitter
+;;	:ensure t
+;;	:config
+;;	(global-tree-sitter-mode)
+;;	(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+;;
+;;  (use-package tree-sitter-langs
+;;	:ensure t
+;;	:after tree-sitter)
 #+END_SRC
 
 * Async
@@ -746,4 +746,28 @@ Set lisp program
 #+BEGIN_SRC emacs-lisp
   (use-package vterm
     :ensure t)
+#+END_SRC
+
+* ESUP
+#+BEGIN_SRC emacs-lisp
+  (use-package esup
+    :ensure t
+    ;; To use MELPA Stable use ":pin melpa-stable",
+    :config
+    (setq esup-depth 0)
+    :pin melpa)
+#+END_SRC
+
+* Keycast
+
+#+BEGIN_SRC emacs-lisp
+  (use-package keycast
+    :config
+    (define-minor-mode keycast-mode
+      "Show current command and its key binding in the mode line (fix for use with doom-mode-line)."
+      :global t
+      (if keycast-mode
+          (add-hook 'pre-command-hook 'keycast--update t)
+        (remove-hook 'pre-command-hook 'keycast--update)))
+    (add-to-list 'global-mode-string '("" mode-line-keycast)))
 #+END_SRC
