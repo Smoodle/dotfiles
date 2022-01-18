@@ -1,6 +1,6 @@
 #!/bin/bash
 
-actions=("shutdown\nrestart\nlogout\nsleep\nhibernate\nrestart dwm")
+actions=("shutdown\nrestart\nlock\nlogout\nsleep\nhibernate\nrestart dwm")
 action=$(echo -e $actions | dmenu -i -p " ")
 case "$action" in
     logout)
@@ -9,6 +9,10 @@ case "$action" in
 
     restart)
         systemctl reboot
+        ;;
+
+    lock)
+        slock
         ;;
 
     shutdown)
