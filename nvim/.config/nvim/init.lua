@@ -42,7 +42,7 @@ o.scrolloff= 5
 o.tabstop=4
 o.shiftwidth=4
 
-vim.g.onedark_style = 'darker'
+--vim.g.onedark_style = 'darker'
 
 -- dashboard
 vim.g.dashboard_default_executive = 'telescope'
