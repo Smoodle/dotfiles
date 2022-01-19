@@ -2,6 +2,7 @@ local packer = require('packer')
 local use = packer.use
 
 packer.init()
+
 use {'wbthomason/packer.nvim', opt = true}
 
 use {'navarasu/onedark.nvim',
@@ -13,28 +14,19 @@ use {'navarasu/onedark.nvim',
 	end
 }
 
---use {
---	'junegunn/fzf.vim',
---	requires = {
---		{ 'junegunn/fzf', run = function() vim.fn['fzf#install()'](0) end}
---	}
---}
-
 use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
 use {'junegunn/fzf.vim'}
 
 use 'L3MON4D3/LuaSnip'
 use 'saadparwaiz1/cmp_luasnip'
 
-use({
-	"NTBBloodbath/galaxyline.nvim",
-	-- your statusline
-	config = function()
-		require("galaxyline.themes.eviline")
-	end,
-	-- some optional icons
-	requires = { "kyazdani42/nvim-web-devicons", opt = true }
-})
+use {
+  'nvim-lualine/lualine.nvim',
+  requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+  config = function()
+	  require("evilline")
+  end
+}
 
 use { 'romgrk/barbar.nvim',
 	requires = { 'kyazdani42/nvim-web-devicons' }
@@ -72,6 +64,7 @@ use {
 		}
 	end
 }
+
 use {'nvim-treesitter/nvim-treesitter',
 	config = function()
 		require'nvim-treesitter.configs'.setup {
@@ -111,11 +104,12 @@ use {'RishabhRD/nvim-lsputils',
 --	end}
 
 use { 'hrsh7th/nvim-cmp',
-	requires = {'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline'},
+	requires = {'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline', 'onsails/lspkind-nvim'},
 	config = function()
 		vim.cmd [[ set completeopt=menu,menuone,noselect ]]
 		-- Setup nvim-cmp.
 		local cmp = require'cmp'
+		local lspkind = require('lspkind')
 
 		cmp.setup({
 			snippet = {
@@ -126,6 +120,19 @@ use { 'hrsh7th/nvim-cmp',
 					-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
 					-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 				end,
+			},
+			formatting = {
+				format = lspkind.cmp_format({
+					with_text = true, -- do not show text alongside icons
+					maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+					menu = ({
+						buffer = "[Buffer]",
+						nvim_lsp = "[LSP]",
+						luasnip = "[LuaSnip]",
+						nvim_lua = "[Lua]",
+						latex_symbols = "[Latex]",
+					})
+				})
 			},
 			mapping = {
 				['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),

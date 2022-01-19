@@ -42,8 +42,6 @@ o.scrolloff= 5
 o.tabstop=4
 o.shiftwidth=4
 
---vim.g.onedark_style = 'darker'
-
 -- dashboard
 vim.g.dashboard_default_executive = 'telescope'
 vim.api.nvim_command('autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2')
