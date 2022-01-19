@@ -47,7 +47,7 @@ vim.g.dashboard_default_executive = 'telescope'
 vim.api.nvim_command('autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2')
 
 --colorscheme
-vim.cmd('colorscheme onedark')
+--vim.cmd('colorscheme onedark')
 
 -- Auto insert mode on terminal
 vim.api.nvim_command('autocmd TermOpen * startinsert')

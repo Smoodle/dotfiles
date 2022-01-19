@@ -37,3 +37,6 @@ map('n', '<leader>b', [[<cmd>lua require 'telescope.builtin'.buffers { show_all_
 map('n', '<leader>gs', ':G<cr>', { noremap = true })
 map('n', '<leader>gc', ':G commit<cr>', { noremap = true })
 map('n', '<leader>gp', ':terminal git push<cr>', { noremap = true })
+
+-- Ripgrep
+map('n', '<leader>rg', ':Telescope live_grep<cr> ', { noremap = true })
