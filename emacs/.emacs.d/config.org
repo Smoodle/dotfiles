@@ -165,7 +165,9 @@ Enable visual line mode
     "w" 'save-buffer :which-key "Save Buffer"
     "q" 'delete-window :which-key "Close window"
     "TAB" 'mode-line-other-buffer :which-key "Switch to recent buffer"
-    "rg" 'deadgrep :which-key "RipGrep")
+    "rg" 'deadgrep :which-key "RipGrep"
+    "ca" 'lsp-execute-code-action :which-key "Lsp Code Actions"
+    )
 #+end_src
 
 * Appearance
@@ -725,9 +727,12 @@ Set lisp program
 ** WebMode
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
-	:ensure t
-	:mode ("\\.tsx\\'")
-	:config)
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode)))
 #+END_SRC
 
 ** Angular
