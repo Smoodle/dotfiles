@@ -31,6 +31,13 @@ Disable automatic creation of backup files
 #+BEGIN_SRC emacs-lisp
   (setq make-backup-files nil)
   (setq auto-save-default nil)
+
+  (setq backup-directory-alist
+        `((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+        `((".*" ,temporary-file-directory t)))
+
+  (setq create-lockfiles nil)
 #+END_SRC
 
 Conservative scrolling
@@ -184,10 +191,16 @@ Enable visual line mode
 
 ** Beacon
 #+BEGIN_SRC emacs-lisp
-  (use-package beacon
-	:ensure t
-	:config
-	(beacon-mode 1))
+  ;;(use-package beacon
+  ;;  :ensure t
+  ;;  :config
+  ;;  (setq beacon-blink-when-point-moves-horizontally nil)
+  ;;  (setq beacon-blink-when-point-moves-vertically nil)
+  ;;  (setq beacon-blink-when-buffer-changes t)
+  ;;  (setq beacon-blink-when-window-scrolls nil)
+  ;;  (setq beacon-blink-when-window-changes t)
+  ;;  (beacon-mode 1)
+  ;;  )
 #+END_SRC
 
 ** Modeline
@@ -732,7 +745,14 @@ Set lisp program
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode)))
+    (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode))
+
+    (setq web-mode-engines-alist
+          '(
+            ("razor"    . "\\.cshtml\\'")
+            )
+          )
+    )
 #+END_SRC
 
 ** Angular
