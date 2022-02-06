@@ -5,12 +5,41 @@ packer.init()
 
 use {'wbthomason/packer.nvim', opt = true}
 
-use {'navarasu/onedark.nvim',
+--use {'navarasu/onedark.nvim',
+--	config = function()
+--		require('onedark').setup {
+--			style = 'darker'
+--		}
+--		require('onedark').load()
+--	end
+--}
+
+use {"rebelot/kanagawa.nvim",
 	config = function()
-		require('onedark').setup {
-			style = 'darker'
-		}
-		require('onedark').load()
+		require('kanagawa').setup({
+			undercurl = true,           -- enable undercurls
+			commentStyle = "italic",
+			functionStyle = "NONE",
+			keywordStyle = "italic",
+			statementStyle = "bold",
+			typeStyle = "NONE",
+			variablebuiltinStyle = "italic",
+			specialReturn = true,       -- special highlight for the return keyword
+			specialException = true,    -- special highlight for exception handling keywords
+			transparent = false,        -- do not set background color
+			dimInactive = false,        -- dim inactive window `:h hl-NormalNC`
+			colors = {},
+			overrides = {},
+		})
+
+-- setup must be called before loading
+		vim.cmd("colorscheme kanagawa")
+	end
+}
+
+use {'norcalli/nvim-colorizer.lua',
+	config = function()
+		require'colorizer'.setup()
 	end
 }
 
@@ -33,7 +62,7 @@ use {'quangnguyen30192/cmp-nvim-ultisnips'}
 
 use {
   'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+  requires = { 'kyazdani42/nvim-web-devicons' },
   config = function()
 	  require("evilline")
   end
@@ -47,17 +76,86 @@ use {
 	'kyazdani42/nvim-tree.lua',
 	requires = 'kyazdani42/nvim-web-devicons',
 	config = function()
-		require'nvim-tree'.setup {}
+		local default = {
+			filters = {
+				dotfiles = false,
+			},
+			disable_netrw = true,
+			hijack_netrw = true,
+			ignore_ft_on_setup = { "dashboard" },
+			auto_close = false,
+			open_on_tab = false,
+			hijack_cursor = true,
+			update_cwd = true,
+			update_focused_file = {
+				enable = true,
+				update_cwd = false,
+			},
+			view = {
+				allow_resize = true,
+				side = "left",
+				width = 30,
+				hide_root_folder = true,
+			},
+			git = {
+				enable = false,
+				ignore = false,
+			},
+		}
+
+		require'nvim-tree'.setup(default)
 		vim.g.nvim_tree_disable_window_picker = 1
+		vim.g.nvim_tree_quit_on_open = 1
+		vim.g.nvim_tree_indent_markers = 1
+		vim.g.nvim_tree_add_trailing = 0 -- append a trailing slash to folder names
+		vim.g.nvim_tree_git_hl = 0
+		vim.g.nvim_tree_highlight_opened_files = 0
 	end
 }
 
 use {'vim-pandoc/vim-pandoc-syntax'}
 use {'vim-pandoc/vim-pandoc'}
+
 use {'tpope/vim-surround'}
 use {'tpope/vim-commentary'}
 use {'tpope/vim-fugitive'}
-use {'glepnir/dashboard-nvim'}
+
+use {'glepnir/dashboard-nvim',
+	config = function()
+		vim.g.dashboard_disable_at_vimenter = 0
+		vim.g.dashboard_disable_statusline = 1
+		vim.g.dashboard_default_executive = "telescope"
+		vim.g.dashboard_custom_header = {
+			"                                   ",
+		"                                   ",
+		"                                   ",
+		"   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          ",
+		"    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ",
+		"          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     ",
+		"           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    ",
+		"          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ",
+		"   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  ",
+		"  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   ",
+		" ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  ",
+		" ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ ",
+		"      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     ",
+		"       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     ",
+		"                                   ",
+		}
+
+		vim.g.dashboard_custom_section = {
+			a = { description = { "  Find File                 SPC f f" }, command = "Telescope find_files" },
+			b = { description = { "  Recents                   SPC f o" }, command = "Telescope oldfiles" },
+			c = { description = { "  Find Word                 SPC f w" }, command = "Telescope live_grep" },
+			d = { description = { "洛 New File                  SPC f n" }, command = "DashboardNewFile" },
+			e = { description = { "  Bookmarks                 SPC b m" }, command = "Telescope marks" },
+			f = { description = { "  Load Last Session         SPC l  " }, command = "SessionLoad" },
+		}
+		vim.g.dashboard_custom_footer = {
+			"   ",
+		}
+	end
+}
 
 use {
     'numToStr/Comment.nvim',
@@ -102,6 +200,7 @@ use {'nvim-treesitter/nvim-treesitter',
 			ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 			highlight = {
 				enable = true,              -- false will disable the whole extension
+				use_languagetree = true,
 			},
 			indent = {
 				enable = true
