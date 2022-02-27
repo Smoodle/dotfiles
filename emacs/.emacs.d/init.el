@@ -1,5 +1,5 @@
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024 5)) ;; 1mb
+(setq gc-cons-threshold (* 1024 1024 500)) ;; 500mb
+(setq read-process-output-max (* 1024 1024 5)) ;; 5mb
 (setq comp-deferred-compilation t)
 
 (require 'package)

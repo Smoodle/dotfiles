@@ -185,20 +185,15 @@ Enable visual line mode
 	(doom-themes-enable-bold t)
 	(doom-themes-enable-italic t)
 	:config
-	(load-theme 'doom-one t)
+	(load-theme 'doom-spacegrey t)
 	(doom-themes-treemacs-config))
 #+end_src
 
-** Beacon
+** COMMENT Beacon
 #+BEGIN_SRC emacs-lisp
   ;;(use-package beacon
   ;;  :ensure t
   ;;  :config
-  ;;  (setq beacon-blink-when-point-moves-horizontally nil)
-  ;;  (setq beacon-blink-when-point-moves-vertically nil)
-  ;;  (setq beacon-blink-when-buffer-changes t)
-  ;;  (setq beacon-blink-when-window-scrolls nil)
-  ;;  (setq beacon-blink-when-window-changes t)
   ;;  (beacon-mode 1)
   ;;  )
 #+END_SRC
@@ -308,7 +303,7 @@ Enable async
 #+begin_src emacs-lisp
   (use-package evil-surround
 	:after evil
-	:init
+	:config
 	(global-evil-surround-mode 1))
 #+end_src
 
@@ -316,7 +311,7 @@ Enable async
 #+begin_src emacs-lisp
   (use-package evil-collection
 	:after evil
-	:init
+	:config
 	(evil-collection-init))
 #+end_src
 
@@ -324,7 +319,7 @@ Enable async
 #+begin_src emacs-lisp
   (use-package undo-tree
 	:ensure t
-	:init
+	:config
 	(global-undo-tree-mode))
 #+end_src
 
@@ -444,7 +439,6 @@ Enable async
 #+end_src
 
 ** rotate
-
 #+BEGIN_SRC emacs-lisp
   (use-package rotate
 	:ensure t)
@@ -494,17 +488,21 @@ Enable async
 ** Company
 #+begin_src emacs-lisp
   (use-package company
-	:defer 5
-	:init (global-company-mode)
-	:config
-	(add-hook 'after-init-hook 'company-tng-mode)
-	:custom
-	(setq company-idle-delay 0)
-	(setq company-minimum-prefix-length 1)
-	(setq company-selection-wrap-around t)
-	(setq company-minimum-prefix-length 1)
-	(company-show-numbers t)
-	(company-tooltip-align-annotations t))
+    :defer 5
+    :init (global-company-mode)
+    :config
+    (add-hook 'after-init-hook 'company-tng-mode)
+    :custom
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 1)
+    (setq company-selection-wrap-around t)
+    (setq company-minimum-prefix-length 1)
+    (company-show-numbers t)
+    (company-tooltip-align-annotations t))
+
+  (general-define-key
+   :states 'insert
+   "C-SPC" 'company-complete)
 #+end_src
 
 * Hydra
@@ -550,24 +548,28 @@ Enable async
 ** lsp-ui
 #+begin_src emacs-lisp
   (use-package lsp-ui
-	:after lsp-mode
-	:config
-	(setq lsp-ui-doc-show-with-cursor t)
-	(setq lsp-ui-sideline-show-code-actions t)
-	(setq lsp-ui-doc-show-with-mouse nil)
-	(setq lsp-headerline-breadcrumb-enable nil)
-	(setq lsp-ui-sideline-show-diagnostics t)
-	(setq lsp-eldoc-enable-hover nil)
-	:commands lsp-ui-mode
-	:hook (lsp-mode . lsp-ui-mode))
+    :after lsp-mode
+    :config
+    (setq lsp-ui-doc-show-with-cursor nil)
+    (setq lsp-ui-sideline-show-code-actions t)
+    (setq lsp-ui-doc-show-with-mouse nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-ui-sideline-show-diagnostics t)
+    (setq lsp-eldoc-enable-hover nil)
+    :commands lsp-ui-mode
+    :hook (lsp-mode . lsp-ui-mode))
+
+  (general-define-key
+   :states 'normal
+   "K" 'lsp-ui-doc-glance)
 
   (smoodle/leader-key
-	"l" '(nil :which-key "LSP")
-	"li" 'lsp-ui-peek-find-implementation
-	"lr" 'lsp-ui-peek-find-references
-	"ld" 'lsp-ui-peek-find-definitions
-	"ll" 'lsp-ui-flycheck-list
-	"la" 'lsp-ui-sideline-apply-code-actions)
+    "l" '(nil :which-key "LSP")
+    "li" 'lsp-ui-peek-find-implementation
+    "lr" 'lsp-ui-peek-find-references
+    "ld" 'lsp-ui-peek-find-definitions
+    "ll" 'lsp-ui-flycheck-list
+    "la" 'lsp-ui-sideline-apply-code-actions)
 #+end_src
 
 * Flycheck
