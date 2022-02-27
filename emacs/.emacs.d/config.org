@@ -528,24 +528,23 @@ Enable async
 ** lsp
 #+begin_src emacs-lisp
   (use-package lsp-mode
-	:config
-	;; Set performance options
-	(setq gc-cons-threshold 100000000)
-	(setq read-process-output-max (* 1024 1024)) ;; 1mb
-	:hook ((js-mode         . lsp-deferred)
-		   (typescript-mode . lsp-deferred)
-		   (shell-mode      . lsp-deferred)
-		   (c-mode          . lsp-deferred)
-		   (csharp-mode     . lsp-deferred)
-		   (lua-mode        . lsp-deferred)
-		   (python-mode     . lsp-deferred)
-		   (sql-mode        . lsp-deferred)
-		   (lsp-mode . lsp-enable-which-key-integration))
-	:commands (lsp lsp-deferred))
+    :config
+    ;; Set performance options
+    :hook ((js-mode         . lsp-deferred)
+           (typescript-mode . lsp-deferred)
+           (shell-mode      . lsp-deferred)
+           (c-mode          . lsp-deferred)
+           (csharp-mode     . lsp-deferred)
+           (lua-mode        . lsp-deferred)
+           (python-mode     . lsp-deferred)
+           (sql-mode        . lsp-deferred)
+           (web-mode        . lsp-deferred)
+           (lsp-mode . lsp-enable-which-key-integration))
+    :commands (lsp lsp-deferred))
 
   (smoodle/leader-key
-	"lF" 'lsp-format-buffer
-	"lR" 'lsp-rename)
+    "lF" 'lsp-format-buffer
+    "lR" 'lsp-rename)
 #+end_src
 
 ** lsp-ui
@@ -553,9 +552,9 @@ Enable async
   (use-package lsp-ui
 	:after lsp-mode
 	:config
-	(setq lsp-ui-doc-show-with-cursor nil)
+	(setq lsp-ui-doc-show-with-cursor t)
 	(setq lsp-ui-sideline-show-code-actions t)
-	(setq lsp-ui-doc-show-with-mouse t)
+	(setq lsp-ui-doc-show-with-mouse nil)
 	(setq lsp-headerline-breadcrumb-enable nil)
 	(setq lsp-ui-sideline-show-diagnostics t)
 	(setq lsp-eldoc-enable-hover nil)
@@ -664,6 +663,16 @@ Generate pdf
 	:commands flymake-shellcheck-load
 	:init
 	(add-hook 'sh-mode-hook 'flymake-shellcheck-load))
+#+END_SRC
+
+** Dap Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dap-mode
+    :ensure t
+    :config
+    (add-hook 'dap-stopped-hook
+              (lambda (arg) (call-interactively #'dap-hydra))))
 #+END_SRC
 
 ** R
