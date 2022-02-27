@@ -500,6 +500,9 @@ Enable async
     (company-show-numbers t)
     (company-tooltip-align-annotations t))
 
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+
   (general-define-key
    :states 'insert
    "C-SPC" 'company-complete)
