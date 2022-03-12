@@ -2,6 +2,9 @@
 (setq read-process-output-max (* 1024 1024 5)) ;; 5mb
 (setq comp-deferred-compilation t)
 
+(setenv "LSP_USE_PLISTS" "true")
+(setq lsp-use-plists t)
+
 (require 'package)
 
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
