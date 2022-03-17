@@ -1,7 +1,7 @@
 #!/bin/bash
 
 actions=("shutdown\nrestart\nlock\nlogout\nsleep\nhibernate\nrestart dwm")
-action=$(echo -e $actions | dmenu -i -p " ")
+action=$(echo -e $actions | rofi -dmenu -i -p "Power ")
 case "$action" in
     logout)
         killall xinit

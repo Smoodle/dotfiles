@@ -8,7 +8,7 @@ fi
 
 cmd_list="select (copy)\nwindow (copy)\nscreen (copy)\nall (copy)\nselect"
 
-cmd="$(echo -e "$cmd_list" | dmenu -p "Screenshot")"
+cmd="$(echo -e "$cmd_list" | rofi -dmenu -p "Screenshot")"
 
 [[ -z $cmd ]] && exit 1;
 
