@@ -112,17 +112,20 @@ fi
 
 alias gpg-recv="gpg --keyserver keyserver.ubuntu.com --recv-key"
 
+alias ssh='TERM=xterm-256color ssh'
+
 #Tmux alias
 alias t="tmux"
 alias ta="t a -t"
 alias tls="t ls"
 alias tn="t new -t"
+alias gp="gldl --chapter-range 1-25 "
 
 #General alias
 alias sudo="sudo "
 alias gldl="gallery-dl -d /Media/gallery-dl"
 alias start-vline="sbcl --load ~/.local/share/nvim/site/pack/packer/start/vlime/lisp/start-vlime.lisp"
-alias emacs="emacsclient -c -a 'emacs'"
+#alias emacs="emacsclient -c -a 'emacs'"
 alias v=nvim
 alias vim=nvim
 alias pencil="electron11 /usr/lib/pencil"
