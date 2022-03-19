@@ -19,7 +19,7 @@ use {"rebelot/kanagawa.nvim",
 			specialException = true,    -- special highlight for exception handling keywords
 			transparent = false,        -- do not set background color
 			dimInactive = false,        -- dim inactive window `:h hl-NormalNC`
-			colors = {},
+		colors = {},
 			overrides = {},
 		})
 
@@ -31,6 +31,19 @@ use {"rebelot/kanagawa.nvim",
 use {'norcalli/nvim-colorizer.lua',
 	config = function()
 		require'colorizer'.setup()
+	end
+}
+
+use {
+	"folke/todo-comments.nvim",
+	requires = "nvim-lua/plenary.nvim",
+	config = function()
+		require("todo-comments").setup {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		}
+		vim.api.nvim_set_keymap('n', '<Leader>td', ':TodoTelescope<CR>', {noremap = true})
 	end
 }
 
@@ -191,11 +204,11 @@ use {'nvim-treesitter/nvim-treesitter',
 				enable = true,              -- false will disable the whole extension
 				use_languagetree = true,
 			},
-			indent = {
+		indent = {
 				enable = true
 			}
 		}
-	end}
+end}
 
 use {'davidgranstrom/nvim-markdown-preview'}
 
@@ -300,7 +313,7 @@ use { 'hrsh7th/nvim-cmp',
 				}),
 				['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				["<Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
+				if cmp.visible() then
 						cmp.select_next_item()
 					elseif luasnip.expand_or_jumpable() then
 						luasnip.expand_or_jump()
@@ -309,23 +322,23 @@ use { 'hrsh7th/nvim-cmp',
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+					end, { "i", "s" }),
 
 				["<S-Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
+				if cmp.visible() then
 						cmp.select_prev_item()
 					elseif luasnip.jumpable(-1) then
 						luasnip.jump(-1)
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+					end, { "i", "s" }),
 			},
 
 			sources = cmp.config.sources({
+				{ name = 'luasnip' }, -- For luasnip users.
 				{ name = 'nvim_lsp' },
 				--{ name = 'vsnip' }, -- For vsnip users.
-				{ name = 'luasnip' }, -- For luasnip users.
 				--{ name = 'ultisnips' }, -- For ultisnips users.
 				-- { name = 'snippy' }, -- For snippy users.
 				{ name = 'path' },
