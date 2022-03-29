@@ -4,6 +4,16 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=/home/smoodle/.local/bin:$PATH
 
+if [ -d /var/lib/flatpak/exports/bin ]; then
+  export PATH=/var/lib/flatpak/exports/bin:$PATH
+fi
+
+export ANDROID_HOME=/opt/android-sdk/
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 setopt rmstarsilent
 # Path to your oh-my-zsh installation.
 export ZSH="/home/smoodle/.oh-my-zsh"
@@ -148,6 +158,3 @@ function pomo() {
         date '+%H:%M' && sleep "${sec:?}" && notify-send -u critical -t 0 -a pomo "${msg:?}"
     done
 }
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
