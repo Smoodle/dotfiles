@@ -29,6 +29,10 @@ map('n', '<silent> <leader>,', ':noh<cr>', { noremap = true })
 --Terminal
 map('t', '<ESC>', [[<C-\><C-n>]], { noremap = true })
 
+--Lsp
+map('n','<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = true })
+map('n','<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true })
+
 --Nvim tree
 map('n', '<leader>n', ':NvimTreeToggle<cr>', { noremap = true })
 
@@ -42,7 +46,7 @@ map('n', '<leader>gc', ':G commit<cr>', { noremap = true })
 map('n', '<leader>gp', ':terminal git push<cr>', { noremap = true })
 
 -- Ripgrep
-map('n', '<leader>rg', ':Telescope grep_string<cr> ', { noremap = true })
+map('n', '<leader>rg', ':Telescope grep_string search="" only_sort_text=true<cr> ', { noremap = true })
 
 -- Barbar
 
