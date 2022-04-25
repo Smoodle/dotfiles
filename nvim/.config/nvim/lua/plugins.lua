@@ -28,6 +28,12 @@ use {"rebelot/kanagawa.nvim",
 	end
 }
 
+use { 'windwp/nvim-autopairs',
+	config = function()
+		require('nvim-autopairs').setup{}
+	end
+}
+
 use {'norcalli/nvim-colorizer.lua',
 	config = function()
 		require'colorizer'.setup()
@@ -58,14 +64,6 @@ use {'L3MON4D3/LuaSnip',
 }
 
 use 'saadparwaiz1/cmp_luasnip'
-
-use {
-	'nvim-lualine/lualine.nvim',
-	requires = { 'kyazdani42/nvim-web-devicons' },
-	config = function()
-		require("evilline")
-	end
-}
 
 use { 'romgrk/barbar.nvim',
 	requires = { 'kyazdani42/nvim-web-devicons' }
@@ -116,52 +114,169 @@ use {'vim-pandoc/vim-pandoc-syntax'}
 use {'vim-pandoc/vim-pandoc'}
 
 use {'tpope/vim-surround'}
-use {'tpope/vim-commentary'}
 use {'tpope/vim-fugitive'}
 
-use {'glepnir/dashboard-nvim',
-	config = function()
-		vim.g.dashboard_disable_at_vimenter = 0
-		vim.g.dashboard_disable_statusline = 1
-		vim.g.dashboard_default_executive = "telescope"
-		vim.g.dashboard_custom_header = {
-			"                                   ",
-			"                                   ",
-			"                                   ",
-			"   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          ",
-			"    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ",
-			"          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     ",
-			"           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    ",
-			"          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ",
-			"   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  ",
-			"  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   ",
-			" ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  ",
-			" ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ ",
-			"      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     ",
-			"       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     ",
-			"                                   ",
-		}
-
-		vim.g.dashboard_custom_section = {
-			a = { description = { "  Find File                 SPC f f" }, command = "Telescope find_files" },
-			b = { description = { "  Recents                   SPC f o" }, command = "Telescope oldfiles" },
-			c = { description = { "  Find Word                 SPC f w" }, command = "Telescope live_grep" },
-			d = { description = { "洛 New File                  SPC f n" }, command = "DashboardNewFile" },
-			e = { description = { "  Bookmarks                 SPC b m" }, command = "Telescope marks" },
-			f = { description = { "  Load Last Session         SPC l  " }, command = "SessionLoad" },
-		}
-		vim.g.dashboard_custom_footer = {
-			"   ",
-		}
-	end
-}
-
 use {
-	'numToStr/Comment.nvim',
-	config = function()
-		require('Comment').setup()
+    'goolord/alpha-nvim',
+	config = function ()
+		local present, alpha = pcall(require, "alpha")
+		if not present then
+			return
+		end
+
+		local header = {
+			type = "text",
+			val = require("tables.banners")["pacman"],
+			opts = {
+				position = "center",
+				hl = "Comment",
+			},
+		}
+
+		local function getGreeting(name)
+			local tableTime = os.date("*t")
+			local hour = tableTime.hour
+			local greeting = ""
+			if (hour >= 23 or hour < 7) then
+				greeting = "  It's bedtime"
+			elseif (hour >= 0 and hour < 12) then
+				greeting = "  Good morning"
+			elseif (hour >= 12 and hour < 18) then
+				greeting = "  Good afternoon"
+			elseif (hour >= 18 and hour < 21) then
+				greeting = "  Good evening"
+			elseif (hour >= 21) then
+				greeting = "望 Good night"
+			end
+			return greeting .. ", " .. name
+		end
+
+		local userName = "Smoodle"
+		local greeting = getGreeting(userName)
+
+
+		local greetHeading = {
+			type = "text",
+			val = greeting,
+			opts = {
+				position = "center",
+				hl = "String"
+			},
+		}
+
+		local plugins = ""
+		if vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
+			local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
+			plugins = handle:read "*a"
+			handle:close()
+
+			plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
+		else
+			plugins = "N/A"
+		end
+
+		local pluginCount = {
+			type = "text",
+			val = "  " .. plugins .. " plugins in total",
+			opts = {
+				position = "center",
+				hl = "String",
+			},
+		}
+
+		local quote = [["Comfort is the killer of man."]]
+		local quoteAuthor = "Hamza Ahmed"
+		local fullQuote = quote .. "\n \n                  - " .. quoteAuthor
+
+		local fortune = {
+			type = "text",
+			val = fullQuote,
+			opts = {
+				position = "center",
+				hl = "Comment",
+			},
+		}
+
+		local function button(sc, txt, keybind)
+			local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
+
+			local opts = {
+				position = "center",
+				text = txt,
+				shortcut = sc,
+				cursor = 0,
+				width = 19,
+				align_shortcut = "right",
+				hl_shortcut = "Number",
+				hl = "Function",
+			}
+			if keybind then
+				opts.keymap = { "n", sc_, keybind, { noremap = true, silent = true } }
+			end
+
+			return {
+				type = "button",
+				val = txt,
+				on_press = function()
+					local key = vim.api.nvim_replace_termcodes(sc_, true, false, true)
+					vim.api.nvim_feedkeys(key, "normal", false)
+				end,
+				opts = opts,
+			}
+		end
+
+		local buttons = {
+			type = "group",
+			val = {
+				button("r", "   Recents", ":Telescope oldfiles <CR>"),
+				button("p", "   Projects", ":Telescope projects <CR>"),
+				button("f", "   Files", ":Telescope find_files <CR>"),
+				button("s", "   Session", ":SessionLoadPost<CR>"),
+				button("c", "   Config", ":e ~/.config/nvim/init.lua <CR>"),
+				button("q", "   Quit", ":qa<CR>"),
+				--button("e", "  New file", ":ene <BAR> startinsert <CR>"),
+				--button("t", "  Find text", ":Telescope live_grep <CR>"),
+			},
+			opts = {
+				position = "center",
+				spacing = 1,
+			},
+		}
+
+		local section = {
+			header = header,
+			buttons = buttons,
+			greetHeading = greetHeading,
+			pluginCount = pluginCount,
+			--footer = fortune,
+		}
+
+		local opts = {
+			layout = {
+				{ type = "padding", val = 3 },
+				section.header,
+				{ type = "padding", val = 3 },
+				section.greetHeading,
+				section.pluginCount,
+				{ type = "padding", val = 2 },
+				section.buttons,
+				{ type = "padding", val = 2 },
+				section.footer,
+			},
+			opts = {
+				margin = 44,
+			},
+		}
+		alpha.setup(opts)
 	end
 }
+
+ use {
+ 	'numToStr/Comment.nvim',
+ 	config = function()
+ 		require('Comment').setup()
+ 	end
+ }
 
 use {
 	'nvim-telescope/telescope.nvim',
@@ -196,16 +311,16 @@ use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 use {'nvim-treesitter/nvim-treesitter',
 	config = function()
 		require'nvim-treesitter.configs'.setup {
-			ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+			ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 			highlight = {
 				enable = true,              -- false will disable the whole extension
 				use_languagetree = true,
 			},
-		indent = {
+			indent = {
 				enable = true
 			}
 		}
-end}
+	end}
 
 use {'davidgranstrom/nvim-markdown-preview'}
 
@@ -299,15 +414,11 @@ use { 'hrsh7th/nvim-cmp',
 					})
 				})
 			},
-			mapping = {
-				['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-				['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-				['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-				['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-				['<C-e>'] = cmp.mapping({
-					i = cmp.mapping.abort(),
-					c = cmp.mapping.close(),
-				}),
+			mapping = cmp.mapping.preset.insert({
+				['<C-b>'] = cmp.mapping.scroll_docs(-4),
+				['<C-f>'] = cmp.mapping.scroll_docs(4),
+				['<C-Space>'] = cmp.mapping.complete(),
+				['<C-e>'] = cmp.mapping.abort(),
 				['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
@@ -330,8 +441,7 @@ use { 'hrsh7th/nvim-cmp',
 						fallback()
 					end
 					end, { "i", "s" }),
-			},
-
+			}),
 			sources = cmp.config.sources({
 				{ name = 'luasnip' }, -- For luasnip users.
 				{ name = 'nvim_lsp' },
@@ -361,5 +471,42 @@ use { 'hrsh7th/nvim-cmp',
 		})
 	end
 }
+
+use {
+	'nvim-lualine/lualine.nvim',
+	requires = { 'kyazdani42/nvim-web-devicons' },
+	config = function()
+		require('lualine').setup {
+			options = {
+				icons_enabled = true,
+				theme = 'auto',
+				component_separators = { left = '', right = ''},
+				section_separators = { left = '', right = ''},
+				disabled_filetypes = {},
+				always_divide_middle = true,
+				globalstatus = true,
+			},
+			sections = {
+				lualine_a = {'mode'},
+				lualine_b = {'branch', 'diff', 'diagnostics'},
+				lualine_c = {'filename'},
+				lualine_x = {'encoding', 'fileformat', 'filetype'},
+				lualine_y = {'progress'},
+				lualine_z = {'location'}
+			},
+			inactive_sections = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = {'filename'},
+				lualine_x = {'location'},
+				lualine_y = {},
+				lualine_z = {}
+			},
+			tabline = {},
+			extensions = {}
+		}
+	end
+}
+
 
 packer.compile('~/.config/nvim/plugin/packer_load.vim')
