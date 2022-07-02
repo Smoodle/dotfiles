@@ -40,41 +40,13 @@ map('n', '<leader>n', ':NvimTreeToggle<cr>', { noremap = true })
 map('n', '<leader>f', [[<cmd>Telescope find_files<cr>]], { noremap = true })
 map('n', '<leader>b', [[<cmd>lua require 'telescope.builtin'.buffers { show_all_buffers = true }<cr>]], { noremap = true })
 
--- Fugitive
-map('n', '<leader>gs', ':G<cr>', { noremap = true })
-map('n', '<leader>gc', ':G commit<cr>', { noremap = true })
-map('n', '<leader>gp', ':terminal git push<cr>', { noremap = true })
+-- Neogit
+map('n', '<leader>gs', ':Neogit<cr>', { noremap = true })
 
 -- Ripgrep
 map('n', '<leader>rg', ':Telescope grep_string search="" only_sort_text=true<cr> ', { noremap = true })
 
--- Barbar
-
-map('n', '<A-,>', ':BufferPrevious<CR>', opt)
-map('n', '<A-.>', ':BufferNext<CR>', opt)
-
-map('n', '<A-<>', ':BufferMovePrevious<CR>', opt)
-map('n', '<A->>', ':BufferMoveNext<CR>', opt)
-
-map('n', '<A-1>', ':BufferGoto 1<CR>', opt)
-map('n', '<A-2>', ':BufferGoto 2<CR>', opt)
-map('n', '<A-3>', ':BufferGoto 3<CR>', opt)
-map('n', '<A-4>', ':BufferGoto 4<CR>', opt)
-map('n', '<A-5>', ':BufferGoto 5<CR>', opt)
-map('n', '<A-6>', ':BufferGoto 6<CR>', opt)
-map('n', '<A-7>', ':BufferGoto 7<CR>', opt)
-map('n', '<A-8>', ':BufferGoto 8<CR>', opt)
-map('n', '<A-9>', ':BufferGoto 9<CR>', opt)
-map('n', '<A-0>', ':BufferLast<CR>', opt)
-
-map('n', '<A-c>', ':BufferClose<CR>', opt)
-
-map('n', '<C-p>', ':BufferPick<CR>', opt)
-
-map('n', '<A-p>', ':BufferPin<CR>', opt)
-
 -- LspSaga
-
 map('n', '<leader>gh', ':Lspsaga lsp_finder<CR>', opt)
 map('n', '<leader>ca', ':Lspsaga code_action<CR>', opt)
 map('n', 'K', ':Lspsaga hover_doc<CR>', opt)

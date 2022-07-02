@@ -65,18 +65,10 @@ use {
 	"folke/todo-comments.nvim",
 	requires = "nvim-lua/plenary.nvim",
 	config = function()
-		require("todo-comments").setup {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-		}
+		require("todo-comments").setup {}
 		vim.api.nvim_set_keymap('n', '<Leader>td', ':TodoTelescope<CR>', {noremap = true})
 	end
 }
-
-use {'jlcrochet/vim-razor'}
-
--- use { "beauwilliams/focus.nvim", config = function() require("focus").setup() end }
 
 use {'L3MON4D3/LuaSnip',
 	config = function()
@@ -86,73 +78,6 @@ use {'L3MON4D3/LuaSnip',
 
 use 'saadparwaiz1/cmp_luasnip'
 
--- use { 'romgrk/barbar.nvim',
--- 	requires = { 'kyazdani42/nvim-web-devicons' },
--- 	config = function()
--- 		vim.g.bufferline = {
--- 			-- Enable/disable animations
--- 			animation = true,
---
--- 			-- Enable/disable auto-hiding the tab bar when there is a single buffer
--- 			auto_hide = true,
---
--- 			-- Enable/disable current/total tabpages indicator (top right corner)
--- 			tabpages = true,
---
--- 			-- Enable/disable close button
--- 			closable = true,
---
--- 			-- Enables/disable clickable tabs
--- 			--  - left-click: go to buffer
--- 			--  - middle-click: delete buffer
--- 			clickable = true,
---
--- 			-- Enable/disable icons
--- 			-- if set to 'numbers', will show buffer index in the tabline
--- 			-- if set to 'both', will show buffer index and icons in the tabline
--- 			icons = true,
---
--- 			-- If set, the icon color will follow its corresponding buffer
--- 			-- highlight group. By default, the Buffer*Icon group is linked to the
--- 			-- Buffer* group (see Highlighting below). Otherwise, it will take its
--- 			-- default value as defined by devicons.
--- 			icon_custom_colors = false,
---
--- 			-- Configure icons on the bufferline.
--- 			icon_separator_active = '▎',
--- 			icon_separator_inactive = '▎',
--- 			icon_close_tab = '',
--- 			icon_close_tab_modified = '●',
--- 			icon_pinned = '車',
---
--- 			-- If true, new buffers will be inserted at the end of the list.
--- 			-- Default is to insert after current buffer.
--- 			insert_at_end = false,
---
--- 			-- Sets the maximum padding width with which to surround each tab
--- 			maximum_padding = 1,
---
--- 			-- Sets the maximum buffer name length.
--- 			maximum_length = 30,
---
--- 			-- If set, the letters for each buffer in buffer-pick mode will be
--- 			-- assigned based on their name. Otherwise or in case all letters are
--- 			-- already assigned, the behavior is to assign letters in order of
--- 			-- usability (see order below)
--- 			semantic_letters = true,
---
--- 			-- New buffer letters are assigned in this order. This order is
--- 			-- optimal for the qwerty keyboard layout but might need adjustement
--- 			-- for other layouts.
--- 			letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
---
--- 			-- Sets the name of unnamed buffers. By default format is "[Buffer X]"
--- 			-- where X is the buffer number. But only a static string is accepted here.
--- 			no_name_title = nil,
--- 		}
---
--- 	end
--- }
 
 use {
 	'kyazdani42/nvim-tree.lua',
@@ -164,9 +89,6 @@ use {
 
 use {'vim-pandoc/vim-pandoc-syntax'}
 use {'vim-pandoc/vim-pandoc'}
-
-use {'tpope/vim-surround'}
-use {'tpope/vim-fugitive'}
 
 use {
 	'goolord/alpha-nvim',
@@ -364,7 +286,7 @@ use {'nvim-treesitter/nvim-treesitter',
 		require'nvim-treesitter.configs'.setup {
 			ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 			highlight = {
-				enable = true,              -- false will disable the whole extension
+				enable = true,
 				disable = { "html" },
 				use_languagetree = true,
 			},
