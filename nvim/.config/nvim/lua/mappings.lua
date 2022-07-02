@@ -37,7 +37,7 @@ map('n','<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true 
 map('n', '<leader>n', ':NvimTreeToggle<cr>', { noremap = true })
 
 --Telescope
-map('n', '<leader>ff', [[<cmd>Telescope find_files<cr>]], { noremap = true })
+map('n', '<leader>f', [[<cmd>Telescope find_files<cr>]], { noremap = true })
 map('n', '<leader>b', [[<cmd>lua require 'telescope.builtin'.buffers { show_all_buffers = true }<cr>]], { noremap = true })
 
 -- Fugitive
@@ -49,6 +49,12 @@ map('n', '<leader>gp', ':terminal git push<cr>', { noremap = true })
 map('n', '<leader>rg', ':Telescope grep_string search="" only_sort_text=true<cr> ', { noremap = true })
 
 -- Barbar
+
+map('n', '<A-,>', ':BufferPrevious<CR>', opt)
+map('n', '<A-.>', ':BufferNext<CR>', opt)
+
+map('n', '<A-<>', ':BufferMovePrevious<CR>', opt)
+map('n', '<A->>', ':BufferMoveNext<CR>', opt)
 
 map('n', '<A-1>', ':BufferGoto 1<CR>', opt)
 map('n', '<A-2>', ':BufferGoto 2<CR>', opt)
@@ -64,6 +70,8 @@ map('n', '<A-0>', ':BufferLast<CR>', opt)
 map('n', '<A-c>', ':BufferClose<CR>', opt)
 
 map('n', '<C-p>', ':BufferPick<CR>', opt)
+
+map('n', '<A-p>', ':BufferPin<CR>', opt)
 
 -- LspSaga
 

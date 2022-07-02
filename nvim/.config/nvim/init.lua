@@ -42,11 +42,6 @@ o.scrolloff = 5
 o.tabstop = 4
 o.shiftwidth = 4
 
--- dashboard
-vim.g.dashboard_default_executive = 'telescope'
---vim.api.nvim_command('autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2')
---vim.api.nvim_command('autocmd BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if &filetype == "dashboard" | set laststatus=0 | else | set laststatus=3 | endif')
-
 -- Auto insert mode on terminal
 vim.api.nvim_command('autocmd TermOpen * startinsert')
 
