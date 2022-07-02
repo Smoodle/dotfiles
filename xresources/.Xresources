@@ -2,7 +2,7 @@
 #define fg #D9E0EE
 #define accent #DDB6F2
 
- Xft.dpi: 90
+! Xft.dpi: 90
 
 dwm.normbordercolor: fg
 dwm.normbgcolor: bg
