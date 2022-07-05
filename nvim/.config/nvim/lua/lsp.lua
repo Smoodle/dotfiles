@@ -1,13 +1,22 @@
 local lsp_installer = require("nvim-lsp-installer")
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-lsp_installer.on_server_ready(function(server)
-    local opts = {}
+lsp_installer.setup({
+	automatic_installation = true,
+	ui = {
+		icons = {
+			server_installed = "✓",
+			server_pending = "➜",
+			server_uninstalled = "✗"
+		}
+	}
+})
 
-	opts.capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local lspconfig = require('lspconfig')
+local servers = lsp_installer.get_installed_servers()
 
-     if server.name == "sumneko_lua" then
-		 opts.settings = { Lua = { diagnostics = { globals = {'vim'} }}}
-	 end
-
-    server:setup(opts)
-end)
+for _, lsp in ipairs(servers) do
+	lspconfig[lsp.name].setup {
+		capabilities = capabilities,
+	}
+end
