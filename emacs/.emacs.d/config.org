@@ -201,7 +201,7 @@ Enable visual line mode
 ** Modeline
 #+begin_src emacs-lisp
   (use-package doom-modeline
-	:init (doom-modeline-init)
+	:init (doom-modeline-mode)
 	:custom
 	(doom-modeline-major-mode-icon t)
 	(doom-modeline-major-mode-color-icon t)
@@ -230,7 +230,6 @@ Enable visual line mode
 #+end_src
 
 ** Golden ratio
-
 #+BEGIN_SRC emacs-lisp
   (use-package golden-ratio :ensure t)
   (golden-ratio-mode 1)
@@ -251,19 +250,6 @@ Enable visual line mode
 	:config
 	(dashboard-setup-startup-hook))
 #+end_src
-
-* TreeSitter
-#+BEGIN_SRC emacs-lisp
-;;  (use-package tree-sitter
-;;	:ensure t
-;;	:config
-;;	(global-tree-sitter-mode)
-;;	(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-;;
-;;  (use-package tree-sitter-langs
-;;	:ensure t
-;;	:after tree-sitter)
-#+END_SRC
 
 * Async
 Enable async
@@ -318,9 +304,10 @@ Enable async
 ** undo tree
 #+begin_src emacs-lisp
   (use-package undo-tree
-	:ensure t
-	:config
-	(global-undo-tree-mode))
+    :ensure t
+    :config
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+    (global-undo-tree-mode))
 #+end_src
 
 * Org
@@ -487,25 +474,25 @@ Enable async
 * Company
 ** Company
 #+begin_src emacs-lisp
-  (use-package company
-    :defer 5
-    :init (global-company-mode)
-    :config
-    (add-hook 'after-init-hook 'company-tng-mode)
-    :custom
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 1)
-    (setq company-selection-wrap-around t)
-    (setq company-minimum-prefix-length 1)
-    (company-show-numbers t)
-    (company-tooltip-align-annotations t))
+    (use-package company
+      :defer 5
+      :init (global-company-mode)
+      :config
+      (add-hook 'after-init-hook 'company-tng-mode)
+      (setq company-idle-delay 0)
+      (setq company-minimum-prefix-length 1)
+      (setq company-selection-wrap-around t)
+      (setq company-minimum-prefix-length 1)
+      (setq company-show-numbers t)
+      (setq company-tooltip-align-annotations t)
+  )
 
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
+    (use-package company-box
+      :hook (company-mode . company-box-mode))
 
-  (general-define-key
-   :states 'insert
-   "C-SPC" 'company-complete)
+    (general-define-key
+     :states 'insert
+     "C-SPC" 'company-complete)
 #+end_src
 
 * Hydra
