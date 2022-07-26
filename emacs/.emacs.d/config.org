@@ -631,6 +631,42 @@ Generate pdf
 	  ))
 #+END_SRC
 
+** Logger
+
+#+BEGIN_SRC emacs-lisp
+  (defun logger_language_message (word)
+    (cond
+     ((or
+       (string-match-p "\\.js\\'" (buffer-file-name))
+       (string-match-p "\\.ts\\'" (buffer-file-name))
+       (string-match-p "\\.jsx\\'" (buffer-file-name))
+       (string-match-p "\\.tsx\\'" (buffer-file-name)))
+      (concat "console.log(` " (buffer-file-name) " " (what-line) "   ${" word "}`);"))
+     (
+      (string-match-p "\\.py\\'" (buffer-file-name))
+      (concat "print(\" " (buffer-file-name) " " (what-line) "   \" + " word ")"))
+     (t nil)
+     )
+    )
+
+  (defun smoodle/logger_log ()
+    (interactive)
+    (let* ((word (current-word)) (message (logger_language_message word)))
+      (cond
+       ((null message) (message "No logger found for this file type"))
+       (t
+        (end-of-line)
+        (newline-and-indent)
+        (insert message)
+        )
+       )
+      )
+    )
+
+  (smoodle/leader-key
+    "p" 'smoodle/logger_log :which-key "Write a logger at point"
+    )
+#+END_SRC
 * Programming
 ** Carbon sh
 #+BEGIN_SRC emacs-lisp
