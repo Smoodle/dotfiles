@@ -305,9 +305,26 @@ use {'nvim-treesitter/nvim-treesitter',
 
 use {'davidgranstrom/nvim-markdown-preview'}
 
-use {
-	'neovim/nvim-lspconfig',
-	'williamboman/nvim-lsp-installer',
+-- use {
+-- 	'neovim/nvim-lspconfig',
+-- 	'williamboman/nvim-lsp-installer',
+-- }
+
+use { "williamboman/mason.nvim",
+	requires = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig" },
+	config = function ()
+		require("mason").setup()
+		local mason_lspconfig = require 'mason-lspconfig'
+		local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+		mason_lspconfig.setup()
+
+		for _, lsp in ipairs(mason_lspconfig.get_installed_servers()) do
+			require("lspconfig")[lsp].setup {
+				capabilities = capabilities,
+			}
+		end
+	end
 }
 
 use { 'tami5/lspsaga.nvim',
