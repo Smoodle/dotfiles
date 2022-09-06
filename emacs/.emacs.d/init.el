@@ -5,6 +5,9 @@
 (setenv "LSP_USE_PLISTS" "true")
 (setq lsp-use-plists t)
 
+(setq custom-file (locate-user-emacs-file "custom-vars.el"))
+(load custom-file 'noerror 'nomessage)
+
 (require 'package)
 
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
@@ -15,13 +18,22 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; bootstrap use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
 
-(require 'use-package)
-(setq use-package-always-ensure t)
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
 (use-package org
   :ensure org-contrib)
@@ -29,21 +41,3 @@
 (org-babel-load-file (expand-file-name "config.org" user-emacs-directory))
 
 (garbage-collect)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-show-quick-access t nil nil "Customized with use-package company")
- '(custom-safe-themes
-   '("27a1dd6378f3782a593cc83e108a35c2b93e5ecc3bd9057313e1d88462701fcd" "76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" default))
- '(package-selected-packages
-   '(mood-line leetcode dap-mode keycast esup org-roam golden-ratio deadgrep org-appear carbon-now-sh vterm ng2-mode web-mode slime flycheck rotate emacs-rotate company-box lsp-ui lsp-mode auctex eglot beacon flymake-shellcheck poly-R ess moe-theme moonscript moonscript-mode yasnippet lua-mode neotree undo-tree json-mode helpful ivy-rich rainbow-delimiters company-lsp lsp-mssql ox-twbs ox-twiki typescript-mode ivy winum projectile treemacs company org-bullets doom-modeline elcord which-key evil-collection evil-surround evil-magit evil use-package org-plus-contrib))
- '(warning-suppress-log-types '((comp)))
- '(warning-suppress-types '((lsp-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

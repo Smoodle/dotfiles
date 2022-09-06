@@ -40,11 +40,6 @@ Disable automatic creation of backup files
   (setq create-lockfiles nil)
 #+END_SRC
 
-Conservative scrolling
-#+BEGIN_SRC emacs-lisp
-  (setq scroll-conservatively 100)
-#+END_SRC
-
 New window switches
 #+BEGIN_SRC emacs-lisp
   (defun split-and-follow-horizontally ()
@@ -114,7 +109,6 @@ General better defaults:
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (global-subword-mode 1)                           ; Iterate through CamelCase words
   (menu-bar-mode 0)                                 ; Disable the menu bar
-  (mouse-avoidance-mode 'jump)                      ; Avoid collision of mouse with point
   (put 'downcase-region 'disabled nil)              ; Enable downcase-region
   (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 #+end_src
@@ -157,6 +151,30 @@ Enable visual line mode
   (global-visual-line-mode)
 #+END_SRC
 
+Save minibuffer choises
+
+#+BEGIN_SRC emacs-lisp
+  (setq history-length 25)
+  (savehist-mode 1)
+#+END_SRC
+
+Disable dialog box
+
+#+BEGIN_SRC emacs-lisp
+  (setq use-dialog-box nil)
+#+END_SRC
+
+Avoid the mouse
+
+#+BEGIN_SRC emacs-lisp
+  (setq mouse-avoidance-banish-position '((frame-or-window . frame)
+                                          (side . right)
+                                          (side-pos . 100)
+                                          (top-or-bottom . bottom)
+                                          (top-or-bottom-pos . 0)))
+  (mouse-avoidance-mode 'banish)
+#+END_SRC
+
 * Keybindings
 ** General
 #+begin_src emacs-lisp
@@ -191,11 +209,9 @@ Enable visual line mode
 
 ** COMMENT Beacon
 #+BEGIN_SRC emacs-lisp
-  ;;(use-package beacon
-  ;;  :ensure t
-  ;;  :config
-  ;;  (beacon-mode 1)
-  ;;  )
+  (use-package beacon
+    :config
+    (beacon-mode 1))
 #+END_SRC
 
 ** Modeline
@@ -234,7 +250,7 @@ Enable visual line mode
 
 ** Golden ratio
 #+BEGIN_SRC emacs-lisp
-  (use-package golden-ratio :ensure t)
+  (use-package golden-ratio)
   (golden-ratio-mode 1)
 #+END_SRC
 
@@ -242,23 +258,22 @@ Enable visual line mode
 ** emacs-dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
-	:custom
-	(dashboard-startup-banner (expand-file-name "gura.png" user-emacs-directory))
-	(dashboard-footer-messages '("EXPLOOOOOOOOOOSIONNN!"))
-	(dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
-	(dashboard-center-content t)
-	(dashboard-set-heading-icons t)
-	(dashboard-set-file-icons t)
-	(dashboard-set-navigator t)
-	:config
-	(dashboard-setup-startup-hook))
+    :custom
+    (dashboard-startup-banner (expand-file-name "megumin_emacs.png" user-emacs-directory))
+    (dashboard-footer-messages '("EXPLOOOOOOOOOOSIONNN!"))
+    (dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
+    (dashboard-center-content t)
+    (dashboard-set-heading-icons t)
+    (dashboard-set-file-icons t)
+    (dashboard-set-navigator t)
+    :config
+    (dashboard-setup-startup-hook))
 #+end_src
 
 * Async
 Enable async
 #+BEGIN_SRC emacs-lisp
   (use-package async
-	:ensure t
 	:init
 	(dired-async-mode 1))
 #+END_SRC
@@ -307,7 +322,6 @@ Enable async
 ** undo tree
 #+begin_src emacs-lisp
   (use-package undo-tree
-    :ensure t
     :config
     (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
     (global-undo-tree-mode))
@@ -336,7 +350,6 @@ Enable async
         org-image-actual-width '(300))
 
   (use-package org-appear
-    :ensure t
     :hook (org-mode . org-appear-mode))
 
   ;; Increase size of LaTeX fragment previews
@@ -380,7 +393,6 @@ Enable async
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
-    :ensure t
     :custom
     (org-roam-directory (file-truename "~/Notes/Roam"))
     :bind (("C-c n l" . org-roam-buffer-toggle)
@@ -430,8 +442,7 @@ Enable async
 
 ** rotate
 #+BEGIN_SRC emacs-lisp
-  (use-package rotate
-	:ensure t)
+  (use-package rotate)
 #+END_SRC
 
 * Ivy
@@ -474,28 +485,34 @@ Enable async
 	([remap describe-key] . helpful-key))
 #+end_src
 
-* Company
+* Completion
 ** Company
 #+begin_src emacs-lisp
-    (use-package company
-      :defer 5
-      :init (global-company-mode)
-      :config
-      (add-hook 'after-init-hook 'company-tng-mode)
-      (setq company-idle-delay 0)
-      (setq company-minimum-prefix-length 1)
-      (setq company-selection-wrap-around t)
-      (setq company-minimum-prefix-length 1)
-      (setq company-show-numbers t)
-      (setq company-tooltip-align-annotations t)
-  )
+   (use-package company
+     :defer 5
+     ;;:init (global-company-mode)
+     :config
+     (add-hook 'after-init-hook 'company-tng-mode)
+     (setq company-idle-delay 0)
+     (setq company-minimum-prefix-length 1)
+     (setq company-selection-wrap-around t)
+     (setq company-minimum-prefix-length 1)
+     (setq company-show-numbers t)
+     (setq company-tooltip-align-annotations t)
+     )
 
-    (use-package company-box
-      :hook (company-mode . company-box-mode))
+   (use-package company-box
+     :after (company)
+     :hook (company-mode . company-box-mode))
 
-    (general-define-key
-     :states 'insert
-     "C-SPC" 'company-complete)
+   (use-package company-quickhelp
+     :after (company)
+     :init
+     (company-quickhelp-mode))
+
+   (general-define-key
+    :states 'insert
+    "C-SPC" 'company-complete)
 #+end_src
 
 * Hydra
@@ -518,24 +535,24 @@ Enable async
 * LSP
 ** lsp
 #+begin_src emacs-lisp
-  (use-package lsp-mode
-    :config
-    ;; Set performance options
-    :hook ((js-mode         . lsp-deferred)
-           (typescript-mode . lsp-deferred)
-           (shell-mode      . lsp-deferred)
-           (c-mode          . lsp-deferred)
-           (csharp-mode     . lsp-deferred)
-           (lua-mode        . lsp-deferred)
-           (python-mode     . lsp-deferred)
-           (sql-mode        . lsp-deferred)
-           (web-mode        . lsp-deferred)
-           (lsp-mode . lsp-enable-which-key-integration))
-    :commands (lsp lsp-deferred))
+    (use-package lsp-mode
+      :hook (
+             (js-mode             . lsp-deferred)
+             (typescript-mode     . lsp-deferred)
+             (shell-mode          . lsp-deferred)
+             (c-mode              . lsp-deferred)
+             (csharp-mode         . lsp-deferred)
+             (lua-mode            . lsp-deferred)
+             (python-mode         . lsp-deferred)
+             (sql-mode            . lsp-deferred)
+             (web-mode            . lsp-deferred)
+             (java-mode           . lsp-deferred)
+             (lsp-mode . lsp-enable-which-key-integration))
+      :commands (lsp lsp-deferred))
 
-  (smoodle/leader-key
-    "lF" 'lsp-format-buffer
-    "lR" 'lsp-rename)
+    (smoodle/leader-key
+      "lF" 'lsp-format-buffer
+      "lR" 'lsp-rename)
 #+end_src
 
 ** lsp-ui
@@ -554,7 +571,8 @@ Enable async
 
   (general-define-key
    :states 'normal
-   "K" 'lsp-ui-doc-glance)
+   "K" 'lsp-ui-doc-glance
+   )
 
   (smoodle/leader-key
     "l" '(nil :which-key "LSP")
@@ -562,6 +580,8 @@ Enable async
     "lr" 'lsp-ui-peek-find-references
     "ld" 'lsp-ui-peek-find-definitions
     "ll" 'lsp-ui-flycheck-list
+    "gd" 'lsp-find-definition
+    "gD" 'lsp-find-declaration
     "la" 'lsp-ui-sideline-apply-code-actions)
 #+end_src
 
@@ -569,7 +589,6 @@ Enable async
 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-	:ensure t
 	:defer t
 	:init
 	(global-flycheck-mode))
@@ -582,7 +601,6 @@ Enable async
 ** yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet
-	:ensure t
 	:config (yas-global-mode 1))
 #+end_src
 
@@ -648,6 +666,12 @@ Generate pdf
      (
       (string-match-p "\\.py\\'" (buffer-file-name))
       (concat "print(\" " (buffer-file-name) " " (what-line) "   \" + " word ")"))
+     (
+      (string-match-p "\\.java\\'" (buffer-file-name))
+      (concat "System.out.println(\" " (buffer-file-name) " " (what-line) "   \" + " word ");"))
+     (
+      (string-match-p "\\.rs\\'" (buffer-file-name))
+      (concat "println!(\" " (buffer-file-name) " " (what-line) "   {}\", " word ");"))
      (t nil)
      )
     )
@@ -673,24 +697,13 @@ Generate pdf
 * Programming
 ** Carbon sh
 #+BEGIN_SRC emacs-lisp
-  (use-package carbon-now-sh
-	:ensure t)
-#+END_SRC
-** Tex
-*** Auctex
-#+BEGIN_SRC emacs-lisp
-  (use-package tex
-	:defer t
-	:ensure auctex
-	:config
-	(setq TeX-auto-save t))
+  (use-package carbon-now-sh)
 #+END_SRC
 
 ** Flymake
 *** ShellCheck
 #+BEGIN_SRC emacs-lisp
   (use-package flymake-shellcheck
-	:ensure t
 	:commands flymake-shellcheck-load
 	:init
 	(add-hook 'sh-mode-hook 'flymake-shellcheck-load))
@@ -700,7 +713,6 @@ Generate pdf
 
 #+BEGIN_SRC emacs-lisp
   (use-package dap-mode
-    :ensure t
     :config
     (add-hook 'dap-stopped-hook
               (lambda (arg) (call-interactively #'dap-hydra))))
@@ -709,18 +721,15 @@ Generate pdf
 ** R
 #+BEGIN_SRC emacs-lisp
   (use-package ess
-	:ensure t
 	:config
 	(setq ess-fancy-comments nil))
 
-  (use-package poly-R
-	:ensure t)
+  (use-package poly-R)
 #+END_SRC
 
 ** Markdown
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-	:ensure t
 	:mode (("README\\.md\\'" . gfm-mode)
 		   ("\\.md\\'" . markdown-mode)
 		   ("\\.markdown\\'" . markdown-mode))
@@ -742,7 +751,16 @@ Generate pdf
 
 ** lua
 #+begin_src emacs-lisp
-  (use-package lua-mode)
+
+  (use-package lua-mode
+    :config
+    (setq lua-documentation-function 'eww))
+
+  (setq lsp-lua-workspace-library '(
+                                    (/usr/share/nvim/runtime/lua . t)
+                                    (/usr/share/nvim/runtime/lua/lsp . t)
+                                    (/usr/share/awesome/lib . t)
+                                    ))
 #+end_src
 
 ** moonscript
@@ -757,15 +775,13 @@ Set lisp program
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package slime
-	:ensure t)
+  (use-package slime)
 #+END_SRC
 
 ** C#
 
 #+BEGIN_SRC emacs-lisp
   (use-package csharp-mode
-	:ensure t
 	:config
 	(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode)))
 
@@ -780,7 +796,6 @@ Set lisp program
 ** WebMode
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
-    :ensure t
     :config
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
@@ -797,26 +812,35 @@ Set lisp program
 
 ** Angular
 #+BEGIN_SRC emacs-lisp
-  (use-package ng2-mode
-	:ensure t)
+  (use-package ng2-mode)
+#+END_SRC
+
+** Rust
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode)
+#+END_SRC
+
+** Java
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-java
+    :init
+    (add-hook 'java-mode-hook #'lsp))
+
 #+END_SRC
 
 * RipGrep
 #+BEGIN_SRC emacs-lisp
-  (use-package deadgrep
-    :ensure t)
+  (use-package deadgrep)
 #+END_SRC
 
 * VTerm
 #+BEGIN_SRC emacs-lisp
-  (use-package vterm
-    :ensure t)
+  (use-package vterm)
 #+END_SRC
 
 * ESUP
 #+BEGIN_SRC emacs-lisp
   (use-package esup
-    :ensure t
     ;; To use MELPA Stable use ":pin melpa-stable",
     :config
     (setq esup-depth 0)
