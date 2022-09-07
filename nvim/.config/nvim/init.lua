@@ -1,49 +1,50 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+local install_path = fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
-	execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-	execute 'packadd packer.nvim'
+	execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+	execute("packadd packer.nvim")
 end
 
-vim.cmd [[packadd packer.nvim]]
+vim.cmd([[packadd packer.nvim]])
 
-require 'init'
+require("init")
 
 local o = vim.opt
-if vim.fn.has('termguicolors') == 1 then
+
+if vim.fn.has("termguicolors") == 1 then
 	o.termguicolors = true
 end
 
-o.syntax = 'enable' -- check if this does anything
-o.encoding = 'utf-8'
-o.hidden = true
-o.completeopt = { 'menuone', 'noselect' }
-o.shortmess:append({c = true})
-o.splitbelow = true
-o.splitright = true
-o.swapfile = false
-o.backup = false
-o.writebackup = false
-o.undodir = os.getenv('HOME') .. '/.vim/undodir'
-o.undofile = true
-o.incsearch = true
-o.autoread = true
-o.nu = true
-o.rnu = true
-o.mouse = 'a'
-o.title = true
-o.cmdheight = 2
-o.updatetime = 300
-o.scrolloff = 5
+o.shortmess:append({ c = true })
 
-o.tabstop = 4
-o.shiftwidth = 4
+o.syntax      = "enable" -- check if this does anything
+o.encoding    = "utf-8"
+o.hidden      = true
+o.completeopt = { "menuone", "noselect" }
+o.splitbelow  = true
+o.splitright  = true
+o.swapfile    = false
+o.backup      = false
+o.writebackup = false
+o.undodir     = os.getenv("HOME") .. "/.vim/undodir"
+o.undofile    = true
+o.incsearch   = true
+o.autoread    = true
+o.nu          = true
+o.rnu         = true
+o.mouse       = "a"
+o.title       = true
+o.cmdheight   = 2
+o.updatetime  = 300
+o.scrolloff   = 5
+o.tabstop     = 4
+o.shiftwidth  = 4
 
 -- Auto insert mode on terminal
-vim.api.nvim_command('autocmd TermOpen * startinsert')
+vim.api.nvim_command("autocmd TermOpen * startinsert")
 
 vim.api.nvim_command([[
 function! WinMove(key)
@@ -66,7 +67,7 @@ nnoremap <silent> <C-k> :call WinMove('k')<CR>
 nnoremap <silent> <C-l> :call WinMove('l')<CR>
 ]])
 
-vim.cmd [[
+vim.cmd([[
 autocmd FileType cs call CSharp_Settings()
 
 function! CSharp_Settings()
@@ -74,10 +75,10 @@ function! CSharp_Settings()
   setlocal shiftwidth=4
   setlocal noexpandtab
 endfunction
-]]
+]])
 
 --Fold
-vim.cmd [[
+vim.cmd([[
 set nofoldenable
 set foldlevel=99
 set fillchars=fold:\
@@ -105,6 +106,6 @@ function! CustomFoldText()
   let expansionString = repeat(" ", w - strwidth(foldSizeStr.line.foldLevelStr))
   return line . expansionString . foldSizeStr . foldLevelStr
 endfunction
-]]
+]])
 
-require 'mappings'
+require("mappings")

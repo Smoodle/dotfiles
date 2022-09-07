@@ -1,98 +1,132 @@
-local packer = require('packer')
+local packer = require("packer")
 local use = packer.use
 
 packer.init()
 
-use {'wbthomason/packer.nvim', opt = true}
+use({ "wbthomason/packer.nvim", opt = true })
 
-use { 'anuvyklack/hydra.nvim',
-    requires = 'anuvyklack/keymap-layer.nvim',
-	config=function ()
-		require("hydra.git")
-	end
-}
-
-use {
-  'lewis6991/gitsigns.nvim',
-  config = function()
-    require('gitsigns').setup()
-  end
-}
-
-use { 'TimUntersberger/neogit',
-	requires = 'nvim-lua/plenary.nvim',
-	config = function ()
-		require('neogit').setup {}
-	end}
-
-use {"rebelot/kanagawa.nvim",
+use({
+	"anuvyklack/hydra.nvim",
+	requires = "anuvyklack/keymap-layer.nvim",
 	config = function()
-		require('kanagawa').setup({
-			undercurl = true,           -- enable undercurls
+		require("hydra.git")
+	end,
+})
+
+use({
+	"lewis6991/gitsigns.nvim",
+	config = function()
+		require("gitsigns").setup()
+	end,
+})
+
+use 'RRethy/nvim-align'
+
+use({
+	"jose-elias-alvarez/null-ls.nvim",
+	config = function()
+		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+		require("null-ls").setup({
+			-- you can reuse a shared lspconfig on_attach callback here
+			on_attach = function(client, bufnr)
+				if client.supports_method("textDocument/formatting") then
+					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = augroup,
+						buffer = bufnr,
+						callback = function()
+							-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+							--vim.lsp.buf.formatting_sync()
+						end,
+					})
+				end
+			end,
+			sources = {
+				require("null-ls").builtins.formatting.stylua,
+			},
+		})
+	end,
+})
+
+use({
+	"TimUntersberger/neogit",
+	requires = "nvim-lua/plenary.nvim",
+	config = function()
+		require("neogit").setup({})
+	end,
+})
+
+use({
+	"rebelot/kanagawa.nvim",
+	config = function()
+		require("kanagawa").setup({
+			undercurl = true, -- enable undercurls
 			commentStyle = { italic = true },
 			functionStyle = {},
-			keywordStyle = { italic = true},
+			keywordStyle = { italic = true },
 			statementStyle = { bold = true },
 			typeStyle = {},
-			variablebuiltinStyle = { italic = true},
-			specialReturn = true,       -- special highlight for the return keyword
-			specialException = true,    -- special highlight for exception handling keywords
-			transparent = false,        -- do not set background color
-			dimInactive = false,        -- dim inactive window `:h hl-NormalNC`
-			globalStatus = false,       -- adjust window separators highlight for laststatus=3
+			variablebuiltinStyle = { italic = true },
+			specialReturn = true, -- special highlight for the return keyword
+			specialException = true, -- special highlight for exception handling keywords
+			transparent = false, -- do not set background color
+			dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+			globalStatus = false, -- adjust window separators highlight for laststatus=3
 			colors = {},
 			overrides = {},
 		})
 
 		-- setup must be called before loading
 		vim.cmd("colorscheme kanagawa")
-	end
-}
+	end,
+})
 
-use { 'windwp/nvim-autopairs',
+use({
+	"windwp/nvim-autopairs",
 	config = function()
-		require('nvim-autopairs').setup{}
-	end
-}
+		require("nvim-autopairs").setup({})
+	end,
+})
 
-use {'norcalli/nvim-colorizer.lua',
+use({
+	"norcalli/nvim-colorizer.lua",
 	config = function()
-		require'colorizer'.setup()
-	end
-}
+		require("colorizer").setup()
+	end,
+})
 
-use {
+use({
 	"folke/todo-comments.nvim",
 	requires = "nvim-lua/plenary.nvim",
 	config = function()
-		require("todo-comments").setup {}
-		vim.api.nvim_set_keymap('n', '<Leader>td', ':TodoTelescope<CR>', {noremap = true})
-	end
-}
+		require("todo-comments").setup({})
+		vim.api.nvim_set_keymap("n", "<Leader>td", ":TodoTelescope<CR>", { noremap = true })
+	end,
+})
 
-use {'L3MON4D3/LuaSnip',
+use({
+	"L3MON4D3/LuaSnip",
 	config = function()
 		require("luasnip.loaders.from_snipmate").lazy_load()
-	end
-}
+	end,
+})
 
-use 'saadparwaiz1/cmp_luasnip'
+use("saadparwaiz1/cmp_luasnip")
 
-
-use {
-	'kyazdani42/nvim-tree.lua',
-	requires = 'kyazdani42/nvim-web-devicons',
+use({
+	"kyazdani42/nvim-tree.lua",
+	requires = "kyazdani42/nvim-web-devicons",
 	config = function()
-		require'nvim-tree'.setup()
-	end
-}
+		require("nvim-tree").setup()
+	end,
+})
 
-use {'vim-pandoc/vim-pandoc-syntax'}
-use {'vim-pandoc/vim-pandoc'}
+use({ "vim-pandoc/vim-pandoc-syntax" })
+use({ "vim-pandoc/vim-pandoc" })
 
-use {
-	'goolord/alpha-nvim',
-	config = function ()
+use({
+	"goolord/alpha-nvim",
+	config = function()
 		local present, alpha = pcall(require, "alpha")
 		if not present then
 			return
@@ -111,15 +145,15 @@ use {
 			local tableTime = os.date("*t")
 			local hour = tableTime.hour
 			local greeting = ""
-			if (hour >= 23 or hour < 7) then
+			if hour >= 23 or hour < 7 then
 				greeting = "  It's bedtime"
-			elseif (hour >= 0 and hour < 12) then
+			elseif hour >= 0 and hour < 12 then
 				greeting = "  Good morning"
-			elseif (hour >= 12 and hour < 18) then
+			elseif hour >= 12 and hour < 18 then
 				greeting = "  Good afternoon"
-			elseif (hour >= 18 and hour < 21) then
+			elseif hour >= 18 and hour < 21 then
 				greeting = "  Good evening"
-			elseif (hour >= 21) then
+			elseif hour >= 21 then
 				greeting = "望 Good night"
 			end
 			return greeting .. ", " .. name
@@ -128,20 +162,20 @@ use {
 		local userName = "Smoodle"
 		local greeting = getGreeting(userName)
 
-
 		local greetHeading = {
 			type = "text",
 			val = greeting,
 			opts = {
 				position = "center",
-				hl = "String"
+				hl = "String",
 			},
 		}
 
 		local plugins = ""
-		if vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
-			local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
-			plugins = handle:read "*a"
+		if vim.fn.has("linux") == 1 or vim.fn.has("mac") == 1 then
+			local handle =
+				io.popen('fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" ')
+			plugins = handle:read("*a")
 			handle:close()
 
 			plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
@@ -241,35 +275,35 @@ use {
 			},
 		}
 		alpha.setup(opts)
-	end
-}
+	end,
+})
 
-use {
-	'numToStr/Comment.nvim',
+use({
+	"numToStr/Comment.nvim",
 	config = function()
-		require('Comment').setup()
-	end
-}
+		require("Comment").setup()
+	end,
+})
 
-use {
-	'nvim-telescope/telescope.nvim',
-	requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+use({
+	"nvim-telescope/telescope.nvim",
+	requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } },
 	config = function()
-		local actions = require('telescope.actions')
-		require('telescope').setup{
+		local actions = require("telescope.actions")
+		require("telescope").setup({
 			extensions = {
 				fzf = {
-					fuzzy = true,                    -- false will only do exact matching
-					override_generic_sorter = true,  -- override the generic sorter
-					override_file_sorter = true,     -- override the file sorter
-					case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+					fuzzy = true, -- false will only do exact matching
+					override_generic_sorter = true, -- override the generic sorter
+					override_file_sorter = true, -- override the file sorter
+					case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 					-- the default case_mode is "smart_case"
-				}
+				},
 			},
 			defaults = {
 				mappings = {
 					i = {
-						["<esc>"] = actions.close
+						["<esc>"] = actions.close,
 					},
 				},
 			},
@@ -280,57 +314,124 @@ use {
 					sort_mru = true,
 				},
 			},
-		}
+		})
 
-		require('telescope').load_extension('fzf')
-	end
-}
+		require("telescope").load_extension("fzf")
+	end,
+})
 
-use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 
-use {'nvim-treesitter/nvim-treesitter',
+use({
+	"nvim-treesitter/nvim-treesitter",
 	config = function()
-		require'nvim-treesitter.configs'.setup {
+		require("nvim-treesitter.configs").setup({
 			ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 			highlight = {
 				enable = true,
-				disable = { "html" },
+				disable = function (_, bufnr)
+					return vim.api.nvim_buf_line_count(bufnr) > 50000
+				end,
 				use_languagetree = true,
 			},
 			indent = {
-				enable = true
-			}
-		}
-	end}
+				enable = true,
+			},
+		})
+	end,
+})
 
-use {'davidgranstrom/nvim-markdown-preview'}
+use({ "davidgranstrom/nvim-markdown-preview" })
 
 -- use {
 -- 	'neovim/nvim-lspconfig',
 -- 	'williamboman/nvim-lsp-installer',
 -- }
 
-use { "williamboman/mason.nvim",
+use({
+	"williamboman/mason.nvim",
 	requires = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig" },
-	config = function ()
+	config = function()
 		require("mason").setup()
-		local mason_lspconfig = require 'mason-lspconfig'
-		local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+		local mason_lspconfig = require("mason-lspconfig")
+		local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 		mason_lspconfig.setup()
 
-		for _, lsp in ipairs(mason_lspconfig.get_installed_servers()) do
-			require("lspconfig")[lsp].setup {
-				capabilities = capabilities,
-			}
-		end
-	end
-}
+		local settings = {}
 
-use { 'tami5/lspsaga.nvim',
-	config = function ()
-		local lspsaga = require 'lspsaga'
-		lspsaga.setup { -- defaults ...
+		for _, lsp in ipairs(mason_lspconfig.get_installed_servers()) do
+			if lsp == "sumneko_lua" then
+				local runtime_path = vim.split(package.path, ";")
+				table.insert(runtime_path, "lua/?.lua")
+				table.insert(runtime_path, "lua/?/init.lua")
+
+				settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT",
+							path = runtime_path,
+						},
+						format = {
+							enable = false,
+						},
+						diagnostics = {
+							globals = { "vim", "use", "awesome", "client", "root" },
+						},
+						workspace = {
+							-- Make the server aware of Neovim runtime files
+							library = {
+								['/usr/share/nvim/runtime/lua'] = true,
+								['/usr/share/nvim/runtime/lua/lsp'] = true,
+								['/usr/share/awesome/lib'] = true
+							}
+						},
+						-- Do not send telemetry data containing a randomized but unique identifier
+						telemetry = {
+							enable = false,
+						},
+					},
+				}
+			end
+
+			require("lspconfig")[lsp].setup({
+				capabilities = capabilities,
+				settings = settings,
+				on_attach = function(client, _)
+					if client.name ~= "sumneko_lua" then
+						client.server_capabilities.document_formatting = false -- 0.7 and earlier
+					end
+				end,
+			})
+		end
+
+		-- vim.diagnostic.config({ virtual_text = false })
+		-- vim.api.nvim_create_autocmd({ "CursorHold" }, {
+		-- 	callback = function()
+		-- 		if vim.lsp.buf.server_ready() then
+		-- 			vim.diagnostic.open_float()
+		-- 		end
+		-- 	end,
+		-- })
+  --
+		-- -- set up LSP signs
+		-- for type, icon in pairs({
+		-- 	Error = "",
+		-- 	Warn = "",
+		-- 	Hint = "",
+		-- 	Info = "",
+		-- }) do
+		-- 	local hl = "DiagnosticSign" .. type
+		-- 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+		-- end
+	end,
+})
+
+use({
+	"tami5/lspsaga.nvim",
+	config = function()
+		local lspsaga = require("lspsaga")
+		lspsaga.setup({ -- defaults ...
 			debug = false,
 			use_saga_diagnostic_sign = true,
 			-- diagnostic sign
@@ -371,13 +472,36 @@ use { 'tami5/lspsaga.nvim',
 			rename_prompt_prefix = "➤",
 			server_filetype_map = {},
 			diagnostic_prefix_format = "%d. ",
-		}
-	end }
+		})
 
-use { 'hrsh7th/nvim-cmp',
-	requires = {'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline', 'onsails/lspkind-nvim'},
+		vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+
+		local action = require("lspsaga.action")
+		-- scroll down hover doc or scroll in definition preview
+		vim.keymap.set("n", "<C-f>", function()
+			action.smart_scroll_with_saga(1)
+		end, { silent = true })
+		-- scroll up hover doc
+		vim.keymap.set("n", "<C-b>", function()
+			action.smart_scroll_with_saga(-1)
+		end, { silent = true })
+
+		vim.keymap.set("n", "<leader>gh", ":Lspsaga lsp_finder<CR>", { silent = true, noremap = true })
+		vim.keymap.set("n", "<leader>ca", ":Lspsaga code_action<CR>", { silent = true, noremap = true })
+	end,
+})
+
+use({
+	"hrsh7th/nvim-cmp",
+	requires = {
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"hrsh7th/cmp-cmdline",
+		"onsails/lspkind-nvim",
+	},
 	config = function()
-		vim.cmd [[ set completeopt=menu,menuone,noselect ]]
+		vim.cmd([[ set completeopt=menu,menuone,noselect ]])
 		-- Setup nvim-cmp.
 
 		local has_words_before = function()
@@ -385,16 +509,16 @@ use { 'hrsh7th/nvim-cmp',
 			return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 		end
 
-		local cmp = require'cmp'
+		local cmp = require("cmp")
 		local luasnip = require("luasnip")
-		local lspkind = require('lspkind')
+		local lspkind = require("lspkind")
 
 		cmp.setup({
 			snippet = {
 				-- REQUIRED - you must specify a snippet engine
 				expand = function(args)
 					--vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-					require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+					require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
 					-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
 					--vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 				end,
@@ -403,23 +527,23 @@ use { 'hrsh7th/nvim-cmp',
 				format = lspkind.cmp_format({
 					with_text = true, -- do not show text alongside icons
 					maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-					menu = ({
+					menu = {
 						buffer = "[Buffer]",
 						nvim_lsp = "[LSP]",
 						luasnip = "[LuaSnip]",
 						nvim_lua = "[Lua]",
 						latex_symbols = "[Latex]",
-					})
-				})
+					},
+				}),
 			},
 			mapping = cmp.mapping.preset.insert({
-				['<C-b>'] = cmp.mapping.scroll_docs(-4),
-				['<C-f>'] = cmp.mapping.scroll_docs(4),
-				['<C-Space>'] = cmp.mapping.complete(),
-				['<C-e>'] = cmp.mapping.abort(),
-				['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+				["<C-b>"] = cmp.mapping.scroll_docs(-4),
+				["<C-f>"] = cmp.mapping.scroll_docs(4),
+				["<C-Space>"] = cmp.mapping.complete(),
+				["<C-e>"] = cmp.mapping.abort(),
+				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				["<Tab>"] = cmp.mapping(function(fallback)
-				if cmp.visible() then
+					if cmp.visible() then
 						cmp.select_next_item()
 					elseif luasnip.expand_or_jumpable() then
 						luasnip.expand_or_jump()
@@ -428,82 +552,81 @@ use { 'hrsh7th/nvim-cmp',
 					else
 						fallback()
 					end
-					end, { "i", "s" }),
+				end, { "i", "s" }),
 
 				["<S-Tab>"] = cmp.mapping(function(fallback)
-				if cmp.visible() then
+					if cmp.visible() then
 						cmp.select_prev_item()
 					elseif luasnip.jumpable(-1) then
 						luasnip.jump(-1)
 					else
 						fallback()
 					end
-					end, { "i", "s" }),
+				end, { "i", "s" }),
 			}),
 			sources = cmp.config.sources({
-				{ name = 'nvim_lsp' },
-				{ name = 'luasnip' }, -- For luasnip users.
-				{ name = 'path' },
-				}, {
-					{ name = 'buffer' },
-			})
+				{ name = "nvim_lsp" },
+				{ name = "luasnip" }, -- For luasnip users.
+				{ name = "path" },
+			}, {
+				{ name = "buffer" },
+			}),
 		})
 
 		-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-		cmp.setup.cmdline('/', {
+		cmp.setup.cmdline("/", {
 			mapping = cmp.mapping.preset.cmdline(),
 			sources = {
-				{ name = 'buffer' }
-			}
+				{ name = "buffer" },
+			},
 		})
 
 		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-		cmp.setup.cmdline(':', {
+		cmp.setup.cmdline(":", {
 			mapping = cmp.mapping.preset.cmdline(),
 			sources = cmp.config.sources({
-				{ name = 'path' }
+				{ name = "path" },
 			}, {
-					{ name = 'cmdline' }
-				})
+				{ name = "cmdline" },
+			}),
 		})
-	end
-}
+	end,
+})
 
-use {
-	'nvim-lualine/lualine.nvim',
-	requires = { 'kyazdani42/nvim-web-devicons' },
+use({
+	"nvim-lualine/lualine.nvim",
+	requires = { "kyazdani42/nvim-web-devicons" },
 	config = function()
-		require('lualine').setup {
+		require("lualine").setup({
 			options = {
 				icons_enabled = true,
-				theme = 'auto',
-				component_separators = { left = '', right = ''},
-				section_separators = { left = '', right = ''},
+				theme = "auto",
+				component_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
 				disabled_filetypes = {},
 				always_divide_middle = true,
 				globalstatus = true,
 			},
 			sections = {
-				lualine_a = {'mode'},
-				lualine_b = {'branch', 'diff', 'diagnostics'},
-				lualine_c = {'filename'},
-				lualine_x = {'encoding', 'fileformat', 'filetype'},
-				lualine_y = {'progress'},
-				lualine_z = {'location'}
+				lualine_a = { "mode" },
+				lualine_b = { "branch", "diff", "diagnostics" },
+				lualine_c = { "filename" },
+				lualine_x = { "encoding", "fileformat", "filetype" },
+				lualine_y = { "progress" },
+				lualine_z = { "location" },
 			},
 			inactive_sections = {
 				lualine_a = {},
 				lualine_b = {},
-				lualine_c = {'filename'},
-				lualine_x = {'location'},
+				lualine_c = { "filename" },
+				lualine_x = { "location" },
 				lualine_y = {},
-				lualine_z = {}
+				lualine_z = {},
 			},
 			tabline = {},
-			extensions = {}
-		}
-	end
-}
+			extensions = {},
+		})
+	end,
+})
 
-
-packer.compile('~/.config/nvim/plugin/packer_load.vim')
+packer.compile("~/.config/nvim/plugin/packer_load.vim")
