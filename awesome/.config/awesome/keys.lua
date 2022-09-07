@@ -79,14 +79,22 @@ keys.globalkeys = gears.table.join(
 	end,
 		{description = "hide wibar", group = "screen"}),
 
+	awful.key({ Modkey, "Shift" }, "n",
+		function ()
+			local c = client.focus
+			if c then
+				c.minimized = true
+			end
+		end,
+		{description = "minimize client", group = "client"}),
+
+
 	awful.key({ Modkey, "Control" }, "n",
 		function ()
-			local c = awful.client.restore()
-			-- Focus restored client
-			if c then
-				c:emit_signal(
-					"request::activate", "key.unminimize", {raise = true}
-				)
+			for _, c in ipairs(client.get()) do
+				if c.minimized == true then
+					c.minimized = false
+				end
 			end
 		end,
 		{description = "restore minimized", group = "client"}),

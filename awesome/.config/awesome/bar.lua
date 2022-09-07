@@ -7,6 +7,7 @@ local helpers = require("helpers")
 
 local tablet_widget = require("widgets/tablet")
 local updates = require("widgets/updates")
+local minimized = require("widgets/minimized")
 
 local battery = require("widgets.battery")
 
@@ -160,6 +161,7 @@ awful.screen.connect_for_each_screen(function(s)
 			   spacing = 0,
 			   battery,
 			   tablet_widget,
+			   minimized,
 			   updates,
 			   wibox.widget.systray(),
 			   power_icon,
