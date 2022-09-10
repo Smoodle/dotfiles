@@ -17,6 +17,10 @@ local theme = {}
 
 theme.font = "mononoki Nerd Font 11"
 
+theme.tag_size = 5
+theme.tag_content = " "
+theme.tag_empty = " "
+
 local main_bg_normal = xresources_theme.background or "#282a36"
 local main_bg_focus = xresources_theme.color12 or "#bd93f9"
 
@@ -41,7 +45,8 @@ theme.fg_minimize = theme.fg_normal
 theme.border_radius = dpi(10)
 theme.useless_gap = dpi(3)
 theme.gap_single_client = false
-theme.border_width = dpi(2)
+-- theme.border_width = dpi(2)
+theme.border_width = 0
 theme.border_normal = main_bg_normal
 theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
@@ -60,7 +65,7 @@ theme.systray_icon_spacing = dpi(7)
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
--- prompt_[fg|bg|fg_cursor|bg_cursor|font]
+-- prompt_[fg|bg|fg_cursor|bg_cursor|font]the
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
 -- Example:
 -- theme.taglist_bg_focus = "#ff0000"

@@ -27,5 +27,9 @@ client.connect_signal("property::minimized", function(c)
 	end
 end)
 
+awesome.connect_signal("signals::unminimized::all", function ()
+	minimized_apps = 0
+	main_widget.visible = false
+end)
 
 return main_widget

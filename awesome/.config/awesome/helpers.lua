@@ -1,8 +1,13 @@
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local naughty = require("naughty")
 
 local helpers = {}
+
+helpers.notify = function (title, message)
+	naughty.notify({ title = title, text = message, timeout = 0 })
+end
 
 helpers.rrect = function(radius)
 	return function(cr, width, height)

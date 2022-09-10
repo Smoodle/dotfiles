@@ -96,6 +96,8 @@ keys.globalkeys = gears.table.join(
 					c.minimized = false
 				end
 			end
+
+			awesome.emit_signal("signals::unminimized::all")
 		end,
 		{description = "restore minimized", group = "client"}),
 

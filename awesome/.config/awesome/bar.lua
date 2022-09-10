@@ -34,7 +34,7 @@ local textclock = wibox.widget.textclock(time_format)
 -- load the widget code
 local calendar = require("widgets.calendar")
 local cw = calendar({
-	  placement = 'top_center',
+	  placement = 'bottom',
 	  theme = 'theme'
 })
 
@@ -84,9 +84,15 @@ power_icon:connect_signal("button::press", function()
 							 Sidebar_toggle()
 end)
 
+local tag_icons = {}
+
+for _ = 1, beautiful.tag_size, 1 do
+	table.insert(tag_icons, beautiful.tag_empty);
+end
+
 awful.screen.connect_for_each_screen(function(s)
 	  -- Each screen has its own tag table.
-	  awful.tag({"1", "2", "3", "4", "5", "6", "7", "8", "9"}, s, awful.layout.layouts[1])
+	  awful.tag(tag_icons, s, awful.layout.layouts[1])
 
 	  -- Create a promptbox for each screen
 	  s.mypromptbox = awful.widget.prompt()
@@ -105,8 +111,8 @@ awful.screen.connect_for_each_screen(function(s)
 	  -- Create a taglist widget
 	  s.mytaglist = awful.widget.taglist {
 		 screen = s,
-		 --filter = awful.widget.taglist.filter.all,
-		 filter = function (t) return t.selected or #t:clients() > 0 end,
+		 filter = awful.widget.taglist.filter.all,
+		 --filter = function (t) return t.selected or #t:clients() > 0 end,
 		 buttons = taglist_buttons,
 		 --style   = {
 		 --	shape = gears.shape.rounded_rect
@@ -125,7 +131,7 @@ awful.screen.connect_for_each_screen(function(s)
 		 },
 	  }
 	  -- Create the wibox
-	  s.mywibox = awful.wibar({position = "top", screen = s, opacity = 1})
+	  s.mywibox = awful.wibar({position = "bottom", screen = s, opacity = 1})
 
 	  s.mytasklist = awful.widget.tasklist {
 		 screen   = s,
@@ -168,3 +174,4 @@ awful.screen.connect_for_each_screen(function(s)
 		 })
 	  }
 end)
+
