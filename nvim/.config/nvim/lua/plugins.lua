@@ -56,30 +56,37 @@ use({
 	end,
 })
 
-use({
-	"rebelot/kanagawa.nvim",
-	config = function()
-		require("kanagawa").setup({
-			undercurl = true, -- enable undercurls
-			commentStyle = { italic = true },
-			functionStyle = {},
-			keywordStyle = { italic = true },
-			statementStyle = { bold = true },
-			typeStyle = {},
-			variablebuiltinStyle = { italic = true },
-			specialReturn = true, -- special highlight for the return keyword
-			specialException = true, -- special highlight for exception handling keywords
-			transparent = false, -- do not set background color
-			dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-			globalStatus = false, -- adjust window separators highlight for laststatus=3
-			colors = {},
-			overrides = {},
-		})
+-- use({
+-- 	"rebelot/kanagawa.nvim",
+-- 	config = function()
+-- 		require("kanagawa").setup({
+-- 			undercurl = true, -- enable undercurls
+-- 			commentStyle = { italic = true },
+-- 			functionStyle = {},
+-- 			keywordStyle = { italic = true },
+-- 			statementStyle = { bold = true },
+-- 			typeStyle = {},
+-- 			variablebuiltinStyle = { italic = true },
+-- 			specialReturn = true, -- special highlight for the return keyword
+-- 			specialException = true, -- special highlight for exception handling keywords
+-- 			transparent = false, -- do not set background color
+-- 			dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+-- 			globalStatus = false, -- adjust window separators highlight for laststatus=3
+-- 			colors = {},
+-- 			overrides = {},
+-- 		})
+--
+-- 		-- setup must be called before loading
+-- 		vim.cmd("colorscheme kanagawa")
+-- 	end,
+-- })
 
-		-- setup must be called before loading
-		vim.cmd("colorscheme kanagawa")
-	end,
-})
+use { "catppuccin/nvim", as = "catppuccin",
+	config = function ()
+		vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+		require("catppuccin").setup()
+		vim.cmd [[colorscheme catppuccin]]
+	end}
 
 use({
 	"windwp/nvim-autopairs",
@@ -354,7 +361,8 @@ use({
 	config = function()
 		require("mason").setup()
 		local mason_lspconfig = require("mason-lspconfig")
-		local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+		--local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		mason_lspconfig.setup()
 
