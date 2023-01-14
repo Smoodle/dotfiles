@@ -124,16 +124,20 @@ alias gpg-recv="gpg --keyserver keyserver.ubuntu.com --recv-key"
 
 alias ssh='TERM=xterm-256color ssh'
 
+
 #Tmux alias
 alias t="tmux"
 alias ta="t a -t"
 alias tls="t ls"
 alias tn="t new -t"
+
+#Gallery-dl
+alias gldl="gallery-dl -d /Media/gallery-dl"
 alias gp="gldl --chapter-range 1-25 "
+alias gh="gp --cookies Media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0'"
 
 #General alias
 alias sudo="sudo "
-alias gldl="gallery-dl -d /Media/gallery-dl"
 alias start-vline="sbcl --load ~/.local/share/nvim/site/pack/packer/start/vlime/lisp/start-vlime.lisp"
 #alias emacs="emacsclient -c -a 'emacs'"
 alias v=nvim
@@ -141,6 +145,8 @@ alias vim=nvim
 alias pencil="electron11 /usr/lib/pencil"
 
 alias redshift="redshift -l 38.7172303:-9.1235584"
+
+alias remote="node ~/Media/Programming/SimplePCController/server/src/controller.js"
 
 alias luamake=/home/smoodle/.builds/lua-language-server/3rd/luamake/luamake
 
