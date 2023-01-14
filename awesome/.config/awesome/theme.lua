@@ -32,10 +32,10 @@ local alt_color = "#363842"
 theme.alt_color = alt_color
 
 theme.bg_normal = main_bg_normal
-theme.bg_focus = alt_color
+theme.bg_focus = main_bg_normal
 theme.bg_urgent = theme.bg_normal
 theme.bg_minimize = theme.bg_normal
-theme.bg_systray = theme.alt_color
+theme.bg_systray = theme.bg_normal
 
 theme.fg_normal = main_fg_normal
 theme.fg_focus = main_bg_focus
@@ -43,11 +43,10 @@ theme.fg_urgent = theme.fg_normal
 theme.fg_minimize = theme.fg_normal
 
 theme.border_radius = dpi(10)
-theme.useless_gap = dpi(3)
+theme.useless_gap = dpi(4)
 theme.gap_single_client = false
--- theme.border_width = dpi(2)
-theme.border_width = 0
-theme.border_normal = main_bg_normal
+theme.border_width = dpi(2)
+theme.border_normal = "#424242"
 theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
 

@@ -57,8 +57,6 @@ awful.rules.rules = {
 		properties = { titlebars_enabled = false
 		}
 	},
-	{ rule = { class = "Thunderbird" }, properties = { screen = 1, tag = "4" } },
-	{ rule = { class = "qBittorrent" }, properties = { screen = 1, tag = "5" } },
 	{ rule = { class = "mpv" },
 	  properties = { floating = true, ontop = true } },
 	{ rule = {
