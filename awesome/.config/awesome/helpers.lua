@@ -2,6 +2,8 @@ local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
 
 local helpers = {}
 
@@ -22,12 +24,42 @@ helpers.text = function(text)
 	}
 end
 
-helpers.baseBar = function(child)
+helpers.baseBar = function(widgets)
+   if(widgets.visible ~= nil) then
+	  widgets = { widgets }
+   end
+
 	return wibox.widget {
 		--left = beautiful.bar_right_spacing,
 		right = beautiful.bar_right_spacing,
 		widget = wibox.container.margin,
-		children = { child }
+		children = widgets
+	}
+end
+
+helpers.barItemBackground = function(widgets)
+   if(widgets.visible ~= nil) then
+	  widgets = {
+		 widgets
+	  }
+   end
+
+	return {
+		{
+			{
+				children = widgets,
+				left = dpi(10),
+				right = dpi(10),
+				top = dpi(2),
+				bottom = dpi(2),
+				widget = wibox.container.margin,
+			},
+			bg = beautiful.alt_color,
+			shape = gears.shape.rounded_rect,
+			widget = wibox.container.background,
+		},
+		margins = dpi(3),
+		widget = wibox.container.margin,
 	}
 end
 

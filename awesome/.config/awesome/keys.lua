@@ -207,10 +207,10 @@ keys.globalkeys = gears.table.join(
 	awful.key({ Modkey }, "p", function() awful.spawn(apps.launcher) end,
 		{description = "show the menubar", group = "launcher"}),
 
-	awful.key({ Modkey }, "w", function() Menu:toggle() end,
-		{description = "show the menu", group = "launcher"}),
+	-- awful.key({ Modkey }, "w", function() Menu:toggle() end,
+	-- 	{description = "show the menu", group = "launcher"}),
 
-	awful.key({ Modkey, "Shift" }, "q", function() Sidebar_toggle() end,
+	awful.key({ Modkey, "Shift" }, "q", function() awesome.emit_signal("power::toggle") end,
 		{description = "toggle side bar", group = "launcher"})
 )
 

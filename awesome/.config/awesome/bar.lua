@@ -5,11 +5,12 @@ local beautiful = require("beautiful")
 
 local helpers = require("helpers")
 
-local tablet_widget = require("widgets/tablet")
-local updates = require("widgets/updates")
-local minimized = require("widgets/minimized")
-
+local tablet_widget = require("widgets.tablet")
+local minimized = require("widgets.minimized")
+local bluetooth = require("widgets.bluetooth")
+local systray_widget = require("widgets.systray")
 local battery = require("widgets.battery")
+local power = require("widgets.power")
 
 if helpers.isLaptop() == false then
 	battery = nil
@@ -20,10 +21,10 @@ local dpi = xresources.apply_dpi
 
 local taglist_buttons = gears.table.join(
 	awful.button({}, 1, function(t) t:view_only() end),
-	awful.button({Modkey}, 1, function(t)
+	awful.button({ Modkey }, 1, function(t)
 		if client.focus then client.focus:move_to_tag(t) end
 	end), awful.button({}, 3, awful.tag.viewtoggle),
-	awful.button({Modkey}, 3, function(t)
+	awful.button({ Modkey }, 3, function(t)
 		if client.focus then client.focus:toggle_tag(t) end
 	end)
 )
@@ -34,7 +35,7 @@ local textclock = wibox.widget.textclock(time_format)
 -- load the widget code
 local calendar = require("widgets.calendar")
 local cw = calendar({
-	placement = 'top',
+	placement = 'bottom',
 	theme = 'theme'
 })
 
@@ -46,32 +47,12 @@ textclock:connect_signal("button::press",
 		end
 	end)
 
-local bar_item = function(widgets)
-	return {
-		{
-			{
-				widgets,
-				left = dpi(10),
-				right = dpi(10),
-				top = dpi(2),
-				bottom = dpi(2),
-				widget = wibox.container.margin,
-			},
-			bg = beautiful.alt_color,
-			shape = gears.shape.rounded_rect,
-			widget = wibox.container.background,
-		},
-		margins = dpi(3),
-		widget = wibox.container.margin,
-	}
-end
-
 local power_icon = wibox.widget {
 	{
-		image  = gears.filesystem.get_configuration_dir() .. "/icons/power/power-off.png",
+		image   = gears.filesystem.get_configuration_dir() .. "/icons/power/power-off.png",
 		visible = true,
-		resize = true,
-		widget = wibox.widget.imagebox
+		resize  = true,
+		widget  = wibox.widget.imagebox
 	},
 	top = dpi(2),
 	bottom = dpi(2),
@@ -106,7 +87,7 @@ awful.screen.connect_for_each_screen(function(s)
 		awful.button({}, 3,
 			function()
 				awful.layout.inc(-1)
-		end)))
+			end)))
 
 	-- Create a taglist widget
 	s.mytaglist = awful.widget.taglist {
@@ -131,12 +112,12 @@ awful.screen.connect_for_each_screen(function(s)
 		},
 	}
 	-- Create the wibox
-	s.mywibox = awful.wibar({position = "top", screen = s, opacity = 1})
+	s.mywibox = awful.wibar({ position = "bottom", screen = s, opacity = 1 })
 
 	s.mytasklist = awful.widget.tasklist {
-		screen   = s,
-		filter   = awful.widget.tasklist.filter.focused,
-		style    = {
+		screen          = s,
+		filter          = awful.widget.tasklist.filter.focused,
+		style           = {
 			fg_focus = beautiful.bg_focus,
 			bg_focus = beautiful.bg_normal,
 		},
@@ -149,11 +130,8 @@ awful.screen.connect_for_each_screen(function(s)
 		},
 	}
 
-	local systray = wibox.widget.systray()
-	systray.base_size = dpi(25)
-
 	-- Add widgets to the wibox
-	s.mywibox:setup{
+	s.mywibox:setup {
 		widget = wibox.container.margin,
 		left = dpi(7),
 		right = dpi(7),
@@ -163,23 +141,20 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
-				s.mytaglist,
-				-- s.mylayoutbox
+				helpers.barItemBackground(s.mytaglist),
+				helpers.barItemBackground(s.mylayoutbox),
 			},
-			--s.mytasklist,
-
-			helpers.baseBar(textclock),
+			helpers.barItemBackground(helpers.baseBar(textclock)),
 			{
 				layout = wibox.layout.fixed.horizontal,
-				spacing = 0,
+				spacing = dpi(5),
 				battery,
 				tablet_widget,
 				minimized,
-				updates,
-				systray,
-				-- power_icon,
+				bluetooth,
+				helpers.barItemBackground(systray_widget),
+				helpers.barItemBackground(power),
 			}
 		}
 	}
 end)
-

@@ -15,7 +15,7 @@ local config_path = gfs.get_configuration_dir()
 
 local theme = {}
 
-theme.font = "mononoki Nerd Font 11"
+theme.font = "Hack Nerd Font 12"
 
 theme.tag_size = 5
 theme.tag_content = " "
@@ -32,10 +32,10 @@ local alt_color = "#363842"
 theme.alt_color = alt_color
 
 theme.bg_normal = main_bg_normal
-theme.bg_focus = main_bg_normal
+theme.bg_focus = alt_color
 theme.bg_urgent = theme.bg_normal
 theme.bg_minimize = theme.bg_normal
-theme.bg_systray = theme.bg_normal
+theme.bg_systray = alt_color
 
 theme.fg_normal = main_fg_normal
 theme.fg_focus = main_bg_focus
@@ -50,11 +50,11 @@ theme.border_normal = "#424242"
 theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
 
-theme.wibar_height = dpi(30)
+theme.wibar_height = dpi(40)
 theme.taglist_disable_icon = true
 
 theme.bar_right_spacing = dpi(7)
-theme.systray_icon_spacing = dpi(7)
+theme.systray_icon_spacing = dpi(5)
 
 -- There are other variable sets
 -- overriding the default one when
@@ -112,6 +112,8 @@ theme.menu_width = dpi(100)
 theme.layout_floating = config_path .. "icons/floating.png"
 theme.layout_tile = config_path .. "icons/tile.png"
 theme.layout_max = config_path .. "icons/max.png"
+
+theme.pfp = config_path .. "icons/pfp.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height,

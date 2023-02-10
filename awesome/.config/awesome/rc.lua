@@ -65,7 +65,7 @@ end)
 -- External Modules
 require("bar")
 require("menu")
-require("modules.sidepanel")
+--require("modules.sidepanel")
 
 -- Key bindings
 local keys = require("keys")

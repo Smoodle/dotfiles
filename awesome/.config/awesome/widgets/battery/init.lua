@@ -12,7 +12,7 @@ local battery_widget = wibox.widget {
    widget = wibox.widget.textbox,
 }
 
-local main_widget = helpers.baseBar(battery_widget);
+local main_widget = helpers.barItemBackground(helpers.baseBar(battery_widget));
 main_widget.visible = false
 
 local icon = ""
