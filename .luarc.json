@@ -6,5 +6,7 @@
         "root",
         "tag",
         "client"
-    ]
+    ],
+    "workspace.checkThirdParty": false,
+    "workspace.maxPreload": 2000
 }

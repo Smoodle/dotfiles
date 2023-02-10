@@ -134,7 +134,7 @@ alias tn="t new -t"
 #Gallery-dl
 alias gldl="gallery-dl -d /Media/gallery-dl"
 alias gp="gldl --chapter-range 1-25 "
-alias gh="gp --cookies Media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0'"
+alias gh="gp --cookies /Media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0'"
 
 #General alias
 alias sudo="sudo "
@@ -150,6 +150,11 @@ alias remote="node ~/Media/Programming/SimplePCController/server/src/controller.
 
 alias luamake=/home/smoodle/.builds/lua-language-server/3rd/luamake/luamake
 
+alias skyrim_run="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/root/ STEAM_COMPAT_DATA_PATH=/Games/SteamLibrary/steamapps/compatdata/489830/ gamemoderun ~/.steam/root/compatibilitytools.d/GE-Proton7-45/proton run"
+
+alias skyrim_mo="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/root/ STEAM_COMPAT_DATA_PATH=/Games/SteamLibrary/steamapps/compatdata/489830/ gamemoderun ~/.steam/root/compatibilitytools.d/GE-Proton7-45/proton run /Games/SteamLibrary/steamapps/compatdata/489830/pfx/drive_c/Modding/MO2/ModOrganizer.exe"
+
+alias genshin_pulls="cat /Games/Genshin/Game/GenshinImpact_Data/webCaches/Cache/Cache_Data/data_2 | grep -a 'e20190909gacha-v2'"
 
 function pomo() {
     arg1=$1
