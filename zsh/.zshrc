@@ -150,9 +150,10 @@ alias remote="node ~/Media/Programming/SimplePCController/server/src/controller.
 
 alias luamake=/home/smoodle/.builds/lua-language-server/3rd/luamake/luamake
 
-alias skyrim_run="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/root/ STEAM_COMPAT_DATA_PATH=/Games/SteamLibrary/steamapps/compatdata/489830/ gamemoderun ~/.steam/root/compatibilitytools.d/GE-Proton7-45/proton run"
+alias skyrim_run="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/root/ STEAM_COMPAT_DATA_PATH=/Games/SteamLibrary/steamapps/compatdata/489830/ gamemoderun gamescope -w 1920 -h 1080 -W 2560 -H 1440 -f -U ~/.steam/root/compatibilitytools.d/GE-Proton7-45/proton run"
 
-alias skyrim_mo="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/root/ STEAM_COMPAT_DATA_PATH=/Games/SteamLibrary/steamapps/compatdata/489830/ gamemoderun ~/.steam/root/compatibilitytools.d/GE-Proton7-45/proton run /Games/SteamLibrary/steamapps/compatdata/489830/pfx/drive_c/Modding/MO2/ModOrganizer.exe"
+#alias skyrim_mo="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/root/ STEAM_COMPAT_DATA_PATH=/Games/SteamLibrary/steamapps/compatdata/489830/ gamemoderun gamescope -w 1920 -h 1080 -W 2560 -H 1440 -f -U ~/.steam/root/compatibilitytools.d/GE-Proton7-45/proton run /Games/SteamLibrary/steamapps/compatdata/489830/pfx/drive_c/Modding/MO2/ModOrganizer.exe"
+alias skyrim_mo="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/root/ STEAM_COMPAT_DATA_PATH=/Games/SteamLibrary/steamapps/compatdata/489830/ gamescope -w 1280 -h 720 -W 2560 -H 1440 -b -U mangohud gamemoderun ~/.steam/root/compatibilitytools.d/GE-Proton7-45/proton run /Games/SteamLibrary/steamapps/compatdata/489830/pfx/drive_c/Modding/MO2/ModOrganizer.exe"
 
 alias genshin_pulls="cat /Games/Genshin/Game/GenshinImpact_Data/webCaches/Cache/Cache_Data/data_2 | grep -a 'e20190909gacha-v2'"
 

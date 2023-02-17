@@ -2,7 +2,7 @@ local wibox = require("wibox")
 local awful = require("awful")
 
 local sys_left_icon = ""
-local sys_right_icon = ""
+local sys_right_icon = " "
 
 local togglertext = wibox.widget {
 	text = sys_left_icon,
