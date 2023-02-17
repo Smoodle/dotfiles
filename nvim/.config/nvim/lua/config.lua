@@ -49,7 +49,7 @@ o.wrap = false
 o.updatetime = 50
 
 -- Auto insert mode on terminal
-vim.api.nvim_command("autocmd TermOpen * startinsert")
+--vim.api.nvim_command("autocmd TermOpen * startinsert")
 
 vim.api.nvim_command([[
 	function! WinMove(key)
