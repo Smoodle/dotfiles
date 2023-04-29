@@ -14,6 +14,8 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export PATH=$PATH:/home/smoodle/.scripts
+
 setopt rmstarsilent
 # Path to your oh-my-zsh installation.
 export ZSH="/home/smoodle/.oh-my-zsh"
@@ -134,7 +136,7 @@ alias tn="t new -t"
 #Gallery-dl
 alias gldl="gallery-dl -d /Media/gallery-dl"
 alias gp="gldl --chapter-range 1-25 "
-alias gh="gp --cookies /Media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0'"
+alias gh="gp --cookies /Media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0'"
 
 #General alias
 alias sudo="sudo "
