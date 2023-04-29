@@ -35,12 +35,20 @@
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 
+(save-place-mode t)
+
+(setq save-place-file (concat user-emacs-directory "places"))
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups"))))
 
 (setq-default indent-tabs-mode t)
 (setq tab-width 4)
 
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+					 
 ;; Dashboard
 (defun my/dashboard-banner ()
   """Set a dashboard banner including information on package initialization
@@ -54,7 +62,7 @@
   (add-hook 'after-init-hook 'dashboard-refresh-buffer)
   (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
   :config
-  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-startup-banner (concat user-emacs-directory "gura.png"))
   (dashboard-setup-startup-hook))
 
 ;; Theme
@@ -77,6 +85,17 @@
 (setq completion-cycle-threshold 2)
 (setq tab-always-indent 'complete)
 
+;; completion
+
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless partial-completion basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
 (use-package corfu
   ;; Optional customizations
   :custom
@@ -92,14 +111,13 @@
   :init
   (global-corfu-mode))
 
-(use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;; Better ido
 
@@ -149,7 +167,10 @@
 
 ;; Programming languages config
 
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'"	.	tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'"	.	typescript-ts-mode))
+
 (add-hook 'tsx-ts-mode-hook 'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook 'eglot-ensure)
 
 (use-package markdown-mode)
