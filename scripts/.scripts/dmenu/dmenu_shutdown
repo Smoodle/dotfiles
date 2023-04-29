@@ -27,6 +27,6 @@ case "$action" in
         systemctl hibernate
         ;;
 	"restart dwm")
-		xsetroot -name "fsignal:1"
+		killall dwm
 		;;
 esac
