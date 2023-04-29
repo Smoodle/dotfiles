@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cp ~/.scripts/create-make-file .

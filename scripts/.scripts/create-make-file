@@ -1,0 +1,106 @@
+#!/bin/make -f
+
+# Heavily notated version of my standard Makefile.
+
+# Note that this file is techically faster than your given build, how
+# GCC handles building from file to executable is very smart, but is
+# generally slower than just running gcc as a compiler then linker. It
+# also optimizes multi-objects builds so that only what changes is
+# updated, and makes some actions, depending on how you extend this
+# file, alot less tedious. Consider also having a build-key rather
+# than typing it out, it will save you much time.
+
+# Note that this is also true for CLI input.
+CC       := gcc
+
+# Basic flags, change as desired.
+CFLAGS   := -std=c99 -Wall -Wextra -Wpedantic
+CPPFLAGS := -Iinclude -DVERSION=\"'$(shell tail -1 VERSION)'\"
+# Note, You may of seen some other projects seperate /usr/local and /bin
+# I don't use that strategy due to the redundacy of it.
+INSTALL  := /usr/local
+
+# Make will assume paths in src or obj if stated like they are in the root directory
+# if src/main.c exists. If you refer to main.c, VPATH will ensure that src/main.c
+# is seleceted, generally.
+VPATH := obj src include
+
+# The roots where objects (.o) and source files are
+OBJ_PATH := obj/
+SRC_PATH := src/
+
+# Add as many of these as you need, just replace PROJECT with your programs name
+# and add your sourcelist therein. Also ensure that ..._OBJ uses the correct SRC.
+# Note for C++: depending on your choice of extension (.cpp, .C, .cc)
+# you might want to refer to the Make bible for some ways to handle
+# this at the object name fetching part and some ways to deduplicate
+# the names if that occours, if for some reason you use more than one
+# of those names.
+PROJECT_SRC = project.c repo.c
+PROJECT_OBJ = $(addprefix $(OBJ_PATH),$(PROJECT_SRC:.c=.o))
+
+# This will let you type `make DEBUG=1` and build acordindly.
+# It will also enable some minor non-harmful debug safe optimization.
+ifeq ($(DEBUG),1)
+	CFLAGS   := -ggdb -O1 $(CFLAGS) -fno-omit-frame-pointer
+else
+	CFLAGS   := -O3 $(CFLAGS)
+	CPPFLAGS += -DNDEBUG
+endif
+
+# state all your programs/libs here
+all: project
+
+# Cool autistic way to make sure that the project builds correctly.
+# Builds to OBJ_PATH without pointless rebuilds. Note that
+# SRC/SOME/DIR/ might cause issues, adjust | ... section and mkdir
+# target acordingly.
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c | $(OBJ_PATH)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+# This builds your program. To add another program that builds like
+# project, simply prefix the target with:
+# additional-tool: $(ADDITIONAL_OBJ)
+project: $(PROJECT_OBJ)
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS)
+
+$(OBJ_PATH) $(SRC_PATH):
+	@mkdir -p $@
+
+# Pulling shit out of my ass section
+# this is the stuff that I added.
+# because you specified it in your build list.
+
+LINT := splint
+LEAK := valgrind
+
+lint: $(PROJECT_SRC) | all
+	$(LINT) -type +posixlib $+
+
+# This kind of command really should just be an alias, but I like completeness.
+check: project | $(PROJECT_SRC)
+	$(LEAK) --show-leak-kinds=all --leak-check=full $< $|
+
+# end of shit-pulling
+
+# Cleans the repository up, should remove all binary objects, along
+# with executables, temp files, etc. Subdivide as needed, such as an
+# autogen or cache flush.
+clean:
+	$(RM) project
+	$(RM) -r $(OBJ_PATH)
+
+# Add manpages to your project!
+install: project
+	chmod 755 $+
+	cp -f $+ $(INSTALL)/bin/
+
+uninstall:
+	rm -f $(INSTALL)/bin/project
+
+# This tells make that this target IS NOT a file
+.PHONY: clean install uninstall all
+# This one makes sure it doesn't run in pararrel, to prevent the edge
+# case of where it is not both not-executable and copies quicker than
+# we can fix it.
+.NOTPARARREL: install
