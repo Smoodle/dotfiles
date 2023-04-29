@@ -31,15 +31,25 @@
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
+(setq use-dialog-box nil)
+
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
 
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
+
+(setq history-length 25)
+(savehist-mode 1)
 
 (save-place-mode t)
 
 (setq save-place-file (concat user-emacs-directory "places"))
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups"))))
+
+(setq custom-file (locate-user-emacs-file "custom-vars.el"))
+(load custom-file 'noerror 'nomessage)
 
 (setq-default indent-tabs-mode t)
 (setq tab-width 4)
@@ -61,6 +71,7 @@
   :init
   (add-hook 'after-init-hook 'dashboard-refresh-buffer)
   (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
+  (setq dashboard-center-content t)
   :config
   (setq dashboard-startup-banner (concat user-emacs-directory "gura.png"))
   (dashboard-setup-startup-hook))
@@ -123,6 +134,7 @@
 
 (setq ido-create-new-buffer 'always)
 (setq ido-enable-flex-matching t)
+(setq ido-save-directory-list-file nil)
 (setq ido-everywhere t)
 (ido-mode 1)
 
