@@ -200,11 +200,20 @@ keys.globalkeys = gears.table.join(
 	awful.key({ Modkey, "Shift" }, "p", function() awful.spawn(apps.screenshot) end,
 		{description = "Take screenshot", group = "launcher"}),
 
-	awful.key({ Modkey }, "v", function() awful.spawn(apps.vpn) end,
+	awful.key({ }, "Print", function() awful.spawn(apps.screenshot) end,
+		{description = "Take screenshot", group = "launcher"}),
+
+	awful.key({ Modkey, "Shift" }, "v", function() awful.spawn(apps.vpn) end,
 		{description = "Open VPN", group = "launcher"}),
+
+	awful.key({ Modkey }, "v", function() awful.spawn(apps.video_link) end,
+		{description = "Open video link", group = "launcher"}),
 
 	-- Menubar
 	awful.key({ Modkey }, "p", function() awful.spawn(apps.launcher) end,
+		{description = "show the menubar", group = "launcher"}),
+
+	awful.key({ "Mod1" }, "space", function() awful.spawn(apps.launcher) end,
 		{description = "show the menubar", group = "launcher"}),
 
 	-- awful.key({ Modkey }, "w", function() Menu:toggle() end,

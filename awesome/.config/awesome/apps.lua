@@ -5,6 +5,7 @@ local apps = {
 	file_manager = "thunar",
 	screenshot = "sh -c ~/.scripts/screenshot",
 	vpn = "mullvad-vpn",
+	video_link = "sh -c ~/.scripts/play_url.sh",
 	emacs = "emacsclient -c -a 'emacs'"
 }
 
