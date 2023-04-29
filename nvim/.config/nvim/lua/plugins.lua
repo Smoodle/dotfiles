@@ -82,6 +82,8 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"jose-elias-alvarez/null-ls.nvim",
+			"jay-babu/mason-null-ls.nvim",
 		},
 		keys = {
 			{"<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>"}
@@ -89,6 +91,15 @@ return {
 		config = function()
 			require("mason").setup()
 			require("mason-lspconfig").setup()
+
+			-- require("mason-null-ls").setup({
+			-- 	ensure_installed = { "stylua", "eslint_d" },
+			-- 	automatic_setup = true,
+			-- 	handlers = {}
+			-- })
+			--
+			-- require("null-ls").setup()
+
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -202,7 +213,7 @@ return {
 					['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 					["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
-							cmp.select_next_item()
+						cmp.select_next_item()
 							-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
 							-- they way you will only jump inside the snippet region
 						elseif luasnip.expand_or_jumpable() then
@@ -212,24 +223,24 @@ return {
 						else
 							fallback()
 						end
-					end, { "i", "s" }),
+						end, { "i", "s" }),
 
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
-							cmp.select_prev_item()
+						cmp.select_prev_item()
 						elseif luasnip.jumpable(-1) then
 							luasnip.jump(-1)
 						else
 							fallback()
 						end
-					end, { "i", "s" }),
+						end, { "i", "s" }),
 				}),
 				sources = cmp.config.sources({
 					{ name = 'nvim_lsp' },
 					{ name = 'luasnip' }, -- For luasnip users.
 					{ name = 'path' },
 					}, {
-					{ name = 'buffer' },
+						{ name = 'buffer' },
 				})
 			})
 
@@ -238,7 +249,7 @@ return {
 				sources = cmp.config.sources({
 					{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
 					}, {
-					{ name = 'buffer' },
+						{ name = 'buffer' },
 				})
 			})
 
@@ -361,6 +372,22 @@ return {
 				-- or leave it empty to use the default settings
 				-- refer to the configuration section below
 			})
+		end,
+	},
+	{
+		"folke/trouble.nvim",
+		dependencies = {"nvim-tree/nvim-web-devicons"},
+		config = function ()
+			require("trouble").setup {}
+		end,
+		keys = {
+			{"<leader>ge","<cmd>TroubleToggle<CR>" }
+		}
+	},
+	{
+		"NvChad/nvim-colorizer.lua",
+		config = function ()
+			require 'colorizer'.setup()
 		end,
 	},
 }
