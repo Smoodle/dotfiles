@@ -1,8 +1,8 @@
 local wibox = require("wibox")
 local awful = require("awful")
 
-local sys_left_icon = ""
-local sys_right_icon = " "
+local sys_left_icon = "< "
+local sys_right_icon = "> "
 
 local togglertext = wibox.widget {
 	text = sys_left_icon,
@@ -17,16 +17,14 @@ local togglertext = wibox.widget {
 }
 
 local systray = wibox.widget {
-	{
-		widget = wibox.widget.systray,
-	},
+	wibox.widget.systray,
 	visible = false,
 	widget = wibox.layout.fixed.horizontal
 }
 
 local systray_widget = wibox.widget {
-	systray,
 	togglertext,
+	systray,
 	widget = wibox.layout.fixed.horizontal
 }
 

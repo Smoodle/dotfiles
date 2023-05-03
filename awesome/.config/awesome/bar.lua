@@ -35,7 +35,7 @@ local textclock = wibox.widget.textclock(time_format)
 -- load the widget code
 local calendar = require("widgets.calendar")
 local cw = calendar({
-	placement = 'bottom',
+	placement = 'top_left',
 	theme = 'theme'
 })
 
@@ -112,7 +112,7 @@ awful.screen.connect_for_each_screen(function(s)
 		},
 	}
 	-- Create the wibox
-	s.mywibox = awful.wibar({ position = "bottom", screen = s, opacity = 1 })
+	s.mywibox = awful.wibar({ position = "top", screen = s, opacity = 1 })
 
 	s.mytasklist = awful.widget.tasklist {
 		screen          = s,
@@ -141,19 +141,19 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
-				helpers.barItemBackground(s.mytaglist),
-				helpers.barItemBackground(s.mylayoutbox),
+				helpers.baseBar(textclock),
 			},
-			helpers.barItemBackground(helpers.baseBar(textclock)),
+			helpers.barItemBackground(s.mytaglist),
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
+				systray_widget,
 				battery,
 				tablet_widget,
 				minimized,
 				bluetooth,
-				helpers.barItemBackground(systray_widget),
-				helpers.barItemBackground(power),
+				power,
+				s.mylayoutbox,
 			}
 		}
 	}
