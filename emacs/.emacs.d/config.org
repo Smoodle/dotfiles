@@ -1,0 +1,279 @@
+#+title: My emacs config
+#+author: Smoodle
+
+[[file:./gura.png]]
+
+* Basic emacs settings
+
+** Settings
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :height 140)
+  (electric-pair-mode t)
+
+  (defalias 'yes-or-no-p 'y-or-n-p)
+
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+  (setq use-dialog-box nil)
+
+  (global-auto-revert-mode 1)
+  (setq global-auto-revert-non-file-buffers t)
+
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode)
+
+  (setq history-length 25)
+  (savehist-mode 1)
+
+  (save-place-mode t)
+
+  (setq save-place-file (concat user-emacs-directory "places"))
+  (setq backup-directory-alist
+        `(("." . ,(concat user-emacs-directory "backups"))))
+
+  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+  (load custom-file 'noerror 'nomessage)
+
+  (setq-default indent-tabs-mode t)
+  (setq tab-width 2)
+  (defvaralias 'c-basic-offset 'tab-width)
+  (defvaralias 'cperl-indent-level 'tab-width)
+
+  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+#+end_src
+
+** Separate clipboard
+
+#+begin_src emacs-lisp
+  (setq x-select-enable-clipboard nil)
+  (global-set-key (kbd "C-c y") 'clipboard-yank)
+  (global-set-key (kbd "C-c k") 'clipboard-kill-ring-save)
+#+end_src
+
+** Better ido mode
+
+#+begin_src emacs-lisp
+  (setq ido-create-new-buffer 'always)
+  (setq ido-enable-flex-matching t)
+  (setq ido-save-directory-list-file nil)
+  (setq ido-everywhere t)
+  (ido-mode 1)
+
+  (use-package ido-completing-read+
+    :config
+    (ido-ubiquitous-mode 1))
+
+  (use-package ido-vertical-mode
+    :config
+    (ido-vertical-mode 1)
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+#+end_src
+
+** Better window management
+
+#+begin_src emacs-lisp
+  (defun my/split-vertical ()
+    "Splits the window verically and follows"
+    (interactive)
+    (split-window-horizontally)
+    (other-window 1))
+
+  (defun my/split-horizontal ()
+    "Splits the window horizontally and follows"
+    (interactive)
+    (split-window-vertically)
+    (other-window 1))
+
+  (global-set-key (kbd "C-x 2") #'my/split-horizontal)
+  (global-set-key (kbd "C-x 3") #'my/split-vertical)
+
+#+end_src
+
+* Packages
+
+** Dashboard
+
+#+begin_src emacs-lisp
+  (defun my/dashboard-banner ()
+    """Set a dashboard banner including information on package initialization
+     time and garbage collections."""
+    (setq dashboard-banner-logo-title
+          (format "Emacs ready in %.2f seconds with %d garbage collections."
+                  (float-time (time-subtract after-init-time before-init-time)) gcs-done)))
+
+  (use-package dashboard
+    :init
+    (add-hook 'after-init-hook 'dashboard-refresh-buffer)
+    (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
+    (setq dashboard-center-content t)
+    :config
+    (setq dashboard-startup-banner (concat user-emacs-directory "gura.png"))
+    (dashboard-setup-startup-hook))
+
+#+end_src
+
+** Theme
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons)
+  (use-package doom-themes
+    :ensure t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-one t)
+
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1))
+#+end_src
+
+** Completion
+
+#+begin_src emacs-lisp
+  (setq completion-cycle-threshold 2)
+  (setq tab-always-indent 'complete)
+
+
+  (use-package company
+    :config
+    (add-to-list 'company-backends 'company-files)
+    (global-set-key (kbd "C-<SPC>") #'company-complete)
+    (add-hook 'after-init-hook 'global-company-mode))
+
+  (use-package kind-icon
+    :ensure t
+    :after corfu
+    :custom
+    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+    :config
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+#+end_src
+
+** vterm
+
+#+begin_src emacs-lisp
+  (use-package vterm)
+#+end_src
+
+** Tree sitter
+
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :init
+    (setq treesit-auto-install 'prompt)
+    :config
+    (global-treesit-auto-mode))
+#+end_src
+
+** Evil
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+    (setq evil-want-keybinding nil)
+    :config
+    (evil-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+** Magit
+
+#+begin_src emacs-lisp
+  (use-package magit)
+#+end_src
+
+** Org
+
+#+begin_src emacs-lisp
+  (use-package org-roam
+    :after org)
+
+  (use-package org-superstar
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+
+  (use-package org-appear
+    :config
+    (add-hook 'org-mode-hook 'org-appear-mode))
+
+  ;; Improve org mode looks
+  (setq org-startup-indented t
+        org-pretty-entities t
+        org-hide-emphasis-markers t
+        org-startup-with-inline-images t
+        org-image-actual-width '(300))
+
+  (defun my/capture-date-name ()
+    "Find or create a new date"
+    (goto-char (point-min))
+    (if (re-search-forward (format-time-string "%d/%m/%y") nil t)
+        t
+      (goto-char (point-max))
+      (insert (format-time-string "* %d/%m/%y\n"))
+      ))
+
+  (setq org-capture-templates
+        '(
+          ("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+           "* TODO %?\n  %i\n  %a")
+          ("e" "Internship" entry (file+function "~/org/internship.org" my/capture-date-name)
+           "* %<%H:%M>:\n%i")
+          ))
+
+  (global-set-key (kbd "C-c c") #'org-capture)
+#+end_src
+
+** Snippets
+
+#+begin_src emacs-lisp
+  (use-package yasnippet)
+#+end_src
+
+* Programming
+
+** File detection
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'"	.	tsx-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.ts\\'"	.	typescript-ts-mode))
+#+end_src
+
+** Eglot detection
+
+#+begin_src emacs-lisp
+  (add-hook 'tsx-ts-mode-hook 'eglot-ensure)
+  (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
+#+end_src
+
+
+** Packages
+
+*** Updated eglot
+
+#+begin_src emacs-lisp
+  (use-package eglot)
+#+end_src
+
+*** Markdown mode
+#+begin_src emacs-lisp
+  (use-package markdown-mode)
+#+end_src
+
