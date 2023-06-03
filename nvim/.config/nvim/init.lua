@@ -21,4 +21,3 @@ require("mappings")
 
 -- Load plugins
 require("lazy").setup(require("plugins"))
-

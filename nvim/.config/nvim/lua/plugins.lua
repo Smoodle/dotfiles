@@ -54,7 +54,26 @@ return {
 		build = ":TSUpdate",
 		config = function ()
 			require'nvim-treesitter.configs'.setup {
-				ensure_installed = { "c", "lua", "vim", "help", "javascript", "typescript", "bash", "json", "c_sharp", "css", "html", "dockerfile", "markdown", "markdown_inline", "python", "regex", "rust", "yaml" },
+				ensure_installed = {
+					"c",
+					"lua",
+					"vim",
+					"help",
+					"javascript",
+					"typescript",
+					"bash",
+					"json",
+					"c_sharp",
+					"css",
+					"html",
+					"dockerfile",
+					"markdown",
+					"markdown_inline",
+					"python",
+					"regex",
+					"rust",
+					"yaml",
+				},
 
 				sync_install = false,
 				auto_install = true,
@@ -102,7 +121,7 @@ return {
 
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+			local signs = { Error = " ", Warn = " ", Hint = "󰼅 ", Info = " " }
 			for type, icon in pairs(signs) do
 				local hl = "DiagnosticSign" .. type
 				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -297,7 +316,7 @@ return {
 			dashboard.section.buttons.val = {
 				dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
 				dashboard.button( "ff", "󰈞  Find file" , ":Telescope find_files<CR>"),
-				dashboard.button( "q", "  Quit NVIM" , ":qa<CR>"),
+				dashboard.button( "q", "󰩈  Quit NVIM" , ":qa<CR>"),
 			}
 
 			dashboard.section.footer.val = "OwO"
@@ -362,19 +381,6 @@ return {
 		}
 	},
 	{
-		"folke/which-key.nvim",
-		enabled = false,
-		config = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-			require("which-key").setup({
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			})
-		end,
-	},
-	{
 		"folke/trouble.nvim",
 		dependencies = {"nvim-tree/nvim-web-devicons"},
 		config = function ()
@@ -390,4 +396,37 @@ return {
 			require 'colorizer'.setup()
 		end,
 	},
+	{
+		'Wansmer/treesj',
+		keys = { '<space>m', '<space>j', '<space>s' },
+		dependencies = { 'nvim-treesitter/nvim-treesitter' },
+		config = function()
+			require('treesj').setup()
+		end,
+	},
+	{
+		"nvim-orgmode/orgmode",
+		config = function ()
+			require('orgmode').setup_ts_grammar()
+			require('nvim-treesitter.configs').setup {
+				-- If TS highlights are not enabled at all, or disabled via `disable` prop,
+				-- highlighting will fallback to default Vim syntax highlighting
+				highlight = {
+					enable = true,
+					-- Required for spellcheck, some LaTex highlights and
+					-- code block highlights that do not have ts grammar
+					additional_vim_regex_highlighting = {'org'},
+				},
+				ensure_installed = {'org'}, -- Or run :TSUpdate org
+			}
+			require('orgmode').setup{}
+		end
+	},
+	{
+		"akinsho/org-bullets.nvim",
+		config = function ()
+			require('org-bullets').setup()
+		end
+	}
+
 }

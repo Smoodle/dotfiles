@@ -40,7 +40,7 @@ o.writebackup = false
 o.nu = true
 o.rnu = true
 
-o.cmdheight   = 2
+o.cmdheight   = 1
 
 -- No line wrap
 o.wrap = false

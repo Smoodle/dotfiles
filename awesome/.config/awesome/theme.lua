@@ -35,7 +35,7 @@ theme.bg_normal = main_bg_normal
 theme.bg_focus = alt_color
 theme.bg_urgent = theme.bg_normal
 theme.bg_minimize = theme.bg_normal
-theme.bg_systray = alt_color
+theme.bg_systray = main_bg_normal
 
 theme.fg_normal = main_fg_normal
 theme.fg_focus = main_bg_focus
@@ -50,7 +50,7 @@ theme.border_normal = "#424242"
 theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
 
-theme.wibar_height = dpi(40)
+theme.wibar_height = dpi(30)
 theme.taglist_disable_icon = true
 
 theme.bar_right_spacing = dpi(7)
