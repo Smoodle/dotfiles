@@ -18,6 +18,8 @@
   (tool-bar-mode 0)
   (setq use-dialog-box nil)
 
+  (setq scroll-margin 8)
+
   (global-auto-revert-mode 1)
   (setq global-auto-revert-non-file-buffers t)
 
@@ -112,7 +114,7 @@
     (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
     (setq dashboard-center-content t)
     :config
-    (setq dashboard-startup-banner (concat user-emacs-directory "gura.png"))
+    (setq dashboard-startup-banner (concat user-emacs-directory "megumin_emacs.png"))
     (dashboard-setup-startup-hook))
 
 #+end_src
@@ -263,7 +265,6 @@
   (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
 #+end_src
 
-
 ** Packages
 
 *** Updated eglot
@@ -275,5 +276,46 @@
 *** Markdown mode
 #+begin_src emacs-lisp
   (use-package markdown-mode)
+#+end_src
+
+** Custom logger
+
+#+begin_src emacs-lisp
+  (defun logger_language_message (word)
+    (cond
+     ((or
+       (string-match-p "\\.js\\'" (buffer-file-name))
+       (string-match-p "\\.ts\\'" (buffer-file-name))
+       (string-match-p "\\.jsx\\'" (buffer-file-name))
+       (string-match-p "\\.tsx\\'" (buffer-file-name)))
+      (concat "console.log(` " (buffer-file-name) " " (what-line) "   ${" word "}`);"))
+     (
+      (string-match-p "\\.py\\'" (buffer-file-name))
+      (concat "print(\" " (buffer-file-name) " " (what-line) "   \" + " word ")"))
+     (
+      (string-match-p "\\.java\\'" (buffer-file-name))
+      (concat "System.out.println(\" " (buffer-file-name) " " (what-line) "   \" + " word ");"))
+     (
+      (string-match-p "\\.rs\\'" (buffer-file-name))
+      (concat "println!(\" " (buffer-file-name) " " (what-line) "   {}\", " word ");"))
+     (t nil)
+     )
+    )
+
+  (defun smoodle/logger_log ()
+    (interactive)
+    (let* ((word (current-word)) (message (logger_language_message word)))
+      (cond
+       ((null message) (message "No logger found for this file type"))
+       (t
+        (end-of-line)
+        (newline-and-indent)
+        (insert message)
+        )
+       )
+      )
+    )
+
+  (global-set-key (kbd "C-c l") #'smoodle/logger_log)
 #+end_src
 
