@@ -257,6 +257,7 @@ return {
 				sources = cmp.config.sources({
 					{ name = 'nvim_lsp' },
 					{ name = 'luasnip' }, -- For luasnip users.
+					{ name = "neorg" },
 					{ name = 'path' },
 					}, {
 						{ name = 'buffer' },
@@ -427,6 +428,38 @@ return {
 		config = function ()
 			require('org-bullets').setup()
 		end
-	}
+	},
+	{
+		"nvim-neorg/neorg",
+		build = ":Neorg sync-parsers",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("neorg").setup {
+				load = {
+					["core.defaults"] = {}, -- Loads default behaviour
+					["core.concealer"] = {}, -- Adds pretty icons to your documents
+					["core.journal"] = {
+						config = {
+							strategy = "flat"
+						}
+					},
+					["core.completion"] = {
+						config = {
+							engine = "nvim-cmp",
+						}
+					},
+					["core.dirman"] = { -- Manages Neorg workspaces
+						config = {
+							workspaces = {
+								notes = "~/notes/notes",
+								work = "~/notes/work",
+							},
+							default_workspace = "work",
+						},
+					},
+				},
+			}
+		end,
+	},
 
 }
