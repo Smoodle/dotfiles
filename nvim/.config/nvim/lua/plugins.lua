@@ -312,7 +312,7 @@ return {
 			local alpha = require'alpha'
 			local dashboard = require'alpha.themes.dashboard'
 
-			dashboard.section.header.val = require("misc.alpha_banners")["hydra"]
+			dashboard.section.header.val = require("misc.alpha_banners")["weeb"]
 
 			dashboard.section.buttons.val = {
 				dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
@@ -320,7 +320,7 @@ return {
 				dashboard.button( "q", "󰩈  Quit NVIM" , ":qa<CR>"),
 			}
 
-			dashboard.section.footer.val = "OwO"
+			dashboard.section.footer.val = "Neovim loaded " .. require("lazy").stats().count .. " plugins."
 
 			dashboard.config.opts.noautocmd = true
 

@@ -10,6 +10,7 @@ local opt = { noremap = true, silent = true }
 
 -- Set leader key
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ','
 map('n', '<leader>', '<Nop>', opt)
 
 -- Save and quit
