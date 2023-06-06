@@ -10,9 +10,12 @@ return {
 			vim.cmd.colorscheme "catppuccin"
 		end,
 	},
+	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 	{
 		"nvim-telescope/telescope.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
 		config = function()
 			local actions = require("telescope.actions")
 			local previewers = require("telescope.previewers")
@@ -32,6 +35,14 @@ return {
 			end
 
 			require("telescope").setup{
+				extensions = {
+					fzf = {
+						fuzzy = true,                    -- false will only do exact matching
+						override_generic_sorter = true,  -- override the generic sorter
+						override_file_sorter = true,     -- override the file sorter
+						case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+					}
+				},
 				defaults = {
 					mappings = {
 						i = {
@@ -39,13 +50,21 @@ return {
 						},
 					},
 					buffer_previewer_maker = new_maker,
-				}
+				},
+				pickers = {
+					find_files = { theme = "dropdown" },
+					live_grep = { theme = "dropdown" },
+				},
 			}
+
+			require('telescope').load_extension('fzf')
 
 			local builtin = require('telescope.builtin')
 			vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 			vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+			vim.keymap.set('n', '<leader>rg', builtin.live_grep, {})
 			vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+			vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 			vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 		end,
 	},
@@ -111,13 +130,15 @@ return {
 			require("mason").setup()
 			require("mason-lspconfig").setup()
 
-			-- require("mason-null-ls").setup({
-			-- 	ensure_installed = { "stylua", "eslint_d" },
-			-- 	automatic_setup = true,
-			-- 	handlers = {}
-			-- })
-			--
-			-- require("null-ls").setup()
+			require("mason-null-ls").setup({
+				ensure_installed = { "stylua", "eslint_d", "preetier" },
+				automatic_setup = true,
+				handlers = {}
+			})
+
+			local null_ls = require("null-ls")
+
+			null_ls.setup()
 
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -191,6 +212,8 @@ return {
 			"onsails/lspkind.nvim"
 		},
 		config = function()
+			require("luasnip.loaders.from_snipmate").lazy_load()
+
 			vim.o.completeopt = "menu,menuone,noselect"
 
 			local has_words_before = function()
@@ -255,8 +278,8 @@ return {
 						end, { "i", "s" }),
 				}),
 				sources = cmp.config.sources({
-					{ name = 'nvim_lsp' },
 					{ name = 'luasnip' }, -- For luasnip users.
+					{ name = 'nvim_lsp' },
 					{ name = "neorg" },
 					{ name = 'path' },
 					}, {
@@ -312,7 +335,7 @@ return {
 			local alpha = require'alpha'
 			local dashboard = require'alpha.themes.dashboard'
 
-			dashboard.section.header.val = require("misc.alpha_banners")["weeb"]
+			dashboard.section.header.val = require("misc.alpha_banners")["pacman"]
 
 			dashboard.section.buttons.val = {
 				dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
@@ -468,6 +491,37 @@ return {
 		config = function ()
 			require("oil").setup()
 		end
-	}
+	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	{
+		"mfussenegger/nvim-dap",
+		"jay-babu/mason-nvim-dap.nvim",
+		config = function ()
+			require ('mason-nvim-dap').setup({
+				ensure_installed = {'js'},
+				handlers = {}, -- sets up dap in the predefined manner
+			})
+		end
+	},
+	{
+		"kevinhwang91/nvim-ufo",
+		dependencies = { "kevinhwang91/promise-async" },
+		config = function ()
+			vim.o.foldcolumn = '1' -- '0' is not bad
+			vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+			vim.o.foldlevelstart = 99
+			vim.o.foldenable = true
+			vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+			vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
+			require('ufo').setup({
+				provider_selector = function(bufnr, filetype, buftype)
+					return {'treesitter', 'indent'}
+				end
+			})
+		end
+	}
 }
