@@ -396,15 +396,6 @@ return {
 		}
 	},
 	{
-		"TimUntersberger/neogit",
-		config = function ()
-			require('neogit').setup()
-		end,
-		keys = {
-			{"<leader>gs","<cmd>Neogit<CR>" }
-		}
-	},
-	{
 		"folke/trouble.nvim",
 		dependencies = {"nvim-tree/nvim-web-devicons"},
 		config = function ()
@@ -527,7 +518,13 @@ return {
 	{
 		'voldikss/vim-floaterm',
 		keys = {
-			{"<leader>gS", "<cmd>FloatermNew --disposable --width=0.95 --height=0.95 lazygit<CR>"}
+			{"<leader>gs", "<cmd>FloatermNew --disposable --width=0.95 --height=0.95 lazygit<CR>"}
 		}
+	},
+	{
+		'lewis6991/gitsigns.nvim',
+		config = function ()
+			require('gitsigns').setup()
+		end
 	}
 }
