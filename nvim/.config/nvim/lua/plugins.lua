@@ -131,9 +131,9 @@ return {
 			require("mason-lspconfig").setup()
 
 			require("mason-null-ls").setup({
-				ensure_installed = { "stylua", "eslint_d", "preetier" },
+				ensure_installed = { "stylua", "preetier" },
 				automatic_setup = true,
-				handlers = {}
+			handlers = {}
 			})
 
 			local null_ls = require("null-ls")
@@ -255,7 +255,7 @@ return {
 					['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 					["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
-						cmp.select_next_item()
+							cmp.select_next_item()
 							-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
 							-- they way you will only jump inside the snippet region
 						elseif luasnip.expand_or_jumpable() then
@@ -265,17 +265,17 @@ return {
 						else
 							fallback()
 						end
-						end, { "i", "s" }),
+					end, { "i", "s" }),
 
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
-						cmp.select_prev_item()
+							cmp.select_prev_item()
 						elseif luasnip.jumpable(-1) then
 							luasnip.jump(-1)
 						else
 							fallback()
 						end
-						end, { "i", "s" }),
+					end, { "i", "s" }),
 				}),
 				sources = cmp.config.sources({
 					{ name = 'luasnip' }, -- For luasnip users.
@@ -283,7 +283,7 @@ return {
 					{ name = "neorg" },
 					{ name = 'path' },
 					}, {
-						{ name = 'buffer' },
+					{ name = 'buffer' },
 				})
 			})
 
@@ -292,7 +292,7 @@ return {
 				sources = cmp.config.sources({
 					{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
 					}, {
-						{ name = 'buffer' },
+					{ name = 'buffer' },
 				})
 			})
 
@@ -502,7 +502,7 @@ return {
 		config = function ()
 			require ('mason-nvim-dap').setup({
 				ensure_installed = {'js'},
-				handlers = {}, -- sets up dap in the predefined manner
+			handlers = {}, -- sets up dap in the predefined manner
 			})
 		end
 	},
@@ -523,5 +523,11 @@ return {
 				end
 			})
 		end
+	},
+	{
+		'voldikss/vim-floaterm',
+		keys = {
+			{"<leadergS>", "<cmd>FloatermNew --disposable --width=0.95 --heigth=0.95 lazygit<CR>"}
+		}
 	}
 }

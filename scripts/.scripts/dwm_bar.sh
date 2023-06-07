@@ -31,8 +31,8 @@ pkg_updates() {
 }
 
 battery() {
-  get_capacity="$(cat /sys/class/power_supply/BAT1/capacity)"
-  printf "^c$blue^   $get_capacity"
+  get_capacity="$(cat /sys/class/power_supply/BAT0/capacity)"
+  printf "^c$fg^   $get_capacity"
 }
 
 brightness() {
