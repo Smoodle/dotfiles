@@ -527,7 +527,7 @@ return {
 	{
 		'voldikss/vim-floaterm',
 		keys = {
-			{"<leadergS>", "<cmd>FloatermNew --disposable --width=0.95 --heigth=0.95 lazygit<CR>"}
+			{"<leader>gS", "<cmd>FloatermNew --disposable --width=0.95 --height=0.95 lazygit<CR>"}
 		}
 	}
 }
