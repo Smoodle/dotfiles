@@ -142,7 +142,7 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
-				helpers.baseBar(textclock),
+				helpers.barItemBackground(helpers.baseBar(textclock)),
 			},
 			helpers.barItemBackground(s.mytaglist),
 			{
