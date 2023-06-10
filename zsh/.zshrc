@@ -160,6 +160,7 @@ alias skyrim_mo="DXVK_FRAME_RATE=60 STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.steam/ro
 alias genshin_pulls="cat /Games/Genshin/Game/GenshinImpact_Data/webCaches/Cache/Cache_Data/data_2 | grep -a 'e20190909gacha-v2'"
 
 alias devCast="NODE_ENV='development' node index.js"
+alias lg="lazygit"
 
 function pomo() {
     arg1=$1
