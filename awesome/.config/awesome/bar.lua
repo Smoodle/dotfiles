@@ -2,13 +2,14 @@ local gears = require("gears")
 local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
+-- local naughty = require("naughty")
 
 local helpers = require("helpers")
 
 local tablet_widget = require("widgets.tablet")
 local minimized = require("widgets.minimized")
 local bluetooth = require("widgets.bluetooth")
-local systray_widget = require("widgets.systray")
+--local systray_widget = require("widgets.systray")
 local battery = require("widgets.battery")
 local power = require("widgets.power")
 
@@ -147,7 +148,7 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
-				systray_widget,
+				helpers.barItemBackground({wibox.widget.systray}),
 				battery,
 				tablet_widget,
 				minimized,

@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 local helpers = require("helpers")
 local minimized_apps = 0
-local base_text = "絛 "
+local base_text = " "
 
 local minimized_widget = wibox.widget {
 	markup = '',

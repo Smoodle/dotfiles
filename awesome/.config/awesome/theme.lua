@@ -35,7 +35,7 @@ theme.bg_normal = main_bg_normal
 theme.bg_focus = alt_color
 theme.bg_urgent = theme.bg_normal
 theme.bg_minimize = theme.bg_normal
-theme.bg_systray = main_bg_normal
+theme.bg_systray = alt_color
 
 theme.fg_normal = main_fg_normal
 theme.fg_focus = main_bg_focus

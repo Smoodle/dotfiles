@@ -9,7 +9,7 @@ local apps = require("apps")
 local keys = {}
 
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () Menu:toggle() end)
+	awful.button({ }, 3, function () Menu:toggle() end)
 ))
 
 keys.globalkeys = gears.table.join(
@@ -68,15 +68,15 @@ keys.globalkeys = gears.table.join(
 	awful.key({ Modkey            }, "d", function ()
 		local src = awful.screen.focused()
 		src.selected_tag.master_count = src.selected_tag.master_count - 1
-	end, {description = "decrease master count", group = "screen"}),
+		end, {description = "decrease master count", group = "screen"}),
 	awful.key({ Modkey            }, "i", function ()
 		local src = awful.screen.focused()
 		src.selected_tag.master_count = src.selected_tag.master_count + 1
-	end, {description = "decrease master count", group = "screen"}),
+		end, {description = "decrease master count", group = "screen"}),
 	awful.key({ Modkey            }, "b", function ()
 		local scr = awful.screen.focused()
 		scr.mywibox.visible = not scr.mywibox.visible
-	end,
+		end,
 		{description = "hide wibar", group = "screen"}),
 
 	awful.key({ Modkey, "Shift" }, "n",
@@ -168,7 +168,7 @@ keys.globalkeys = gears.table.join(
 		awful.screen.connect_for_each_screen(function(s)
 			awful.layout.arrange(s)
 		end)
-	end, {description = "increase the gaps", group = "launcher"}),
+		end, {description = "increase the gaps", group = "launcher"}),
 
 	awful.key({ Modkey }, "-", function()
 		if (beautiful.useless_gap) <= 0 then
@@ -184,7 +184,7 @@ keys.globalkeys = gears.table.join(
 		awful.screen.connect_for_each_screen(function(s)
 			awful.layout.arrange(s)
 		end)
-	end, {description = "reduce the gaps", group = "launcher"}),
+		end, {description = "reduce the gaps", group = "launcher"}),
 
 	-- Custom
 	awful.key({ Modkey }, "e", function() awful.spawn(apps.emacs) end,
@@ -195,7 +195,7 @@ keys.globalkeys = gears.table.join(
 
 	awful.key({ Modkey }, "a", function()
 		awful.spawn.with_shell("~/.scripts/mpv_picker /Media/Anime")
-	end, {description = "Open mpv picker", group = "launcher"}),
+		end, {description = "Open mpv picker", group = "launcher"}),
 
 	awful.key({ Modkey, "Shift" }, "p", function() awful.spawn(apps.screenshot) end,
 		{description = "Take screenshot", group = "launcher"}),
@@ -232,7 +232,7 @@ keys.clientkeys = gears.table.join(
 
 	awful.key({ Modkey, "Shift"   }, "c", function (c)
 		c:kill()
-	end, {description = "close", group = "client"}),
+		end, {description = "close", group = "client"}),
 
 	awful.key({ Modkey, "Shift" }, "space",
 		function(c)
@@ -243,7 +243,7 @@ keys.clientkeys = gears.table.join(
 
 	awful.key({ Modkey }, "Return", function (c)
 		c:swap(awful.client.getmaster())
-	end,
+		end,
 		{description = "move to master", group = "client"}),
 	awful.key({ Modkey, "Shift"}, "m",
 		function (c)
@@ -255,11 +255,11 @@ keys.clientkeys = gears.table.join(
 
 	awful.key({ Modkey, "Shift" }, ".", function (c)
 		c:move_to_screen()
-	end, {description = "move one screen forward", group = "client"}),
+		end, {description = "move one screen forward", group = "client"}),
 
 	awful.key({ Modkey, "Shift" }, ",", function (c)
 		c:move_to_screen(c.screen.index - 1)
-	end, {description = "move one screen backwards", group = "client"})
+		end, {description = "move one screen backwards", group = "client"})
 )
 
 -- Bind all key numbers to tags.

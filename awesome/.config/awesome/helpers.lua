@@ -25,9 +25,9 @@ helpers.text = function(text)
 end
 
 helpers.baseBar = function(widgets)
-   if(widgets.visible ~= nil) then
-	  widgets = { widgets }
-   end
+	if(widgets.visible ~= nil) then
+		widgets = { widgets }
+	end
 
 	return wibox.widget {
 		--left = beautiful.bar_right_spacing,
@@ -38,11 +38,11 @@ helpers.baseBar = function(widgets)
 end
 
 helpers.barItemBackground = function(widgets)
-   if(widgets.visible ~= nil) then
-	  widgets = {
-		 widgets
-	  }
-   end
+	if(widgets.visible ~= nil) then
+		widgets = {
+			widgets
+		}
+	end
 
 	return {
 		{
@@ -98,13 +98,13 @@ helpers.printTable = function(t)
 end
 
 helpers.isLaptop = function()
-   local hostname = io.popen("uname -n"):read()
+	local hostname = io.popen("uname -n"):read()
 
-   if hostname:find("-lp", 1, true) then
-	  return true
-   end
+	if hostname:find("-lp", 1, true) then
+		return true
+	end
 
-   return false
+	return false
 end
 
 return helpers
