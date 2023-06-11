@@ -72,7 +72,9 @@ for _ = 1, beautiful.tag_size, 1 do
 	table.insert(tag_icons, beautiful.tag_empty);
 end
 
+local s_count = 0
 awful.screen.connect_for_each_screen(function(s)
+	s_count = s_count + 1
 	-- Each screen has its own tag table.
 	awful.tag(tag_icons, s, awful.layout.layouts[1])
 
@@ -131,6 +133,12 @@ awful.screen.connect_for_each_screen(function(s)
 		},
 	}
 
+	local my_systray = helpers.barItemBackground({wibox.widget.systray})
+
+	if s_count > 1 then
+		my_systray = nil
+	end
+
 	-- Add widgets to the wibox
 	s.mywibox:setup {
 		widget = wibox.container.margin,
@@ -148,7 +156,7 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
-				helpers.barItemBackground({wibox.widget.systray}),
+				my_systray,
 				battery,
 				tablet_widget,
 				minimized,
