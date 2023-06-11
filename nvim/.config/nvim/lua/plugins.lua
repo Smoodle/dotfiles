@@ -1,5 +1,8 @@
 return {
 	{
+		"folke/neodev.nvim",
+	},
+	{
 		"catppuccin/nvim",
 		name = "catppuccin",
 		config = function()
@@ -127,6 +130,8 @@ return {
 			{"<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>"}
 		},
 		config = function()
+			require("neodev").setup({})
+
 			require("mason").setup()
 			require("mason-lspconfig").setup()
 
