@@ -521,15 +521,19 @@ return {
 		end
 	},
 	{
-		'voldikss/vim-floaterm',
-		keys = {
-			{"<leader>gs", "<cmd>FloatermNew --disposable --width=0.95 --height=0.95 lazygit<CR>"}
-		}
-	},
-	{
 		'lewis6991/gitsigns.nvim',
 		config = function ()
 			require('gitsigns').setup()
 		end
-	}
+	},
+	{
+		"kdheepak/lazygit.nvim",
+		-- optional for floating window border decoration
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		keys = {
+			{"<leader>gs", "<cmd>LazyGit<CR>"}
+		}
+	},
 }
