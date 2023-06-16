@@ -113,8 +113,8 @@ export LANG=en_US.UTF-8
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-#export BROWSER=firefox
-export EDITOR="nvim"                  # $EDITOR opens in terminal
+export BROWSER=firefox
+export EDITOR=nvim
 
 setopt HIST_IGNORE_SPACE
 
@@ -142,8 +142,11 @@ alias gh="gp --cookies /Media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 
 alias sudo="sudo "
 alias start-vline="sbcl --load ~/.local/share/nvim/site/pack/packer/start/vlime/lisp/start-vlime.lisp"
 #alias emacs="emacsclient -c -a 'emacs'"
+
 alias v=nvim
 alias vim=nvim
+alias nvim="nvim --listen /tmp/nvim-server.pipe"
+
 alias pencil="electron11 /usr/lib/pencil"
 
 alias redshift="redshift -l 38.7172303:-9.1235584"
