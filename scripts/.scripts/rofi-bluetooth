@@ -16,6 +16,14 @@
 # Depends on:
 #   Arch repositories: rofi, bluez-utils (contains bluetoothctl)
 
+#Check if bluetooth is available
+
+active=$(systemctl is-active bluetooth)
+if [ $active != "active" ]; then
+	notify-send "Please enable bluetooth service"
+	exit 2
+fi
+
 # Constants
 divider="---------"
 goback="Back"
