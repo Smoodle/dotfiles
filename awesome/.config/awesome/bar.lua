@@ -13,6 +13,8 @@ local bluetooth = require("widgets.bluetooth")
 local battery = require("widgets.battery")
 local power = require("widgets.power")
 
+local notif = require("modules.notification")
+
 if helpers.isLaptop() == false then
 	battery = nil
 end
@@ -162,6 +164,7 @@ awful.screen.connect_for_each_screen(function(s)
 				minimized,
 				bluetooth,
 				power,
+				notif,
 				s.mylayoutbox,
 			}
 		}
