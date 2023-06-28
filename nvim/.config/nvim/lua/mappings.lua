@@ -28,3 +28,4 @@ map('i', '<C-v>', '<ESC>"+pa', opt)
 
 -- Custom functions
 map('n', '<leader>p', ':lua require("custom.log").Log_at_point()<CR>', opt)
+map('n', '<leader>tt', ':lua require("custom.toggle_clients").toggleClients()<CR>', opt)

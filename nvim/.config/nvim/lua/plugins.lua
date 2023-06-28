@@ -102,7 +102,7 @@ return {
 
 				highlight = {
 					enable = true,
-					disable = function(lang, buf)
+					disable = function(_, buf)
 						local max_filesize = 100 * 1024 -- 100 KB
 						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
 						if ok and stats and stats.size > max_filesize then
@@ -413,7 +413,14 @@ return {
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function ()
-			require 'colorizer'.setup()
+			require 'colorizer'.setup {
+				filetypes = {
+					'*';
+					css = { rgb_fn = true; };
+					javascript = { names = false; };
+					json = { names = false; };
+				},
+			}
 		end,
 	},
 	{
@@ -445,7 +452,7 @@ return {
 	{
 		"akinsho/org-bullets.nvim",
 		config = function ()
-			require('org-bullets').setup()
+			require('org-bullets').setup({})
 		end
 	},
 	{
@@ -494,12 +501,42 @@ return {
 	},
 	{
 		"mfussenegger/nvim-dap",
-		"jay-babu/mason-nvim-dap.nvim",
+		dependencies = {
+			"rcarriga/nvim-dap-ui",
+			"mxsdev/nvim-dap-vscode-js"
+		},
 		config = function ()
-			require ('mason-nvim-dap').setup({
-				ensure_installed = {'js'},
-			handlers = {}, -- sets up dap in the predefined manner
+
+			require("dap-vscode-js").setup({
+				-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+				debugger_path = os.getenv("HOME") .. "/.local/share/nvim/mason/packages/vscode-js-debug", -- Path to vscode-js-debug installation.
+				debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+				adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
+				-- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+				-- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+				-- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
 			})
+
+			for _, language in ipairs({ "typescript", "javascript" }) do
+				require("dap").configurations[language] = {
+					{
+						type = "pwa-node",
+						request = "attach",
+						name = "Attach",
+						processId = require'dap.utils'.pick_process,
+						cwd = "${workspaceFolder}",
+					}
+				}
+			end
+
+
+			require("dapui").setup()
+
+			vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+			vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+			vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+			vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+			vim.keymap.set('n', '<Leader>B', function() require('dap').toggle_breakpoint() end)
 		end
 	},
 	{
@@ -514,7 +551,7 @@ return {
 			vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
 			require('ufo').setup({
-				provider_selector = function(bufnr, filetype, buftype)
+				provider_selector = function()
 					return {'treesitter', 'indent'}
 				end
 			})
@@ -536,4 +573,30 @@ return {
 			{"<leader>gs", "<cmd>LazyGit<CR>"}
 		}
 	},
+	{
+		"ahmedkhalf/project.nvim",
+		config = function()
+			require("project_nvim").setup {}
+			require('telescope').load_extension('projects')
+		end,
+		keys = {
+			{"<leader>rp", function() require'telescope'.extensions.projects.projects{} end}
+		}
+	},
+	{
+		"ThePrimeagen/harpoon",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function ()
+			require("harpoon").setup()
+			require("telescope").load_extension('harpoon')
+		end,
+		keys = {
+			{"<leader>ha", "<cmd>lua require('harpoon.mark').add_file()<CR>"},
+			{"<leader>ht", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>"},
+			{"<leader>hn", "<cmd>lua require('harpoon.ui').nav_next()<CR>"},
+			{"<leader>hp", "<cmd>lua require('harpoon.ui').nav_prev()<CR>"},
+		}
+	}
 }
