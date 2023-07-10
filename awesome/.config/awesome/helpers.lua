@@ -38,6 +38,7 @@ helpers.baseBar = function(widgets)
 end
 
 helpers.barItemBackground = function(widgets)
+
 	if(widgets.visible ~= nil) then
 		widgets = {
 			widgets
@@ -48,14 +49,14 @@ helpers.barItemBackground = function(widgets)
 		{
 			{
 				children = widgets,
-				left = dpi(10),
-				right = dpi(10),
+				left = dpi(5),
+				right = dpi(5),
 				top = dpi(2),
 				bottom = dpi(2),
 				widget = wibox.container.margin,
 			},
 			bg = beautiful.alt_color,
-			shape = gears.shape.rounded_rect,
+			shape = helpers.rrect(dpi(4)),
 			widget = wibox.container.background,
 		},
 		margins = dpi(3),

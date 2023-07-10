@@ -13,7 +13,7 @@ local bluetooth = require("widgets.bluetooth")
 local battery = require("widgets.battery")
 local power = require("widgets.power")
 
-local notif = require("modules.notification")
+-- local notif = require("modules.notification")
 
 if helpers.isLaptop() == false then
 	battery = nil
@@ -38,7 +38,7 @@ local textclock = wibox.widget.textclock(time_format)
 -- load the widget code
 local calendar = require("widgets.calendar")
 local cw = calendar({
-	placement = 'top_left',
+	placement = 'top_right',
 	theme = 'theme'
 })
 
@@ -68,11 +68,11 @@ power_icon:connect_signal("button::press", function()
 	Sidebar_toggle()
 end)
 
-local tag_icons = {}
+local tag_icons = {" ", " ", " ", " ", " ", " ", "󰠱 "}
 
-for _ = 1, beautiful.tag_size, 1 do
-	table.insert(tag_icons, beautiful.tag_empty);
-end
+-- for _ = 1, beautiful.tag_size, 1 do
+-- 	table.insert(tag_icons, beautiful.tag_empty);
+-- end
 
 local s_count = 0
 awful.screen.connect_for_each_screen(function(s)
@@ -144,28 +144,29 @@ awful.screen.connect_for_each_screen(function(s)
 	-- Add widgets to the wibox
 	s.mywibox:setup {
 		widget = wibox.container.margin,
-		left = dpi(7),
-		right = dpi(7),
+		left = dpi(3),
+		right = dpi(3),
 		{
 			layout = wibox.layout.align.horizontal,
 			expand = 'none',
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
-				helpers.barItemBackground(helpers.baseBar(textclock)),
+				helpers.barItemBackground(s.mytaglist),
+				helpers.barItemBackground(s.mylayoutbox),
 			},
-			helpers.barItemBackground(s.mytaglist),
+			nil,
 			{
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(5),
-				my_systray,
 				battery,
 				tablet_widget,
 				minimized,
-				bluetooth,
-				power,
-				notif,
-				s.mylayoutbox,
+				helpers.baseBar(bluetooth),
+				-- notif,
+				helpers.barItemBackground(helpers.baseBar(textclock)),
+				my_systray,
+				helpers.barItemBackground(power),
 			}
 		}
 	}

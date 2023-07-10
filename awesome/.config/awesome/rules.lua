@@ -69,23 +69,36 @@ awful.rules.rules = {
 	}}
 }
 
-ruled.notification.connect_signal('request::rules', function() ruled.notification.append_rule {
-	rule_any = {
-		app_name = {
-			"brave-browser",
-			"Brave-browser",
-			"brave",
-			"Brave"
-		},
-		has_class = {
-			"brave-browser",
-			"Brave-browser",
-			"brave",
-			"Brave"
+ruled.notification.connect_signal('request::rules', function()
+	ruled.notification.append_rule {
+		rule       = { },
+		properties = {
+			screen           = awful.screen.preferred,
+			implicit_timeout = 5,
 		}
-	},
-	properties = {
-		ignore = true
 	}
-}
+
+	ruled.notification.append_rule {
+		rule_any = {
+			app_name = {
+				"brave-browser",
+				"Brave-browser",
+				"brave",
+				"Brave"
+			},
+			has_class = {
+				"brave-browser",
+				"Brave-browser",
+				"brave",
+				"Brave"
+			}
+		},
+		properties = {
+			ignore = true
+		}
+	}
+end)
+
+naughty.connect_signal("request::display", function(n)
+    naughty.layout.box { notification = n }
 end)

@@ -17,7 +17,7 @@ local theme = {}
 
 theme.font = "Hack Nerd Font 12"
 
-theme.tag_size = 5
+theme.tag_size = 9
 theme.tag_content = " "
 theme.tag_empty = " "
 
@@ -51,7 +51,7 @@ theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
 
 theme.wibar_height = dpi(30)
-theme.taglist_disable_icon = true
+theme.taglist_disable_icon = false
 
 theme.bar_right_spacing = dpi(7)
 theme.systray_icon_spacing = dpi(5)
