@@ -98,6 +98,23 @@
 
 * Packages
 
+** Which key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :config
+    (which-key-mode))
+#+end_src
+
+** Projectile
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :config
+    (projectile-mode)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+#+end_src
+
 ** Dashboard
 
 #+begin_src emacs-lisp
@@ -267,6 +284,7 @@
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.tsx\\'"	.	tsx-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'"	.	typescript-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'"	.	js-ts-mode))
 #+end_src
 
 ** Eglot detection
@@ -331,3 +349,14 @@
   (global-set-key (kbd "C-c l") #'smoodle/logger_log)
 #+end_src
 
+
+** Custom Formatter
+
+#+begin_src emacs-lisp
+  (defun smoodle/format-prettier ()
+    "Format document with preetier"
+    (interactive)
+    (shell-command (concat "prettier --write " (buffer-file-name))))
+
+  (add-hook 'js-ts-mode-hook (add-hook 'after-save-hook 'smoodle/format-prettier))
+#+end_src
