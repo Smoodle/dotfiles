@@ -123,23 +123,9 @@
 
 #+begin_src emacs-lisp
   (use-package all-the-icons)
-  ;; (use-package doom-themes
-  ;;   :ensure t
-  ;;   :config
-  ;;   ;; Global settings (defaults)
-  ;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-  ;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;;   (load-theme 'doom-one t)
 
-  ;;   ;; Enable flashing mode-line on errors
-  ;;   (doom-themes-visual-bell-config)
-  ;;   (doom-themes-treemacs-config)
-  ;;   ;; Corrects (and improves) org-mode's native fontification.
-  ;;   (doom-themes-org-config))
-
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-  (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
-  (load-theme 'catppuccin t)
+  (use-package catppuccin-theme)
+  (load-theme 'catppuccin :no-confirm)
 
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
@@ -180,7 +166,8 @@
     :init
     (setq treesit-auto-install 'prompt)
     :config
-    (global-treesit-auto-mode))
+    (global-treesit-auto-mode)
+    (setq treesit-font-lock-level 4))
 #+end_src
 
 ** Evil
@@ -253,20 +240,46 @@
   (use-package yasnippet)
 #+end_src
 
+** Projectile
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :config
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+#+end_src
+
+** Which key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :config
+    (which-key-mode))
+#+end_src
+
 * Programming
 
 ** Editor config
 #+begin_src emacs-lisp
-  (use-package editorconfig
-    :ensure t
-    :config
-    (editorconfig-mode 1))
+(use-package editorconfig
+:ensure t
+:config
+(editorconfig-mode 1))
 #+end_src
 ** File detection
 
+*** Auto mode
+
 #+begin_src emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'"	.	tsx-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\.ts\\'"	.	typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'"	.	tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'"	.	typescript-ts-mode))
+#+end_src
+
+*** Language reconition
+
+#+begin_src emacs-lisp
+(use-package lua-mode)
 #+end_src
 
 ** Eglot detection
@@ -274,7 +287,7 @@
 #+begin_src emacs-lisp
   (add-hook 'tsx-ts-mode-hook 'eglot-ensure)
   (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
-  (add-hook 'js-ts-mode-hook 'eglot-ensure)
+  (add-hook 'js-base-mode-hook 'eglot-ensure)
 #+end_src
 
 ** Packages
@@ -282,52 +295,63 @@
 *** Updated eglot
 
 #+begin_src emacs-lisp
-  (use-package eglot)
+(use-package eglot)
 #+end_src
 
 *** Markdown mode
 #+begin_src emacs-lisp
-  (use-package markdown-mode)
+(use-package markdown-mode)
 #+end_src
 
 ** Custom logger
 
 #+begin_src emacs-lisp
   (defun logger_language_message (word)
-    (cond
-     ((or
-       (string-match-p "\\.js\\'" (buffer-file-name))
-       (string-match-p "\\.ts\\'" (buffer-file-name))
-       (string-match-p "\\.jsx\\'" (buffer-file-name))
-       (string-match-p "\\.tsx\\'" (buffer-file-name)))
+  (cond
+      ((or
+      (string-match-p "\\.js\\'" (buffer-file-name))
+      (string-match-p "\\.ts\\'" (buffer-file-name))
+      (string-match-p "\\.jsx\\'" (buffer-file-name))
+      (string-match-p "\\.tsx\\'" (buffer-file-name)))
       (concat "console.log(` " (buffer-file-name) " " (what-line) "   ${" word "}`);"))
-     (
+      (
       (string-match-p "\\.py\\'" (buffer-file-name))
       (concat "print(\" " (buffer-file-name) " " (what-line) "   \" + " word ")"))
-     (
+      (
       (string-match-p "\\.java\\'" (buffer-file-name))
       (concat "System.out.println(\" " (buffer-file-name) " " (what-line) "   \" + " word ");"))
-     (
+      (
       (string-match-p "\\.rs\\'" (buffer-file-name))
       (concat "println!(\" " (buffer-file-name) " " (what-line) "   {}\", " word ");"))
-     (t nil)
-     )
-    )
+      (t nil)
+      )
+  )
 
   (defun smoodle/logger_log ()
-    (interactive)
-    (let* ((word (current-word)) (message (logger_language_message word)))
+  (interactive)
+  (let* ((word (current-word)) (message (logger_language_message word)))
       (cond
-       ((null message) (message "No logger found for this file type"))
-       (t
-        (end-of-line)
-        (newline-and-indent)
-        (insert message)
-        )
-       )
+      ((null message) (message "No logger found for this file type"))
+      (t
+      (end-of-line)
+      (newline-and-indent)
+      (insert message)
       )
-    )
+      )
+      )
+  )
 
   (global-set-key (kbd "C-c l") #'smoodle/logger_log)
 #+end_src
 
+** Prettier formatter
+
+#+begin_src emacs-lisp
+  (defun smoodle/prettier ()
+  "Format code with prettier formatter"
+  (interactive)
+  (shell-command (concat "prettier --write " (buffer-file-name))))
+
+  (add-hook 'js-base-mode-hook (add-hook 'after-save-hook 'smoodle/prettier))
+  (add-hook 'json-ts-mode-hook (add-hook 'after-save-hook 'smoodle/prettier))
+#+end_src
