@@ -1,41 +1,36 @@
 local wibox = require("wibox")
 local awful = require("awful")
+local helpers = require("helpers")
+local beautiful = require("beautiful")
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
 
-local sys_left_icon = "< "
-local sys_right_icon = "> "
-
-local togglertext = wibox.widget {
-	text = sys_left_icon,
-	valign = "center",
-	align = "center",
-	buttons = {
-		awful.button({}, 1, function()
-			awesome.emit_signal('systray::toggle')
-		end)
-	},
-	widget = wibox.widget.textbox,
+local old_systray = wibox.widget {
+		{
+			{
+				wibox.widget.systray,
+				left = dpi(5),
+				right = dpi(5),
+				top = dpi(2),
+				bottom = dpi(2),
+				widget = wibox.container.margin,
+			},
+			bg = beautiful.alt_color,
+			shape = helpers.rrect(dpi(4)),
+			widget = wibox.container.background,
+		},
+		margins = dpi(3),
+		widget = wibox.container.margin,
 }
 
-local systray = wibox.widget {
-	wibox.widget.systray,
-	visible = false,
-	widget = wibox.layout.fixed.horizontal
-}
+local systray = helpers.barItemBackground({wibox.widget.systray})
 
-local systray_widget = wibox.widget {
-	togglertext,
-	systray,
-	widget = wibox.layout.fixed.horizontal
-}
-
-awesome.connect_signal('systray::toggle', function()
-	if systray.visible then
-		systray.visible = false
-		togglertext.text = sys_left_icon
-	else
+awesome.connect_signal('signals::systray', function(value)
+	if value == true then
 		systray.visible = true
-		togglertext.text = sys_right_icon
+	else
+		systray.visible = false
 	end
 end)
 
-return systray_widget
+return systray

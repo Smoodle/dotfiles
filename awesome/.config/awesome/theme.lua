@@ -50,7 +50,7 @@ theme.border_normal = "#424242"
 theme.border_focus = main_bg_focus
 theme.border_marked = main_bg_focus
 
-theme.wibar_height = dpi(30)
+theme.wibar_height = dpi(25)
 theme.taglist_disable_icon = false
 
 theme.bar_right_spacing = dpi(7)

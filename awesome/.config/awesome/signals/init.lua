@@ -1,32 +1,33 @@
 require("signals.cpu")
 require("signals.ram")
+require("signals.systray")
 --require("signals.spotify")
 
 local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
--- local dynamic_tagging = function()
--- 	for s = 1, screen.count() do
--- 		-- get a list of all tags 
--- 		local atags = awful.tag.gettags(s)
--- 		-- set the standard icon
--- 		for _, t in ipairs(atags) do
--- 			t.name = beautiful.tag_empty
--- 		end
---
--- 		-- get a list of all running clients
--- 		local clist = client.get(s)
--- 		for _, c in ipairs(clist) do
--- 			-- get the tags on which the client is displayed
--- 			local ctags = c:tags()
--- 			for _, t in ipairs(ctags) do
--- 				-- set active icon
--- 			t.name = beautiful.tag_content
--- 			end
--- 		end
--- 	end
--- end
+local dynamic_tagging = function()
+	for s = 1, screen.count() do
+		-- get a list of all tags
+		local atags = awful.tag.gettags(s)
+		-- set the standard icon
+		for _, t in ipairs(atags) do
+			t.name = beautiful.tag_empty
+		end
+
+		-- get a list of all running clients
+		local clist = client.get(s)
+		for _, c in ipairs(clist) do
+			-- get the tags on which the client is displayed
+			local ctags = c:tags()
+			for _, t in ipairs(ctags) do
+				-- set active icon
+			t.name = beautiful.tag_content
+			end
+		end
+	end
+end
 
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function(c)
@@ -46,13 +47,13 @@ client.connect_signal("manage", function(c)
 
 end)
 
--- client.connect_signal("tagged", function (_)
--- 	dynamic_tagging()
--- end)
---
--- client.connect_signal("untagged", function (_)
--- 	dynamic_tagging()
--- end)
+client.connect_signal("tagged", function (_)
+	dynamic_tagging()
+end)
+
+client.connect_signal("untagged", function (_)
+	dynamic_tagging()
+end)
 
 -- client.connect_signal("focus",
 -- 	function(c)

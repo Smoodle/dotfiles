@@ -11,6 +11,8 @@
   (set-face-attribute 'default nil :height 140)
   (electric-pair-mode t)
 
+  (setq ring-bell-function 'ignore)
+
   (defalias 'yes-or-no-p 'y-or-n-p)
 
   (menu-bar-mode 0)
@@ -202,6 +204,12 @@
     :after evil
     :config
     (evil-collection-init))
+
+  (use-package undo-tree
+    :config
+    (global-undo-tree-mode))
+
+  (use-package goto-chg)
 #+end_src
 
 ** Magit
@@ -369,6 +377,6 @@
   (interactive)
   (shell-command (concat "prettier --write " (buffer-file-name))))
 
-  (add-hook 'js-base-mode-hook (add-hook 'after-save-hook 'smoodle/prettier))
-  (add-hook 'json-ts-mode-hook (add-hook 'after-save-hook 'smoodle/prettier))
+  (add-hook 'js-base-mode-hook (lambda () (add-hook 'after-save-hook 'smoodle/prettier)))
+  (add-hook 'json-ts-mode-hook (lambda () (add-hook 'after-save-hook 'smoodle/prettier)))
 #+end_src

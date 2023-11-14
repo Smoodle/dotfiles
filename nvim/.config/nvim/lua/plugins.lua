@@ -628,12 +628,24 @@ return {
 					javascript = {
 						require("formatter.filetypes.javascript").prettier,
 					},
-
+					typescript = {
+						require("formatter.filetypes.typescript").prettier,
+					},
+					typescriptreact = {
+						require("formatter.filetypes.typescriptreact").prettier,
+					},
 					["*"] = {
 						require("formatter.filetypes.any").remove_trailing_whitespace,
 					},
 				},
 			})
+
+			vim.cmd [[
+			augroup FormatAutogroup
+			autocmd!
+			autocmd BufWritePost * FormatWrite
+			augroup END
+			]]
 		end,
 	},
 }

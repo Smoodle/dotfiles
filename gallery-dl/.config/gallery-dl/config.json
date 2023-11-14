@@ -1,0 +1,29 @@
+{
+	"extractor": {
+		"archive": "~/gallery-dl/archive.sqlite3",
+		"archive-pragma": ["journal_mode=WAL", "synchronous=NORMAL"],
+
+		"path-restrict": {
+			"\\": "⧹",
+			"/" : "⧸",
+			"|" : "￨",
+			":" : "꞉",
+			"*" : "∗",
+			"?" : "？",
+			"\"": "″",
+			"<" : "﹤",
+			">" : "﹥"
+		},
+
+		"mangadex": {
+			"lang": "en"
+		}
+	},
+	"postprocessors": [
+		{
+			"name": "zip",
+			"extension": "cbz",
+			"whitelist": ["mangadex"]
+		}
+	]
+}

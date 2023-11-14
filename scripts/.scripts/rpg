@@ -1,0 +1,54 @@
+#!/bin/sh
+set -e
+
+RTP_BASE_URL="https://dl.komodo.jp/rpgmakerweb/run-time-packages/"
+PREFIX_PATH="$HOME/.RPG_prefix/"
+
+run()
+{
+	firejail --noprofile --net=none --env=WINEPREFIX="$PREFIX_PATH" --env=LANG=ja_JP.UTF-8 wine "$1"
+}
+
+run_wine()
+{
+	echo "RUN: $1"
+	WINEPREFIX="$PREFIX_PATH" wine "$1"
+}
+
+run_winecfg()
+{
+	WINEPREFIX="$PREFIX_PATH" winecfg
+}
+
+install_winetricks()
+{
+	WINEPREFIX="$PREFIX_PATH" winetricks d3dcompiler_43 corefonts
+}
+
+download_and_install_rtp()
+{
+	if [ ! -d "$PREFIX_PATH" ]; then
+		run_wine wineboot
+		install_winetricks
+	fi
+
+	wget -O "/tmp/$1" --no-check-certificate "$RTP_BASE_URL$1"
+
+	case "$1" in
+		*.zip) unzip -o "/tmp/$1" -d "/tmp/rtp/" && find "/tmp/rtp/" -type f -name "*.exe" -exec sh -c "WINEPREFIX=$PREFIX_PATH wine {}" \; && rm -rf /tmp/rtp;;
+		*.exe) run_wine /tmp/"$1";;
+		*) echo "Invalid name";;
+	esac
+}
+
+install_all_rtp()
+{
+	download_and_install_rtp "RPGVXAce_RTP.zip"
+	download_and_install_rtp "vx_rtp102e.zip"
+	download_and_install_rtp "xp_rtp104e.exe"
+	download_and_install_rtp "rpg2003_rtp_installer.zip"
+	download_and_install_rtp "rpg2000_rtp_installer.exe"
+}
+
+run "$1"
+ # run_winecfg

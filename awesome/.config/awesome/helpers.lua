@@ -45,7 +45,7 @@ helpers.barItemBackground = function(widgets)
 		}
 	end
 
-	return {
+	return wibox.widget {
 		{
 			{
 				children = widgets,

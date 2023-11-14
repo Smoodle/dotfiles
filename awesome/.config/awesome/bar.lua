@@ -1,6 +1,7 @@
 local gears = require("gears")
 local wibox = require("wibox")
 local awful = require("awful")
+local naughty = require("naughty")
 local beautiful = require("beautiful")
 -- local naughty = require("naughty")
 
@@ -12,6 +13,7 @@ local bluetooth = require("widgets.bluetooth")
 --local systray_widget = require("widgets.systray")
 local battery = require("widgets.battery")
 local power = require("widgets.power")
+local systray = require("widgets.systray")
 
 -- local notif = require("modules.notification")
 
@@ -68,13 +70,14 @@ power_icon:connect_signal("button::press", function()
 	Sidebar_toggle()
 end)
 
-local tag_icons = {" ", " ", " ", " ", " ", " ", "󰠱 "}
+local tag_icons = {}
 
--- for _ = 1, beautiful.tag_size, 1 do
--- 	table.insert(tag_icons, beautiful.tag_empty);
--- end
+for _ = 1, beautiful.tag_size, 1 do
+	table.insert(tag_icons, beautiful.tag_empty);
+end
 
 local s_count = 0
+
 awful.screen.connect_for_each_screen(function(s)
 	s_count = s_count + 1
 	-- Each screen has its own tag table.
@@ -135,10 +138,8 @@ awful.screen.connect_for_each_screen(function(s)
 		},
 	}
 
-	local my_systray = helpers.barItemBackground({wibox.widget.systray})
-
 	if s_count > 1 then
-		my_systray = nil
+		systray = nil
 	end
 
 	-- Add widgets to the wibox
@@ -165,7 +166,7 @@ awful.screen.connect_for_each_screen(function(s)
 				helpers.baseBar(bluetooth),
 				-- notif,
 				helpers.barItemBackground(helpers.baseBar(textclock)),
-				my_systray,
+				systray,
 				helpers.barItemBackground(power),
 			}
 		}

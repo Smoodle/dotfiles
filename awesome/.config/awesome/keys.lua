@@ -202,7 +202,8 @@ keys.globalkeys = gears.table.join(
 
 	awful.key({ }, "Print", function() awful.spawn(apps.screenshot) end,
 		{description = "Take screenshot", group = "launcher"}),
-
+	awful.key({ "Shift" }, "Print", function() awful.spawn(apps.directScreenshot) end,
+		{description = "Take screenshot", group = "launcher"}),
 	awful.key({ Modkey, "Shift" }, "v", function() awful.spawn(apps.vpn) end,
 		{description = "Open VPN", group = "launcher"}),
 
@@ -220,7 +221,21 @@ keys.globalkeys = gears.table.join(
 	-- 	{description = "show the menu", group = "launcher"}),
 
 	awful.key({ Modkey, "Shift" }, "q", function() awesome.emit_signal("power::toggle") end,
-		{description = "toggle side bar", group = "launcher"})
+		{description = "toggle side bar", group = "launcher"}),
+
+	-- Macro pad
+--
+	awful.key({ Modkey }, "F1", function() awful.spawn("alacritty") end,
+		{description = "Macro pad shortcut", group = "launcher"}),
+
+	awful.key({ Modkey }, "F2", function() awful.spawn("firefox") end,
+		{description = "Macro pad shortcut", group = "launcher"}),
+
+	awful.key({ Modkey }, "F3", function() awful.spawn("com.spotify.Client") end,
+		{description = "Macro pad shortcut", group = "launcher"}),
+
+	awful.key({ Modkey }, "F4", function() awful.spawn("discord") end,
+		{description = "Macro pad shortcut", group = "launcher"})
 )
 
 keys.clientkeys = gears.table.join(
