@@ -1,22 +1,43 @@
 #!/bin/sh
 set -e
 
-RTP_BASE_URL="https://dl.komodo.jp/rpgmakerweb/run-time-packages/"
-PREFIX_PATH="$HOME/.RPG_prefix/"
+PROTON_LINK="https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-26/wine-lutris-GE-Proton8-26-x86_64.tar.xz"
+RTP_BASE_URL="https://dl.komodo.jp/rpgmakerweb/run-time-packages"
+PREFIX_PATH="$HOME/.RPG_prefix"
+
+check_proton()
+{
+	if [ ! -d "$PREFIX_PATH" ]; then
+		run_wine wineboot
+
+		install_winetricks
+
+		install_all_rtp
+
+		mkdir "$PREFIX_PATH/proton"
+		wget -O "/tmp/proton" --no-check-certificate "$PROTON_LINK"
+		tar -xf "/tmp/proton" --directory "$PREFIX_PATH/proton"
+	fi
+
+}
 
 run()
 {
-	firejail --noprofile --net=none --env=WINEPREFIX="$PREFIX_PATH" --env=LANG=ja_JP.UTF-8 wine "$1"
+	check_proton
+
+	firejail --noprofile --net=none --env=WINEPREFIX="$PREFIX_PATH" --env=LANG="ja_JP.UTF-8" "/home/smoodle/.RPG_prefix/proton/lutris-GE-Proton8-26-x86_64/bin/wine" "$1"
 }
 
 run_wine()
 {
 	echo "RUN: $1"
-	WINEPREFIX="$PREFIX_PATH" wine "$1"
+	WINEPREFIX="$PREFIX_PATH" LANG=ja_JP.UTF-8 wine "$1"
 }
 
 run_winecfg()
 {
+	check_proton
+
 	WINEPREFIX="$PREFIX_PATH" winecfg
 }
 
@@ -27,16 +48,11 @@ install_winetricks()
 
 download_and_install_rtp()
 {
-	if [ ! -d "$PREFIX_PATH" ]; then
-		run_wine wineboot
-		install_winetricks
-	fi
-
-	wget -O "/tmp/$1" --no-check-certificate "$RTP_BASE_URL$1"
+	wget -O "/tmp/$1" --no-check-certificate "$RTP_BASE_URL/$1"
 
 	case "$1" in
 		*.zip) unzip -o "/tmp/$1" -d "/tmp/rtp/" && find "/tmp/rtp/" -type f -name "*.exe" -exec sh -c "WINEPREFIX=$PREFIX_PATH wine {}" \; && rm -rf /tmp/rtp;;
-		*.exe) run_wine /tmp/"$1";;
+		*.exe) run_wine "/tmp/$1";;
 		*) echo "Invalid name";;
 	esac
 }
@@ -50,5 +66,10 @@ install_all_rtp()
 	download_and_install_rtp "rpg2000_rtp_installer.exe"
 }
 
-run "$1"
- # run_winecfg
+
+case "$1" in
+	"winecfg") run_winecfg ;; 
+	"install") install_all_rtp ;; 
+	"run") run_wine "$1" ;; 
+	*) run "$1" ;;
+esac

@@ -1,5 +1,5 @@
 local apps = {
-	terminal = "alacritty",
+	terminal = "wezterm",
 	updater = "alacritty -e paru",
 	launcher = "rofi -show drun",
 	file_manager = "thunar",
@@ -7,7 +7,7 @@ local apps = {
 	directScreenshot = 'sh -c "maim -u -s | xclip -selection clipboard -t image/png"',
 	vpn = "mullvad-vpn",
 	video_link = "sh -c ~/.scripts/play_url.sh",
-	emacs = "emacsclient -c -a 'emacs'"
+	emacs = "emacsclient -c -a 'emacs'",
 }
 
 return apps

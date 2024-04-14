@@ -85,7 +85,6 @@ return {
 					"c",
 					"lua",
 					"vim",
-					"help",
 					"javascript",
 					"typescript",
 					"bash",
