@@ -136,7 +136,7 @@ alias tn="t new -t"
 #Gallery-dl
 alias gldl="gallery-dl -d ~/media/gallery-dl"
 alias gp="gldl --chapter-range 1-25 "
-alias gh="gp --cookies ~/media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0'"
+alias gh="gp --cookies ~/media/gallery-dl/cookies.txt -o user-agent='Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0'"
 
 #General alias
 alias sudo="sudo "

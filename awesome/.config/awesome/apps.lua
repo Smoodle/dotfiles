@@ -1,5 +1,5 @@
 local apps = {
-	terminal = "wezterm",
+	terminal = "alacritty",
 	updater = "alacritty -e paru",
 	launcher = "rofi -show drun",
 	file_manager = "thunar",
