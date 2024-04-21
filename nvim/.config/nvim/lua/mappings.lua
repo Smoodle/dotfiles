@@ -15,6 +15,34 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
 --
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Better copy paste
+vim.keymap.set("v", "<C-c>", '"+yi<ESC>', { desc = "Copy to clipboard" })
+vim.keymap.set("v", "<C-x>", '"+c<ESC>', { desc = "Cut to clipboard" })
+vim.keymap.set("v", "<C-v>", 'c<ESC>"+p', { desc = "Paste from clipboard" })
+vim.keymap.set("i", "<C-v>", '<ESC>"+pa', { desc = "Paste from clipboard" })
+
+-- Better window movement
+vim.api.nvim_command([[
+	function! WinMove(key)
+		let t:curwin = winnr()
+		exec "wincmd ".a:key
+		if (t:curwin == winnr())
+			if (match(a:key,'[jk]'))
+				wincmd v
+			else
+				wincmd s
+			endif
+			exec "wincmd ".a:key
+		endif
+	endfunction
+	
+	nnoremap <silent> <C-h> :call WinMove('h')<CR>
+	nnoremap <silent> <C-j> :call WinMove('j')<CR>
+	nnoremap <silent> <C-k> :call WinMove('k')<CR>
+	nnoremap <silent> <C-l> :call WinMove('l')<CR>
+]])
+
+-- Custom functions
+vim.keymap.set("n", "<leader>p", ':lua require("custom.log").Log_at_point()<CR>', { desc = "Log item at point" })

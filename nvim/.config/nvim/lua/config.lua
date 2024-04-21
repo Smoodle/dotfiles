@@ -1,6 +1,11 @@
 -- See `:help vim.opt`
 --  For more options, you can see `:help option-list`
 
+-- Set space and tab options
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = false
+
 -- Make line numbers default
 vim.opt.number = true
 -- vim.opt.relativenumber = true
@@ -54,3 +59,15 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- Global status line and thicker separator
+vim.opt.laststatus = 3
+vim.opt.fillchars = {
+	horiz = "━",
+	horizup = "┻",
+	horizdown = "┳",
+	vert = "┃",
+	vertleft = "┫",
+	vertright = "┣",
+	verthoriz = "╋",
+}
