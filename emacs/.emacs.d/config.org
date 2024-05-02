@@ -1,382 +1,595 @@
-#+title: My emacs config
-#+author: Smoodle
+#+auto_tangle: t
 
-[[file:./gura.png]]
+* Early init
+:PROPERTIES:
+:header-args: :tangle-mode o444 :results silent :tangle ~/.emacs.d/early-init.el
+:END:
 
-* Basic emacs settings
-
-** Settings
+Elpaca requirement
 
 #+begin_src emacs-lisp
-  (set-face-attribute 'default nil :height 140)
-  (electric-pair-mode t)
-
-  (setq ring-bell-function 'ignore)
-
-  (defalias 'yes-or-no-p 'y-or-n-p)
-
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
-  (setq use-dialog-box nil)
-
-  (setq scroll-margin 8)
-
-  (global-auto-revert-mode 1)
-  (setq global-auto-revert-non-file-buffers t)
-
-  (setq display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode)
-
-  (setq history-length 25)
-  (savehist-mode 1)
-
-  (save-place-mode t)
-
-  (setq save-place-file (concat user-emacs-directory "places"))
-  (setq backup-directory-alist
-        `(("." . ,(concat user-emacs-directory "backups"))))
-
-  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
-  (load custom-file 'noerror 'nomessage)
-
-  (setq-default indent-tabs-mode t)
-  (setq tab-width 2)
-  (defvaralias 'c-basic-offset 'tab-width)
-  (defvaralias 'cperl-indent-level 'tab-width)
-
-  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
+    (setq elpaca-core-date '(20240220))
+    (setq package-enable-at-startup nil)
 #+end_src
 
-** Separate clipboard
-
+Disable compile warnings
 #+begin_src emacs-lisp
-  (setq x-select-enable-clipboard nil)
-  (global-set-key (kbd "C-c y") 'clipboard-yank)
-  (global-set-key (kbd "C-c k") 'clipboard-kill-ring-save)
+  (setq native-comp-async-report-warnings-errors nil)
 #+end_src
 
-** Better ido mode
+** UI
 
 #+begin_src emacs-lisp
-  (setq ido-create-new-buffer 'always)
-  (setq ido-enable-flex-matching t)
-  (setq ido-save-directory-list-file nil)
-  (setq ido-everywhere t)
-  (ido-mode 1)
+  (push '(menu-bar-lines . 0) default-frame-alist)
+  (push '(tool-bar-lines . 0) default-frame-alist)
+  (push '(vertical-scroll-bars) default-frame-alist)
+#+end_src
 
-  (use-package ido-completing-read+
+
+* Configuration
+:PROPERTIES:
+:header-args: :tangle-mode o444 :results silent :tangle ~/.emacs.d/init.el
+:END:
+
+** Elpaca
+
+Use the elpaca package manager
+
+#+begin_src emacs-lisp
+  (defvar elpaca-installer-version 0.7)
+  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+				:ref nil
+				:files (:defaults "elpaca-test.el" (:exclude "extensions"))
+				:build (:not elpaca--activate-package)))
+  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+	 (build (expand-file-name "elpaca/" elpaca-builds-directory))
+	 (order (cdr elpaca-order))
+	 (default-directory repo))
+    (add-to-list 'load-path (if (file-exists-p build) build repo))
+    (unless (file-exists-p repo)
+      (make-directory repo t)
+      (when (< emacs-major-version 28) (require 'subr-x))
+      (condition-case-unless-debug err
+	  (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+		   ((zerop (call-process "git" nil buffer t "clone"
+					 (plist-get order :repo) repo)))
+		   ((zerop (call-process "git" nil buffer t "checkout"
+					 (or (plist-get order :ref) "--"))))
+		   (emacs (concat invocation-directory invocation-name))
+		   ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+					 "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+		   ((require 'elpaca))
+		   ((elpaca-generate-autoloads "elpaca" repo)))
+	      (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+	    (error "%s" (with-current-buffer buffer (buffer-string))))
+	((error) (warn "%s" err) (delete-directory repo 'recursive))))
+    (unless (require 'elpaca-autoloads nil t)
+      (require 'elpaca)
+      (elpaca-generate-autoloads "elpaca" repo)
+      (load "./elpaca-autoloads")))
+  (add-hook 'after-init-hook #'elpaca-process-queues)
+  (elpaca `(,@elpaca-order))
+
+  (setq use-package-always-ensure t)
+  (elpaca elpaca-use-package
+    ;; Enable use-package :ensure support for Elpaca.
+    (elpaca-use-package-mode))
+
+  ;; Block until current queue processed.
+  (elpaca-wait)
+#+end_src
+
+
+** General
+
+Clean project folder
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+#+end_src
+
+MacOS options
+
+#+begin_src emacs-lisp
+    (when (eq system-type 'darwin)
+      (setq mac-command-modifier       'meta
+             mac-option-modifier        'nil)
+    )
+#+end_src
+
+Better defaults
+
+#+begin_src emacs-lisp
+    (delete-selection-mode 1)    ;; You can select text and delete it by typing.
+    (electric-indent-mode -1)    ;; Turn off the weird indenting that Emacs does by default.
+    (electric-pair-mode 1)       ;; Turns on automatic parens pairing
+
+    (global-auto-revert-mode t)          ;; Automatically reload file and show changes if the file has changed
+    (global-display-line-numbers-mode 1) ;; Display line numbers
+    (global-visual-line-mode t)          ;; Enable truncated lines
+
+    (setq mouse-wheel-progressive-speed nil) ;; Disable progressive speed when scrolling
+    (setq scroll-conservatively 10)          ;; Smooth scrolling when going down with scroll margin
+    (setq scroll-margin 8)
+
+    (setq auto-save-default nil) ;; Stop creating # auto save files
+    ;; (setq dired-kill-when-opening-new-dired-buffer t) ;; Dired don't create new buffer
+
+    (setq org-edit-src-content-indentation 4) ;; Set src block automatic indent to 4 instead of 2.
+    (setq-default tab-width 4)
+
+    ;; Move customization variables to a separate file and load it, avoid filling up init.el with unnecessary variables
+    (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+    (load custom-file 'noerror 'nomessage)
+
+    (global-set-key [escape] 'keyboard-escape-quit) ;; Makes Escape quit prompts (Minibuffer Escape)
+    (add-hook 'prog-mode-hook (lambda () (hs-minor-mode t))) ;; Enable folding hide/show globally
+
+    (setq ring-bell-function 'ignore) ;; Disable bell
+#+end_src
+
+Split and follow
+
+#+begin_src emacs-lisp
+    (defun my/split-vertical ()
+      "Splits the window verically and follows"
+      (interactive)
+      (split-window-horizontally)
+      (other-window 1))
+
+    (defun my/split-horizontal ()
+      "Splits the window horizontally and follows"
+      (interactive)
+      (split-window-vertically)
+      (other-window 1))
+
+    (global-set-key (kbd "C-x 2") #'my/split-horizontal)
+    (global-set-key (kbd "C-x 3") #'my/split-vertical)
+#+end_src
+
+Separate clipboard
+
+#+begin_src emacs-lisp
+    (setq x-select-enable-clipboard nil)
+    (global-set-key (kbd "C-c y") 'clipboard-yank)
+    (global-set-key (kbd "C-c k") 'clipboard-kill-ring-save)
+#+end_src
+
+Relative line numbers
+
+#+begin_src emacs-lisp
+    (setq display-line-numbers-type 'relative)
+    (global-display-line-numbers-mode)
+#+end_src
+
+
+** Appearance
+
+*** Theme
+
+#+begin_src emacs-lisp
+  (use-package catppuccin-theme
     :config
-    (ido-ubiquitous-mode 1))
-
-  (use-package ido-vertical-mode
-    :config
-    (ido-vertical-mode 1)
-    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+    (setq catppuccin-flavor 'macchiato) ;; or 'latte, 'macchiato, or 'mocha
+    (catppuccin-reload))
 #+end_src
 
-** Better window management
+
+*** Fonts
 
 #+begin_src emacs-lisp
-  (defun my/split-vertical ()
-    "Splits the window verically and follows"
-    (interactive)
-    (split-window-horizontally)
-    (other-window 1))
+  (set-face-attribute 'default nil
+                      :font "FiraCode Nerd Font" ;; Set your favorite type of font or download JetBrains Mono
+                      :height 140
+                      :weight 'medium)
 
-  (defun my/split-horizontal ()
-    "Splits the window horizontally and follows"
-    (interactive)
-    (split-window-vertically)
-    (other-window 1))
+  ;; This sets the default font on all graphical frames created after restarting Emacs.
+  ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
+  ;; are not right unless I also add this method of setting the default font.
 
-  (global-set-key (kbd "C-x 2") #'my/split-horizontal)
-  (global-set-key (kbd "C-x 3") #'my/split-vertical)
-
+  ;;(add-to-list 'default-frame-alist '(font . "JetBrains Mono")) ;; Set your favorite font
+  (setq-default line-spacing 0.12)
 #+end_src
 
-* Packages
 
-** Which key
-
-#+begin_src emacs-lisp
-  (use-package which-key
-    :config
-    (which-key-mode))
-#+end_src
-
-** Projectile
+*** doom-modeline
 
 #+begin_src emacs-lisp
-  (use-package projectile
-    :config
-    (projectile-mode)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-#+end_src
-
-** Dashboard
-
-#+begin_src emacs-lisp
-  (defun my/dashboard-banner ()
-    """Set a dashboard banner including information on package initialization
-     time and garbage collections."""
-    (setq dashboard-banner-logo-title
-          (format "Emacs ready in %.2f seconds with %d garbage collections."
-                  (float-time (time-subtract after-init-time before-init-time)) gcs-done)))
-
-  (use-package dashboard
-    :init
-    (add-hook 'after-init-hook 'dashboard-refresh-buffer)
-    (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
-    (setq dashboard-center-content t)
-    :config
-    (setq dashboard-startup-banner (concat user-emacs-directory "megumin_emacs.png"))
-    (dashboard-setup-startup-hook))
-
-#+end_src
-
-** Theme
-
-#+begin_src emacs-lisp
-  (use-package all-the-icons)
-
-  (use-package catppuccin-theme)
-  (load-theme 'catppuccin :no-confirm)
-
   (use-package doom-modeline
-    :init (doom-modeline-mode 1))
-#+end_src
-
-** Completion
-
-#+begin_src emacs-lisp
-  (setq completion-cycle-threshold 2)
-  (setq tab-always-indent 'complete)
-
-
-  (use-package company
-    :config
-    (add-to-list 'company-backends 'company-files)
-    (global-set-key (kbd "C-<SPC>") #'company-complete)
-    (add-hook 'after-init-hook 'global-company-mode))
-
-  (use-package kind-icon
-    :ensure t
-    :after corfu
+    :init (doom-modeline-mode 1)
     :custom
-    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-    :config
-    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+    (doom-modeline-height 25)     ;; Sets modeline height
+    (doom-modeline-bar-width 5)   ;; Sets right bar width
+    (doom-modeline-persp-name t)  ;; Adds perspective name to modeline
+    (doom-modeline-persp-icon t)) ;; Adds folder icon next to persp name
+
 #+end_src
 
-** vterm
+
+
+*** dashboard
 
 #+begin_src emacs-lisp
-  (use-package vterm)
+    (defun my/dashboard-banner ()
+      """Set a dashboard banner including information on package initialization
+       time and garbage collections."""
+      (setq dashboard-banner-logo-title
+            (format "Emacs ready in %.2f seconds with %d garbage collections."
+                    (float-time (time-subtract after-init-time before-init-time)) gcs-done)))
+
+    (use-package dashboard
+      :init
+      (add-hook 'after-init-hook 'dashboard-refresh-buffer)
+      (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
+      (setq dashboard-center-content t)
+      :config
+      (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+      (setq dashboard-startup-banner (concat user-emacs-directory "gura.png"))
+      (dashboard-setup-startup-hook))
 #+end_src
 
-** Tree sitter
+
+** Auto tangle
+
+Enables auto tangle for all org files
 
 #+begin_src emacs-lisp
-  (use-package treesit-auto
-    :init
-    (setq treesit-auto-install 'prompt)
-    :config
-    (global-treesit-auto-mode)
-    (setq treesit-font-lock-level 4))
+  (use-package org-auto-tangle
+    :defer t
+    :hook (org-mode . org-auto-tangle-mode))
 #+end_src
+
+
+
+** Org
+
+*** Better defaults
+#+begin_src emacs-lisp
+  (setq-default org-startup-indented t
+		org-pretty-entities t
+		org-use-sub-superscripts "{}"
+		org-hide-emphasis-markers t
+		org-startup-with-inline-images t
+		org-image-actual-width '(300))
+#+end_src
+
+
+*** Org bullets
+#+begin_src emacs-lisp
+    (use-package org-bullets
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+end_src
+
+
+*** Roam
+
+#+begin_src emacs-lisp
+    (use-package org-roam)
+#+end_src
+
 
 ** Evil
 
 #+begin_src emacs-lisp
   (use-package evil
-    :init
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-    (setq evil-want-keybinding nil)
-    :config
-    (evil-mode 1))
+    :init ;; Execute code Before a package is loaded
+    (evil-mode)
+    :config ;; Execute code After a package is loaded
+    (evil-set-initial-state 'eat-mode 'insert) ;; Set initial state in eat terminal to insert mode
+    :custom ;; Customization of package custom variables
+    (evil-want-keybinding nil)    ;; Disable evil bindings in other modes (It's not consistent and not good)
+    (evil-want-C-u-scroll t)      ;; Set C-u to scroll up
+    (evil-want-C-i-jump nil)      ;; Disables C-i jump
+    (evil-undo-system 'undo-redo) ;; C-r to redo
+    (org-return-follows-link  t)) ;; Sets RETURN key in org-mode to follow links
 
   (use-package evil-collection
     :after evil
     :config
+    ;; Setting where to use evil-collection
+    (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult))
     (evil-collection-init))
 
-  (use-package undo-tree
-    :config
-    (global-undo-tree-mode))
-
-  (use-package goto-chg)
+  ;; Unmap keys in 'evil-maps. If not done, org-return-follows-link will not work
+  (with-eval-after-load 'evil-maps
+    (define-key evil-motion-state-map (kbd "SPC") nil)
+    (define-key evil-motion-state-map (kbd "RET") nil)
+    (define-key evil-motion-state-map (kbd "TAB") nil))
 #+end_src
 
-** Magit
+*** Completion
+
+#+begin_src emacs-lisp
+    (use-package corfu
+      ;; Optional customizations
+      :custom
+      (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+      (corfu-auto t)                 ;; Enable auto completion
+      (corfu-auto-prefix 2)          ;; Minimum length of prefix for auto completion.
+      (corfu-popupinfo-mode t)       ;; Enable popup information
+      (corfu-popupinfo-delay 0.5)    ;; Lower popupinfo delay to 0.5 seconds from 2 seconds
+      (corfu-separator ?\s)          ;; Orderless field separator, Use M-SPC to enter separator
+      ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+      ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+      ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+      ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+      ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+      ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+      (completion-ignore-case t)
+      ;; Enable indentation+completion using the TAB key.
+      ;; `completion-at-point' is often bound to M-TAB.
+      (tab-always-indent 'complete)
+      (corfu-preview-current nil) ;; Don't insert completion without confirmation
+      ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+      ;; be used globally (M-/).  See also the customization variable
+      ;; `global-corfu-modes' to exclude certain modes.
+      :init
+      (global-corfu-mode))
+
+    (use-package nerd-icons-corfu
+      :after corfu
+      :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+    (use-package cape
+      :after corfu
+      :init
+      ;; Add to the global default value of `completion-at-point-functions' which is
+      ;; used by `completion-at-point'.  The order of the functions matters, the
+      ;; first function returning a result wins.  Note that the list of buffer-local
+      ;; completion functions takes precedence over the global list.
+      ;; The functions that are added later will be the first in the list
+
+      (add-to-list 'completion-at-point-functions #'cape-dabbrev) ;; Complete word from current buffers
+      (add-to-list 'completion-at-point-functions #'cape-dict) ;; Dictionary completion
+      (add-to-list 'completion-at-point-functions #'cape-file) ;; Path completion
+      (add-to-list 'completion-at-point-functions #'cape-elisp-block) ;; Complete elisp in Org or Markdown mode
+      (add-to-list 'completion-at-point-functions #'cape-keyword) ;; Keyword/Snipet completion
+
+      ;;(add-to-list 'completion-at-point-functions #'cape-abbrev) ;; Complete abbreviation
+      ;;(add-to-list 'completion-at-point-functions #'cape-history) ;; Complete from Eshell, Comint or minibuffer history
+      ;;(add-to-list 'completion-at-point-functions #'cape-line) ;; Complete entire line from current buffer
+      ;;(add-to-list 'completion-at-point-functions #'cape-elisp-symbol) ;; Complete Elisp symbol
+      ;;(add-to-list 'completion-at-point-functions #'cape-tex) ;; Complete Unicode char from TeX command, e.g. \hbar
+      ;;(add-to-list 'completion-at-point-functions #'cape-sgml) ;; Complete Unicode char from SGML entity, e.g., &alpha
+      ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345) ;; Complete Unicode char using RFC 1345 mnemonics
+      )
+
+    (use-package orderless
+      :custom
+      (completion-styles '(orderless basic))
+      (completion-category-overrides '((file (styles basic partial-completion)))))
+#+end_src
+
+
+** Packages
+
+*** general
+
+#+begin_src emacs-lisp
+  (use-package general
+    :demand t
+    :config
+    (general-override-mode)
+    (general-auto-unbind-keys))
+  (elpaca-wait)
+#+end_src
+
+
+*** exec-path-from-shell
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+end_src
+
+
+*** vertico
+
+#+begin_src emacs-lisp
+    (use-package vertico
+      :demand t
+      :custom (vertico-cycle t)
+      :config
+      (setf (car vertico-multiline) "\n") ;; don't replace newlines
+      (vertico-mode)
+      (define-key vertico-map (kbd "C-h") #'+minibuffer-up-dir))
+
+    (savehist-mode)
+
+    (use-package marginalia
+      :after vertico
+      :init
+      (marginalia-mode))
+
+    (use-package nerd-icons-completion
+      :after marginalia
+      :config
+      (nerd-icons-completion-mode)
+      :hook
+      ('marginalia-mode-hook . 'nerd-icons-completion-marginalia-setup))
+#+end_src
+
+
+*** eglot
+
+#+begin_src emacs-lisp
+    (use-package eglot
+      :ensure nil ;; Don't install eglot because it's now built-in
+      :hook (
+             ('typescript-ts-mode . 'eglot-ensure)
+             ('python-ts-mode . 'eglot-ensure)
+             ) ;; Autostart lsp servers for a given mode
+      :config
+      ;; Good default
+      (setq eglot-events-buffer-size 0 ;; No event buffers (Lsp server logs)
+            eglot-autoshutdown t) ;; Shutdown unused servers.
+      ;; Manual lsp servers
+      )
+#+end_src
+
+
+*** treesitter
+
+#+begin_src emacs-lisp
+  (setq treesit-font-lock-level 4)
+
+  (setq treesit-language-source-alist
+        '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (cmake "https://github.com/uyha/tree-sitter-cmake")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (make "https://github.com/alemuller/tree-sitter-make")
+          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+          (python "https://github.com/tree-sitter/tree-sitter-python")
+          (toml "https://github.com/tree-sitter/tree-sitter-toml")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+  (setq major-mode-remap-alist
+        '(
+          (typescript-mode . typescript-ts-mode)
+          (json-mode . json-ts-mode)
+          (css-mode . css-ts-mode)
+          (python-mode . python-ts-mode)
+          ))
+#+end_src
+
+
+*** editorconfig
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+#+end_src
+
+
+*** projectile
+
+#+begin_src emacs-lisp
+    (use-package projectile
+      :init
+      (projectile-mode)
+      :config
+      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+      :custom
+      (projectile-run-use-comint-mode t) ;; Interactive run dialog when running projects inside emacs (like giving input)
+      (projectile-switch-project-action #'projectile-dired))
+#+end_src
+
+
+*** rainbow-delimiters
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook
+    (prog-mode-hook . rainbow-delimiters-mode))
+#+end_src
+
+
+*** flycheck
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :config
+    (add-hook 'after-init-hook #'global-flycheck-mode))
+#+end_src
+
+
+*** markdown-mode
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode)
+#+end_src
+
+
+*** yasnipet
+#+begin_src emacs-lisp
+    (use-package yasnippet-snippets
+      :hook (prog-mode . yas-minor-mode))
+
+    (use-package yasnippet-capf
+      :after cape
+      :config
+      (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+#+end_src
+
+
+*** Git
+
+
+**** magit
 
 #+begin_src emacs-lisp
   (use-package magit)
 #+end_src
 
-** Org
+**** diff-hl
+#+begin_src emacs-lisp
+    (use-package diff-hl
+      :hook ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
+             (magit-post-refresh-hook . diff-hl-magit-post-refresh))
+      :init (global-diff-hl-mode))
+#+end_src
+
+
+*** consult
 
 #+begin_src emacs-lisp
-  (use-package org-roam
-    :after org)
+    (use-package consult)
+#+end_src
 
-  (use-package org-superstar
+
+** Programming
+
+*** Copilot
+#+begin_src emacs-lisp
+  (use-package copilot
+    :ensure (:host github :repo "copilot-emacs/copilot.el" :files ("dist" "*.el"))
     :config
-    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
+#+end_src
 
-  (use-package org-appear
+
+*** Formatter
+#+begin_src emacs-lisp
+  (use-package apheleia
     :config
-    (add-hook 'org-mode-hook 'org-appear-mode))
-
-  ;; Improve org mode looks
-  (setq org-startup-indented t
-        org-pretty-entities t
-        org-hide-emphasis-markers t
-        org-startup-with-inline-images t
-        org-image-actual-width '(300))
-
-  (defun my/capture-date-name ()
-    "Find or create a new date"
-    (goto-char (point-min))
-    (if (re-search-forward (format-time-string "%d/%m/%y") nil t)
-        t
-      (goto-char (point-max))
-      (insert (format-time-string "* %d/%m/%y\n"))
-      ))
-
-  (setq org-capture-templates
-        '(
-          ("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-           "* TODO %?\n  %i\n  %a")
-          ("e" "Internship" entry (file+function "~/org/internship.org" my/capture-date-name)
-           "* %<%H:%M>:\n%i")
-          ))
-
-  (global-set-key (kbd "C-c c") #'org-capture)
+    (apheleia-global-mode +1))
 #+end_src
 
-** Snippets
 
+*** Typescript
 #+begin_src emacs-lisp
-  (use-package yasnippet)
+    (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+    (add-hook 'typescript-ts-mode 'eglot-ensure)
 #+end_src
 
-** Projectile
+*** HTML
 
 #+begin_src emacs-lisp
-  (use-package projectile
-    :config
-    (projectile-mode +1)
-    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-#+end_src
+    (use-package web-mode)
 
-** Which key
-
-#+begin_src emacs-lisp
-  (use-package which-key
-    :config
-    (which-key-mode))
-#+end_src
-
-* Programming
-
-** Editor config
-#+begin_src emacs-lisp
-(use-package editorconfig
-:ensure t
-:config
-(editorconfig-mode 1))
-#+end_src
-** File detection
-
-*** Auto mode
-
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.tsx\\'"	.	tsx-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'"	.	typescript-ts-mode))
-#+end_src
-
-*** Language reconition
-
-#+begin_src emacs-lisp
-(use-package lua-mode)
-#+end_src
-
-** Eglot detection
-
-#+begin_src emacs-lisp
-  (add-hook 'tsx-ts-mode-hook 'eglot-ensure)
-  (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
-  (add-hook 'js-base-mode-hook 'eglot-ensure)
-#+end_src
-
-** Packages
-
-*** Updated eglot
-
-#+begin_src emacs-lisp
-(use-package eglot)
-#+end_src
-
-*** Markdown mode
-#+begin_src emacs-lisp
-(use-package markdown-mode)
-#+end_src
-
-** Custom logger
-
-#+begin_src emacs-lisp
-  (defun logger_language_message (word)
-  (cond
-      ((or
-      (string-match-p "\\.js\\'" (buffer-file-name))
-      (string-match-p "\\.ts\\'" (buffer-file-name))
-      (string-match-p "\\.jsx\\'" (buffer-file-name))
-      (string-match-p "\\.tsx\\'" (buffer-file-name)))
-      (concat "console.log(` " (buffer-file-name) " " (what-line) "   ${" word "}`);"))
-      (
-      (string-match-p "\\.py\\'" (buffer-file-name))
-      (concat "print(\" " (buffer-file-name) " " (what-line) "   \" + " word ")"))
-      (
-      (string-match-p "\\.java\\'" (buffer-file-name))
-      (concat "System.out.println(\" " (buffer-file-name) " " (what-line) "   \" + " word ");"))
-      (
-      (string-match-p "\\.rs\\'" (buffer-file-name))
-      (concat "println!(\" " (buffer-file-name) " " (what-line) "   {}\", " word ");"))
-      (t nil)
-      )
-  )
-
-  (defun smoodle/logger_log ()
-  (interactive)
-  (let* ((word (current-word)) (message (logger_language_message word)))
-      (cond
-      ((null message) (message "No logger found for this file type"))
-      (t
-      (end-of-line)
-      (newline-and-indent)
-      (insert message)
-      )
-      )
-      )
-  )
-
-  (global-set-key (kbd "C-c l") #'smoodle/logger_log)
-#+end_src
-
-** Prettier formatter
-
-#+begin_src emacs-lisp
-  (defun smoodle/prettier ()
-  "Format code with prettier formatter"
-  (interactive)
-  (shell-command (concat "prettier --write " (buffer-file-name))))
-
-  (add-hook 'js-base-mode-hook (lambda () (add-hook 'after-save-hook 'smoodle/prettier)))
-  (add-hook 'json-ts-mode-hook (lambda () (add-hook 'after-save-hook 'smoodle/prettier)))
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(mhtml-mode . ("vscode-html-language-server" "--stdio"))))
 #+end_src
