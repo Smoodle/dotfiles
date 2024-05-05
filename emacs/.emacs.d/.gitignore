@@ -1,0 +1,10 @@
+# Ignore everything
+/*
+
+# Except:
+!.gitignore
+
+!config.org
+!tangle-org.sh
+!pictures/
+!snippets/
