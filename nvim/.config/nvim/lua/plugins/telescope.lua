@@ -42,6 +42,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		-- Telescope picker. This is really useful to discover what Telescope can
 		-- do as well as how to actually do it!
 
+		local open_with_trouble = require("trouble.sources.telescope").open
+
 		-- [[ Configure Telescope ]]
 		-- See `:help telescope` and `:help telescope.setup()`
 		require("telescope").setup({
@@ -50,13 +52,26 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			--
 			defaults = {
 				mappings = {
-					i = { ["<esc>"] = require("telescope.actions").close },
+					i = {
+						["<esc>"] = require("telescope.actions").close,
+						["<c-t>"] = open_with_trouble,
+					},
 				},
 			},
-			-- pickers = {}
+			pickers = {
+				find_files = { theme = "ivy" },
+				builtin = { theme = "ivy" },
+				grep_string = { theme = "ivy" },
+				live_grep = { theme = "ivy" },
+				diagonostics = { theme = "ivy" },
+				resume = { theme = "ivy" },
+				oldfiles = { theme = "ivy" },
+				lsp_references = { theme = "ivy" },
+				buffers = { theme = "ivy" },
+			},
 			extensions = {
 				["ui-select"] = {
-					require("telescope.themes").get_dropdown(),
+					require("telescope.themes").get_ivy(),
 				},
 			},
 		})
@@ -76,25 +91,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+		vim.keymap.set("n", "gu", builtin.lsp_references, { desc = "Search LSP References" })
 		vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-
-		-- Slightly advanced example of overriding default behavior and theme
-		vim.keymap.set("n", "<leader>/", function()
-			-- You can pass additional configuration to Telescope to change the theme, layout, etc.
-			builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-				winblend = 10,
-				previewer = false,
-			}))
-		end, { desc = "[/] Fuzzily search in current buffer" })
-
-		-- It's also possible to pass additional configuration options.
-		--  See `:help telescope.builtin.live_grep()` for information about particular keys
-		vim.keymap.set("n", "<leader>s/", function()
-			builtin.live_grep({
-				grep_open_files = true,
-				prompt_title = "Live Grep in Open Files",
-			})
-		end, { desc = "[S]earch [/] in Open Files" })
 
 		-- Shortcut for searching your Neovim configuration files
 		vim.keymap.set("n", "<leader>sn", function()

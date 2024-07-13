@@ -8,7 +8,7 @@ vim.opt.expandtab = false
 
 -- Make line numbers default
 vim.opt.number = true
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
@@ -71,3 +71,15 @@ vim.opt.fillchars = {
 	vertright = "┣",
 	verthoriz = "╋",
 }
+
+-- Enable fold
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldcolumn = "0"
+vim.opt.foldtext = ""
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+-- vim.opt.foldnestmax = 4
+
+-- Enable color column
+vim.opt.colorcolumn = "80"

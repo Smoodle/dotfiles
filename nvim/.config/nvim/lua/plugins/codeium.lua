@@ -1,5 +1,5 @@
 return {
-	enabled = false,
+	enabled = true,
 	"Exafunction/codeium.vim",
 	config = function()
 		-- Change '<C-g>' here to any keycode you like.
