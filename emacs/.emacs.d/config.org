@@ -12,26 +12,37 @@ Append lexical binding
     ;;; -*- lexical-binding: t; -*-
 #+end_src
 
+#+begin_src emacs-lisp
+    ;; Startup speed, annoyance suppression
+    (setq byte-compile-warnings '(not obsolete))
+    (setq warning-suppress-log-types '((comp) (bytecomp)))
+    (setq native-comp-async-report-warnings-errors 'silent)
+
+    ;; Silence stupid startup message
+    (setq inhibit-startup-echo-area-message (user-login-name))
+
+    ;; Default frame configuration: full screen, good-looking title bar on macOS
+    (setq frame-resize-pixelwise t)
+    (tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
+    (setq default-frame-alist '((fullscreen . maximized)
+
+                                ;; You can turn off scroll bars by uncommenting these lines:
+                                (vertical-scroll-bars . nil)
+                                (horizontal-scroll-bars . nil)
+
+                                ;; Setting the face in here prevents flashes of
+                                ;; color as the theme gets activated
+                                (background-color . "#000000")
+                                (ns-appearance . dark)
+                                (ns-transparent-titlebar . t)))
+#+end_src
+
 Elpaca requirement
 
 #+begin_src emacs-lisp
     (setq elpaca-core-date '(20240220))
     (setq package-enable-at-startup nil)
 #+end_src
-
-Disable compile warnings
-#+begin_src emacs-lisp
-  (setq native-comp-async-report-warnings-errors nil)
-#+end_src
-
-** UI
-
-#+begin_src emacs-lisp
-  (push '(menu-bar-lines . 0) default-frame-alist)
-  (push '(tool-bar-lines . 0) default-frame-alist)
-  (push '(vertical-scroll-bars) default-frame-alist)
-#+end_src
-
 
 * Configuration
 :PROPERTIES:
@@ -185,16 +196,46 @@ Relative line numbers
     (global-display-line-numbers-mode)
 #+end_src
 
+Compilation mode unbind ESC
+
+#+begin_src emacs-lisp
+    (defun compilation-mode-unbind-esc ()
+     "Unbind ESC key in compilation mode"
+     (define-key compilation-mode-map (kbd "ESC") nil)
+    )
+
+    (add-hook 'compilation-mode-hook 'compilation-mode-unbind-esc)
+#+end_src
+
 
 ** Appearance
 
 *** Theme
 
 #+begin_src emacs-lisp
-  (use-package catppuccin-theme
-    :config
-    (setq catppuccin-flavor 'macchiato) ;; or 'latte, 'macchiato, or 'mocha
-    (catppuccin-reload))
+    ;;(use-package catppuccin-theme
+    ;;  :config
+    ;;  (setq catppuccin-flavor 'macchiato) ;; or 'latte, 'macchiato, or 'mocha
+    ;;  (catppuccin-reload))
+#+end_src
+
+#+begin_src emacs-lisp
+    (use-package doom-themes
+      :config
+      ;; Global settings (defaults)
+      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+            doom-themes-enable-italic t) ; if nil, italics is universally disabled
+      (load-theme 'doom-tokyo-night t)
+
+      ;; Enable flashing mode-line on errors
+      ;;(doom-themes-visual-bell-config)
+      ;; Enable custom neotree theme (all-the-icons must be installed!)
+      ;;(doom-themes-neotree-config)
+      ;; or for treemacs users
+      ;;(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+      ;;(doom-themes-treemacs-config)
+      ;; Corrects (and improves) org-mode's native fontification.
+      (doom-themes-org-config))
 #+end_src
 
 
@@ -311,7 +352,7 @@ Enables auto tangle for all org files
     :after evil
     :config
     ;; Setting where to use evil-collection
-    (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult))
+    (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult dashboard))
     (evil-collection-init))
 
   ;; Unmap keys in 'evil-maps. If not done, org-return-follows-link will not work
@@ -364,8 +405,8 @@ Enables auto tangle for all org files
       ;; The functions that are added later will be the first in the list
 
       (add-to-list 'completion-at-point-functions #'cape-dabbrev) ;; Complete word from current buffers
-      (add-to-list 'completion-at-point-functions #'cape-dict) ;; Dictionary completion
       (add-to-list 'completion-at-point-functions #'cape-file) ;; Path completion
+      (add-to-list 'completion-at-point-functions #'cape-dict) ;; Dictionary completion
       (add-to-list 'completion-at-point-functions #'cape-elisp-block) ;; Complete elisp in Org or Markdown mode
       (add-to-list 'completion-at-point-functions #'cape-keyword) ;; Keyword/Snipet completion
 
@@ -388,7 +429,6 @@ Set a keybind to invoke autocomplete
 #+begin_src emacs-lisp
     (define-key prog-mode-map (kbd "C-SPC") 'completion-at-point)
 #+end_src
-
 
 ** Packages
 
@@ -424,11 +464,24 @@ Set a keybind to invoke autocomplete
 *** exec-path-from-shell
 
 #+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :ensure t
-    :config
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize)))
+    (use-package exec-path-from-shell
+      :ensure t
+      :config
+      (when (memq window-system '(mac ns x))
+    	(dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH" "PATH"))
+    	  (add-to-list 'exec-path-from-shell-variables var))
+    	(exec-path-from-shell-initialize)))
+
+#+end_src
+
+*** Ace-window
+
+#+begin_src emacs-lisp
+    (use-package ace-window
+      :custom
+      (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+      (aw-scope 'global)
+      :general ("M-o" 'ace-window))
 #+end_src
 
 
@@ -467,13 +520,30 @@ Set a keybind to invoke autocomplete
       :hook (
              ('typescript-ts-mode . 'eglot-ensure)
              ('python-ts-mode . 'eglot-ensure)
+             ('tsx-ts-mode . 'eglot-ensure)
              ) ;; Autostart lsp servers for a given mode
+      :custom
+      (eglot-send-changes-idle-time 0.1)
+      (eglot-extend-to-xref t)
       :config
       ;; Good default
       (setq eglot-events-buffer-size 0 ;; No event buffers (Lsp server logs)
             eglot-autoshutdown t) ;; Shutdown unused servers.
+      (fset #'jsonrpc--log-event #'ignore)
       ;; Manual lsp servers
       )
+#+end_src
+
+Define keybinds
+
+#+begin_src emacs-lisp
+    (general-define-key
+     :prefix "SPC"
+     :states 'normal
+     :keymaps 'eglot-mode-map
+     "c a" 'eglot-code-actions
+     "r" 'eglot-rename
+     )
 #+end_src
 
 
@@ -517,7 +587,7 @@ Set a keybind to invoke autocomplete
 #+end_src
 
 
-*** projectile
+*** COMMENT projectile
 
 #+begin_src emacs-lisp
     (use-package projectile
@@ -543,9 +613,13 @@ Set a keybind to invoke autocomplete
 *** flycheck
 
 #+begin_src emacs-lisp
-  (use-package flycheck
-    :config
-    (add-hook 'after-init-hook #'global-flycheck-mode))
+    (use-package flycheck
+      :config
+      (add-hook 'after-init-hook #'global-flycheck-mode)
+      (setq flycheck-javascript-eslint-executable "eslint_d")
+      (flycheck-add-mode 'javascript-eslint 'tsx-ts-mode)
+      (flycheck-add-mode 'javascript-eslint 'typescript-ts-mode)
+      )
 #+end_src
 
 
@@ -573,8 +647,48 @@ Set a keybind to invoke autocomplete
     (use-package consult)
 #+end_src
 
+*** Tree
+
+#+begin_src emacs-lisp
+    (use-package neotree
+      :config
+      (general-define-key
+       :prefix "SPC"
+       :states 'normal
+       :keymaps 'prog-mode-map
+       "n" 'neotree-toggle
+       )
+      )
+#+end_src
+
+*** Eat
+
+#+begin_src emacs-lisp
+    (use-package eat
+      :ensure (eat :type git :host codeberg :repo "akib/emacs-eat")
+      :config
+      (setq eat-term-name "xterm-256color")
+      :custom
+      (eat-kill-buffer-on-exit t)
+      (shell-file-name "/bin/zsh")
+      )
+#+end_src
+
+*** Carbon sh
+
+#+begin_src emacs-lisp
+    (use-package carbon-now-sh)
+#+end_src
 
 ** Programming
+
+*** Highlight todo
+
+#+begin_src emacs-lisp
+    (use-package hl-todo
+      :init
+      (global-hl-todo-mode))
+#+end_src
 
 *** Make shell
 
@@ -583,7 +697,7 @@ Set a keybind to invoke autocomplete
       "Create a shell buffer named NAME."
       (interactive "sName: ")
       (setq name (concat "$" name))
-      (eshell)
+      (eat)
       (rename-buffer name))
 #+end_src
 
@@ -597,6 +711,7 @@ Set a keybind to invoke autocomplete
     (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
 #+end_src
 
+
 *** COMMENT Codeium
 #+begin_src emacs-lisp
     (use-package codeium
@@ -606,14 +721,14 @@ Set a keybind to invoke autocomplete
 
         :init
         ;; use globally
-        (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+        ;;(add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
         ;; or on a hook
-        ;; (add-hook 'python-mode-hook
-        ;;     (lambda ()
-        ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
+        (add-hook 'prog-mode-hook
+            (lambda ()
+                (setq-local completion-at-point-functions '(codeium-completion-at-point))))
 
         ;; if you want multiple completion backends, use cape (https://github.com/minad/cape):
-        ;; (add-hook 'python-mode-hook
+        ;; (add-hook 'prog-mode-hook
         ;;     (lambda ()
         ;;         (setq-local completion-at-point-functions
         ;;             (list (cape-super-capf #'codeium-completion-at-point #'lsp-completion-at-point)))))
@@ -633,9 +748,9 @@ Set a keybind to invoke autocomplete
         ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
 
         ;; get codeium status in the modeline
-        (setq codeium-mode-line-enable
-            (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
-        (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
+        ;;(setq codeium-mode-line-enable
+        ;;    (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
+        ;;(add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
         ;; alternatively for a more extensive mode-line
         ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
 
@@ -670,12 +785,25 @@ Set a keybind to invoke autocomplete
 #+end_src
 
 
+*** Javascript
+#+begin_src emacs-lisp
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
+    (add-hook 'js-ts-mode-hook 'eglot-ensure)
+
+    (add-hook 'js-ts-mode-hook 'flycheck-mode)
+#+end_src
+
+
 *** Typescript
 #+begin_src emacs-lisp
     (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
     (add-hook 'typescript-ts-mode 'eglot-ensure)
+
+    (add-hook 'typescript-ts-mode-hook 'flycheck-mode)
+    (add-hook 'tsx-ts-mode-hook 'flycheck-mode)
 #+end_src
+
 
 *** HTML
 
@@ -687,3 +815,17 @@ Set a keybind to invoke autocomplete
                    '(mhtml-mode . ("vscode-html-language-server" "--stdio"))))
 #+end_src
 
+*** Prisma
+
+#+begin_src emacs-lisp
+    (use-package prisma-mode
+      :ensure (:type git :host github :repo "davidarenas/prisma-mode")
+    )
+#+end_src
+
+*** Dotenv
+
+#+begin_src emacs-lisp
+    (use-package dotenv-mode
+    )
+#+end_src

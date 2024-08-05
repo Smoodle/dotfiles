@@ -12,31 +12,19 @@ return {
 		},
 	},
 	opts = {
-		notify_on_error = false,
-		-- If this is set, Conform will run the formatter on save.
-		-- It will pass the table to conform.format().
-		-- This can also be a function that returns the table.
+		notify_on_error = true,
 		format_on_save = {
-			-- I recommend these options. See :help conform.format for details.
 			lsp_fallback = true,
 			timeout_ms = 500,
 		},
-		-- If this is set, Conform will run the formatter asynchronously after save.
-		-- It will pass the table to conform.format().
-		-- This can also be a function that returns the table.
 		format_after_save = {
 			lsp_fallback = true,
 		},
 		formatters_by_ft = {
 			lua = { "stylua" },
-			-- Conform can also run multiple formatters sequentially
-			-- python = { "isort", "black" },
-			--
-			-- You can use a sub-list to tell conform to run *until* a formatter
-			-- is found.
-			javascript = { { "prettierd", "prettier" } },
-			typescript = { { "prettierd", "prettier" } },
-			typescriptreact = { { "prettierd", "prettier" } },
+			javascript = { "prettierd", "prettier", stop_after_first = true },
+			typescript = { "prettierd", "prettier", stop_after_first = true },
+			typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 		},
 	},
 }

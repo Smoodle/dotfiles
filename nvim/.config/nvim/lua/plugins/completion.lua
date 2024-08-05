@@ -106,6 +106,7 @@ return {
 				{ name = "luasnip" },
 				{ name = "path" },
 				{ name = "codeium" },
+				{ name = "supermaven" },
 			},
 		})
 	end,
