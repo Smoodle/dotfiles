@@ -25,7 +25,10 @@ run()
 {
 	check_proton
 
-	firejail --noprofile --net=none --env=WINEPREFIX="$PREFIX_PATH" --env=LANG="ja_JP.UTF-8" "/home/smoodle/.RPG_prefix/proton/lutris-GE-Proton8-26-x86_64/bin/wine" "$1"
+	firejail --noprofile --net=none --env=GAMEID="rpg_games" --env=WINEPREFIX="$PREFIX_PATH" --env=LANG="ja_JP.UTF-8" --env=PROTONPATH="$HOME/.steam/steam/compatibilitytools.d/GE-Proton9-13" umu-run "$1"
+	#firejail --noprofile --net=none --env=GAMEID="rpg_games" --env=WINEPREFIX="$PREFIX_PATH" --env=PROTONPATH="$HOME/.steam/steam/compatibilitytools.d/GE-Proton9-9" umu-run "$1"
+	#firejail --noprofile --net=none --env=WINEPREFIX="$PREFIX_PATH" --env=LANG="ja_JP.UTF-8" --env=PROTONPATH="$HOME/.steam/steam/compatibilitytools.d/GE-Proton8-28" umu-run "$1"
+	#firejail --noprofile --net=none --env=WINEPREFIX="$PREFIX_PATH" --env=LANG='ja_JP.UTF-8' "wine" "$1"
 }
 
 run_wine()
@@ -39,6 +42,13 @@ run_winecfg()
 	check_proton
 
 	WINEPREFIX="$PREFIX_PATH" winecfg
+}
+
+run_winetricks()
+{
+	check_proton
+
+	WINEPREFIX="$PREFIX_PATH" winetricks
 }
 
 install_winetricks()
@@ -69,6 +79,7 @@ install_all_rtp()
 
 case "$1" in
 	"winecfg") run_winecfg ;; 
+	"winetricks") run_winetricks ;; 
 	"install") install_all_rtp ;; 
 	"run") run_wine "$1" ;; 
 	*) run "$1" ;;
